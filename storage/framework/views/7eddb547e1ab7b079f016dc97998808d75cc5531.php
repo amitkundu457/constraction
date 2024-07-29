@@ -18,16 +18,7 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php $__env->startSection('auth-topbar'); ?>
-    <li class="nav-item">
-        <select class="btn btn-primary ms-2 me-2 language_option_bg text-center" style="text-align-last: center;" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" id="language">
-            <?php $__currentLoopData = Utility::languages(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $code =>  $language): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <option class="text-center" <?php if($lang == $code): ?> selected <?php endif; ?> value="<?php echo e(route('login',$code)); ?>"><?php echo e(ucfirst($language)); ?></option>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </select>
-    </li>
 
-<?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
 
@@ -112,7 +103,7 @@ unset($__errorArgs, $__bag); ?>
         <?php if($settings['enable_signup'] == 'on'): ?>
 
 
-        <p class="my-4 text-center"><?php echo e(__("Don't have an account?")); ?> <a href="<?php echo e(route('register',$lang)); ?>" class="text-primary"><?php echo e(__('Register')); ?></a></p>
+        
         <?php endif; ?>
 
     </div>

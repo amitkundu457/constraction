@@ -96,10 +96,10 @@
 <div class="auth-wrapper auth-v3">
     <div class="bg-auth-side bg-primary"></div>
     <div class="auth-content">
-        <nav class="navbar navbar-expand-md navbar-light default">
+        {{-- <nav class="navbar navbar-expand-md navbar-light default">
             <div class="container-fluid pe-2">
                 <a class="navbar-brand" href="#">
-{{--                    <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo"/>--}}
+                   <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo"/>
                     @if($mode_setting['cust_darklayout'] && $mode_setting['cust_darklayout'] == 'on' )
                         <img src="{{ $logo . '/' . (isset($company_logos) && !empty($company_logos) ? $company_logos : 'logo-dark.png') }}"
                              alt="{{ config('app.name', 'ERPGo-SaaS') }}" class="logo">
@@ -132,7 +132,7 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> --}}
         <div class="card">
             <div class="row align-items-center text-start">
                 <div class="col-xl-6">

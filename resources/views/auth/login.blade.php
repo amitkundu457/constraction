@@ -17,7 +17,7 @@
     {{__('Login')}}
 @endsection
 
-@section('auth-topbar')
+{{-- @section('auth-topbar')
     <li class="nav-item">
         <select class="btn btn-primary ms-2 me-2 language_option_bg text-center" style="text-align-last: center;" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" id="language">
             @foreach(Utility::languages() as $code =>  $language)
@@ -26,7 +26,7 @@
         </select>
     </li>
 
-@endsection
+@endsection --}}
 
 @section('content')
 
@@ -74,7 +74,7 @@
         @if($settings['enable_signup'] == 'on')
 
 {{--        <p class="my-4 text-center">{{__("Don't have an account?")}} <a href="{{ route('register',!empty(\Auth::user()->lang)?\Auth::user()->lang:'en') }}" class="text-primary">{{__('Register')}}</a></p>--}}
-        <p class="my-4 text-center">{{__("Don't have an account?")}} <a href="{{ route('register',$lang) }}" class="text-primary">{{__('Register')}}</a></p>
+        {{-- <p class="my-4 text-center">{{__("Don't have an account?")}} <a href="{{ route('register',$lang) }}" class="text-primary">{{__('Register')}}</a></p> --}}
         @endif
 
     </div>

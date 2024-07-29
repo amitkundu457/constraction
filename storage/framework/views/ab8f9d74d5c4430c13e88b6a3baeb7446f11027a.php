@@ -96,43 +96,7 @@
 <div class="auth-wrapper auth-v3">
     <div class="bg-auth-side bg-primary"></div>
     <div class="auth-content">
-        <nav class="navbar navbar-expand-md navbar-light default">
-            <div class="container-fluid pe-2">
-                <a class="navbar-brand" href="#">
-
-                    <?php if($mode_setting['cust_darklayout'] && $mode_setting['cust_darklayout'] == 'on' ): ?>
-                        <img src="<?php echo e($logo . '/' . (isset($company_logos) && !empty($company_logos) ? $company_logos : 'logo-dark.png')); ?>"
-                             alt="<?php echo e(config('app.name', 'ERPGo-SaaS')); ?>" class="logo">
-                    <?php else: ?>
-                        <img src="<?php echo e($logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo-dark.png')); ?>"
-                             alt="<?php echo e(config('app.name', 'ERPGo-SaaS')); ?>" class="logo">
-                    <?php endif; ?>
-                </a>
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarTogglerDemo01"
-                    aria-controls="navbarTogglerDemo01"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style="flex-grow: 0;">
-                    <ul class="navbar-nav align-items-center ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <?php echo $__env->make('landingpage::layouts.buttons', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                        </li>
-
-                    </ul>
-
-                    <ul class="navbar-nav align-items-center ms-auto mb-2 mb-lg-0">
-                        <?php echo $__env->yieldContent('auth-topbar'); ?>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        
         <div class="card">
             <div class="row align-items-center text-start">
                 <div class="col-xl-6">
