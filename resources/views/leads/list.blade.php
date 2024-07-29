@@ -20,13 +20,23 @@
 @endsection
 @section('action-btn')
     <div class="float-end d-flex align-items-center gap-1">
+        <form id="stage" action="{{ url('leads/list') }}" x-data="{ query:'{{ request()->query('stage') }}' }">
+            <select name="stage" x-model="query" x-on:change="document.querySelector('#stage').submit()"
+                class=" form-control-sm" id="">
+                <option value="all">All Stage</option>
+                @foreach ($stages as $stage)
+                <option value="{{ strtolower($stage->name) }}" >{{ $stage->name }}</option>
+                @endforeach
+            </select>
+            
+        </form>
         <form id="filter" action="{{ url('leads/list') }}" x-data="{ query:'{{ request()->query('filter') }}' }">
             <select name="filter" x-model="query" x-on:change="document.querySelector('#filter').submit()"
                 class=" form-control-sm" id="">
                 <option value="all">All Leads</option>
-                <option value="todays" :selected="query === 'todays' ? true : false">Today's Leads</option>
-                <option value="upcoming" >Upcoming Leads</option>
-                <option value="past" >Past Lead</option>
+                <option value="todays" :selected="query === 'todays'">Today's Leads</option>
+                <option value="upcoming" :selected="query === 'upcoming'">Upcoming Leads</option>
+                <option value="past" :selected="query === 'past'">Past Lead</option>
             </select>
             
         </form>
@@ -67,10 +77,10 @@
                                         <tr>
                                             <td>{{ $lead->name }}</td>
                                             <td>{{ $lead->subject }}</td>
-                                            <td>{{ \App\Models\Pipeline::findOrFail($lead->pipeline_id)->first()->name }}
+                                            <td>{{ \App\Models\Pipeline::findOrFail($lead->pipeline_id)->name }}
                                             </td>
-                                            <td>{{ \App\Models\Source::findOrFail($lead->source)->first()->name }}
-                                            <td>{{ \App\Models\LeadStage::findOrFail($lead->stage_id)->first()->name }}
+                                            <td>{{ \App\Models\Source::findOrFail($lead->source)->name }}
+                                            <td>{{ \App\Models\LeadStage::findOrFail($lead->stage_id)->name }}
                                             </td>
                                             <td>{{ Carbon\Carbon::parse($lead->date)->format('d-M-Y') }}</td>
                                             {{-- <td>
@@ -101,7 +111,7 @@
                                                                 <a href="#"
                                                                     class="mx-3 btn btn-sm d-inline-flex align-items-center"
                                                                     data-url="{{ route('leads.edit', $lead->id) }}"
-                                                                    data-ajax-popup="true" data-size="xl"
+                                                                    data-ajax-popup="true" data-size="lg"
                                                                     data-bs-toggle="tooltip" title="{{ __('Edit') }}"
                                                                     data-title="{{ __('Lead Edit') }}">
                                                                     <i class="ti ti-pencil text-white"></i>

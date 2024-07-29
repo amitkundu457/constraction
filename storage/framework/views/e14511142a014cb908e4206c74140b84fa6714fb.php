@@ -19,13 +19,23 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
     <div class="float-end d-flex align-items-center gap-1">
+        <form id="stage" action="<?php echo e(url('leads/list')); ?>" x-data="{ query:'<?php echo e(request()->query('stage')); ?>' }">
+            <select name="stage" x-model="query" x-on:change="document.querySelector('#stage').submit()"
+                class=" form-control-sm" id="">
+                <option value="all">All Stage</option>
+                <?php $__currentLoopData = $stages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stage): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e(strtolower($stage->name)); ?>" ><?php echo e($stage->name); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </select>
+            
+        </form>
         <form id="filter" action="<?php echo e(url('leads/list')); ?>" x-data="{ query:'<?php echo e(request()->query('filter')); ?>' }">
             <select name="filter" x-model="query" x-on:change="document.querySelector('#filter').submit()"
                 class=" form-control-sm" id="">
                 <option value="all">All Leads</option>
-                <option value="todays" :selected="query === 'todays' ? true : false">Today's Leads</option>
-                <option value="upcoming" >Upcoming Leads</option>
-                <option value="past" >Past Lead</option>
+                <option value="todays" :selected="query === 'todays'">Today's Leads</option>
+                <option value="upcoming" :selected="query === 'upcoming'">Upcoming Leads</option>
+                <option value="past" :selected="query === 'past'">Past Lead</option>
             </select>
             
         </form>
@@ -66,12 +76,12 @@
                                         <tr>
                                             <td><?php echo e($lead->name); ?></td>
                                             <td><?php echo e($lead->subject); ?></td>
-                                            <td><?php echo e(\App\Models\Pipeline::findOrFail($lead->pipeline_id)->first()->name); ?>
+                                            <td><?php echo e(\App\Models\Pipeline::findOrFail($lead->pipeline_id)->name); ?>
 
                                             </td>
-                                            <td><?php echo e(\App\Models\Source::findOrFail($lead->source)->first()->name); ?>
+                                            <td><?php echo e(\App\Models\Source::findOrFail($lead->source)->name); ?>
 
-                                            <td><?php echo e(\App\Models\LeadStage::findOrFail($lead->stage_id)->first()->name); ?>
+                                            <td><?php echo e(\App\Models\LeadStage::findOrFail($lead->stage_id)->name); ?>
 
                                             </td>
                                             <td><?php echo e(Carbon\Carbon::parse($lead->date)->format('d-M-Y')); ?></td>
@@ -97,7 +107,7 @@
                                                                 <a href="#"
                                                                     class="mx-3 btn btn-sm d-inline-flex align-items-center"
                                                                     data-url="<?php echo e(route('leads.edit', $lead->id)); ?>"
-                                                                    data-ajax-popup="true" data-size="xl"
+                                                                    data-ajax-popup="true" data-size="lg"
                                                                     data-bs-toggle="tooltip" title="<?php echo e(__('Edit')); ?>"
                                                                     data-title="<?php echo e(__('Lead Edit')); ?>">
                                                                     <i class="ti ti-pencil text-white"></i>

@@ -89,19 +89,28 @@ class LeadController extends Controller
         }
 
         if ($request->query('filter') == 'upcoming') {
-            $leads->whereDate('date','>', Carbon::today());
+            $leads->whereDate('date', '>', Carbon::today());
         }
 
         if ($request->query('filter') == 'past') {
-            $leads->whereDate('date','<', Carbon::today());
+            $leads->whereDate('date', '<', Carbon::today());
         }
 
-        if($request->query('filter') == 'all'){
+        foreach(Pipeline::all() as $stage){
+            if($request->query('stage') == \strtolower($stage->name)){
+                $leads->where('pipeline_id',$stage->id);
+                break;
+            }
+        }
+
+        if ($request->query('filter') == 'all' || $request->query('stage') == 'all') {
             return \redirect('leads/list');
         }
-        
+
         $leads = $leads->get();
-        return view('leads.list', compact('leads'));
+
+        $stages = Pipeline::all();
+        return view('leads.list', compact('leads', 'stages'));
     }
 
     /**
@@ -293,7 +302,6 @@ class LeadController extends Controller
         // {
         //     return redirect()->back()->with('error', __('Permission Denied.'));
         // }
-    
         $lead = new Lead();
         $lead->name        = $request->name;
         $lead->name        = $request->name;
@@ -305,10 +313,10 @@ class LeadController extends Controller
         $lead->stage_id    = $request->stage;
         $lead->lead_for = $request->lead_for;
         $lead->source    = $request->source_id;
-        $lead->link = $request->link; 
-        $lead->socials = $request->smedia; 
-        $lead->plot_id = $request->plot_id; 
-        $lead->property_id = $request->property_id; 
+        $lead->link = $request->link;
+        $lead->socials = $request->smedia;
+        $lead->plot_id = $request->plot_id;
+        $lead->property_id = $request->property_id;
         $lead->date        = $request->followup;
         $lead->save();
         return redirect()->back()->with('success', __('Lead successfully created!'));
@@ -350,22 +358,29 @@ class LeadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lead $lead)
+    public function edit($id,/*Lead $lead*/)
     {
+        
         if (\Auth::user()->can('edit lead')) {
-            if ($lead->created_by == \Auth::user()->creatorId()) {
-                $pipelines = Pipeline::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-                $pipelines->prepend(__('Select Pipeline'), '');
-                $sources        = Source::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-                $products       = ProductService::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-                $users          = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->where('type', '!=', 'company')->where('id', '!=', \Auth::user()->id)->get()->pluck('name', 'id');
-                $lead->sources  = explode(',', $lead->sources);
-                $lead->products = explode(',', $lead->products);
-
-                return view('leads.edit', compact('lead', 'pipelines', 'sources', 'products', 'users'));
-            } else {
-                return response()->json(['error' => __('Permission Denied.')], 401);
-            }
+            //     if ($lead->created_by == \Auth::user()->creatorId()) {
+            //         $pipelines = Pipeline::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            //         $pipelines->prepend(__('Select Pipeline'), '');
+            //         $sources        = Source::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            //         $products       = ProductService::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            //         $users          = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->where('type', '!=', 'company')->where('id', '!=', \Auth::user()->id)->get()->pluck('name', 'id');
+            //         $lead->sources  = explode(',', $lead->sources);
+            //         $lead->products = explode(',', $lead->products);
+            $agents = Agent::all();
+            $sources = Source::all();
+            $properties = Property::all();
+            $plots = Plot::all();
+            $status = LeadStage::all();
+            $stages = Pipeline::all();
+            $lead = Lead::findOrFail($id);
+            return view('leads.edit', compact('lead','status', 'stages', 'agents', 'sources', 'properties', 'plots'));
+            // } else {
+            //     return response()->json(['error' => __('Permission Denied.')], 401);
+            // }
         } else {
             return response()->json(['error' => __('Permission Denied.')], 401);
         }
@@ -379,46 +394,51 @@ class LeadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lead $lead)
+    public function update($id,Request $request, /*Lead $lead*/)
     {
         if (\Auth::user()->can('edit lead')) {
-            if ($lead->created_by == \Auth::user()->creatorId()) {
-                $validator = \Validator::make(
-                    $request->all(),
-                    [
-                        'subject' => 'required',
-                        'name' => 'required',
-                        'email' => 'required|unique:leads,email,' . $lead->id,
-                        'pipeline_id' => 'required',
-                        'user_id' => 'required',
-                        'stage_id' => 'required',
-                        'sources' => 'required',
-                        'products' => 'required',
-                    ]
-                );
+            // if ($lead->created_by == \Auth::user()->creatorId()) {
+                // $validator = \Validator::make(
+                //     $request->all(),
+                //     [
+                //         'subject' => 'required',
+                //         'name' => 'required',
+                //         'email' => 'required|unique:leads,email,' . $lead->id,
+                //         'pipeline_id' => 'required',
+                //         'user_id' => 'required',
+                //         'stage_id' => 'required',
+                //         'sources' => 'required',
+                //         'products' => 'required',
+                //     ]
+                // );
 
-                if ($validator->fails()) {
-                    $messages = $validator->getMessageBag();
+                // if ($validator->fails()) {
+                //     $messages = $validator->getMessageBag();
 
-                    return redirect()->back()->with('error', $messages->first());
-                }
+                //     return redirect()->back()->with('error', $messages->first());
+                // }
 
+                $lead = Lead::findOrFail($id);
                 $lead->name        = $request->name;
+                
                 $lead->email       = $request->email;
                 $lead->phone       = $request->phone;
                 $lead->subject     = $request->subject;
-                $lead->user_id     = $request->user_id;
-                $lead->pipeline_id = $request->pipeline_id;
-                $lead->stage_id    = $request->stage_id;
-                $lead->sources     = implode(",", array_filter($request->sources));
-                $lead->products    = implode(",", array_filter($request->products));
-                $lead->notes       = $request->notes;
+                $lead->agent_id     = $request->agent_id;
+                $lead->pipeline_id = $request->status;
+                $lead->stage_id    = $request->stage;
+                $lead->lead_for = $request->lead_for;
+                $lead->source    = $request->source_id;
+                $lead->link = $request->link;
+                $lead->socials = $request->smedia;
+                $lead->plot_id = $request->plot_id;
+                $lead->property_id = $request->property_id;
+                $lead->date        = $request->followup;
                 $lead->save();
-
                 return redirect()->back()->with('success', __('Lead successfully updated!'));
-            } else {
-                return redirect()->back()->with('error', __('Permission Denied.'));
-            }
+            // } else {
+            //     return redirect()->back()->with('error', __('Permission Denied.'));
+            // }
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
@@ -431,20 +451,20 @@ class LeadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lead $lead)
+    public function destroy($id/*Lead $lead*/)
     {
         if (\Auth::user()->can('delete lead')) {
-            if ($lead->created_by == \Auth::user()->creatorId()) {
-                LeadDiscussion::where('lead_id', '=', $lead->id)->delete();
-                LeadFile::where('lead_id', '=', $lead->id)->delete();
-                UserLead::where('lead_id', '=', $lead->id)->delete();
-                LeadActivityLog::where('lead_id', '=', $lead->id)->delete();
-                $lead->delete();
-
+            // if ($lead->created_by == \Auth::user()->creatorId()) {
+            //     LeadDiscussion::where('lead_id', '=', $lead->id)->delete();
+            //     LeadFile::where('lead_id', '=', $lead->id)->delete();
+            //     UserLead::where('lead_id', '=', $lead->id)->delete();
+            //     LeadActivityLog::where('lead_id', '=', $lead->id)->delete();
+            //     $lead->delete();
+                Lead::findOrFail($id)->delete();
                 return redirect()->back()->with('success', __('Lead successfully deleted!'));
-            } else {
-                return redirect()->back()->with('error', __('Permission Denied.'));
-            }
+            // } else {
+            //     return redirect()->back()->with('error', __('Permission Denied.'));
+            // }
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }

@@ -43,7 +43,7 @@
         </div>
         <div class="col-6 form-group" x-cloak x-show="type === 'agent'">
             {{ Form::label('agents_id', __('Agent'), ['class' => 'form-label']) }}
-            <select name="" id="" class="form-control">
+            <select name="agent_id" id="" class="form-control">
                 <option value="">-- Select A Agent</option>
             @foreach ($agents as $agent)
                 <option value="{{ $agent->id }}" >{{ $agent->name }}</option>

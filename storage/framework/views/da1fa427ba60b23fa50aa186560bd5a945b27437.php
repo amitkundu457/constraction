@@ -44,7 +44,7 @@
         <div class="col-6 form-group" x-cloak x-show="type === 'agent'">
             <?php echo e(Form::label('agents_id', __('Agent'), ['class' => 'form-label'])); ?>
 
-            <select name="" id="" class="form-control">
+            <select name="agent_id" id="" class="form-control">
                 <option value="">-- Select A Agent</option>
             <?php $__currentLoopData = $agents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option value="<?php echo e($agent->id); ?>" ><?php echo e($agent->name); ?></option>
