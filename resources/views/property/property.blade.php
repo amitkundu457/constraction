@@ -134,7 +134,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="{{ url('property-update') }}" method="post" enctype="multipart/form-data">
+                                                    <form action="{{ url('property-update',$propertie->id) }}" method="post">
                                                         @csrf
                                                         <div class="form-group">
                                                             <label>Property Title <span class="text-danger">*</span></label>
@@ -203,7 +203,7 @@
                                                                 <select class="form-control" name="contract_type" id="">
                                                                     <option value="">Select Contract</option>
                                                                     @foreach ($contruct as $contract)
-                                                                        <option value="{{ $contract->id }}" @selected($propertie->contract_type == $contract->id)>{{ $contract->contruct_name }}</option>
+                                                                        <option value="{{ $contract->id }}" @selected($propertie->contract_type == $contract->contruct_name)>{{ $contract->contruct_name }}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -220,15 +220,15 @@
                                                         <div class=" row">
                                                             <div class="form-group col-md-4">
                                                                 <label> Number of Floors <span class="text-danger">*</span></label>
-                                                                <input type="text" name="floor" id="edit_checkin" value="{{ $propertie->status }}" class="form-control">
+                                                                <input type="text" name="floor" id="edit_checkin" value="{{ $propertie->floor }}" class="form-control">
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label> No of Bedrooms <span class="text-danger">*</span></label>
-                                                                <input type="number" name="bedroom" value="{{ $propertie->status }}" class="form-control" id="">
+                                                                <input type="number" name="bedroom" value="{{ $propertie->bedroom }}" class="form-control" id="">
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label> Number of Bathrooms <span class="text-danger">*</span></label>
-                                                                <input type="text" name="bathroom" value="{{ $propertie->status }}" id="edit_checkin" class="form-control">
+                                                                <input type="text" name="bathroom" value="{{ $propertie->bathroom }}" id="edit_checkin" class="form-control">
                                                             </div>
                             
                                                         </div>
@@ -250,10 +250,11 @@
                                                             <div class="form-group col-md-8">
                                                                 <p style="font-weight: 600">Amenity</p>
                                                                 <div class="d-flex gap-2 align-items-center flex-wrap">
+                                                                    
                                                                     @foreach ($amenities as $amenity)
                                                                         
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" value="{{ $amenity->id }}"  name="aminities[]" id="flexCheckChecked">
+                                                                        <input class="form-check-input" type="checkbox" value="{{ $amenity->id }}" @checked(isset($propertie->amenities) && in_array($amenity->id,$propertie->amenities))  name="amenities[]" id="flexCheckChecked">
                                                                         <label class="form-check-label" style="font-weight: 500" for="flexCheckChecked">
                                                                             {{ $amenity->name }}
                                                                         </label>
@@ -266,10 +267,10 @@
                                                         </div>
                             
                             
-                                                        <div class="form-group d-flex flex-column">
+                                                        {{-- <div class="form-group d-flex flex-column">
                                                             <label> Notes<span class="text-danger">*</span></label>
                                                             <textarea name="note" id="" cols="3" rows="2" style="width: 100%"></textarea>
-                                                        </div>
+                                                        </div> --}}
                                                         <div class="submit-section">
                                                             <button type="submit" class="btn btn-primary submit-btn">Submit</button>
                                                         </div>
@@ -424,7 +425,7 @@
                                         @foreach ($amenities as $amenity)
                                             
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="{{ $amenity->id }}" name="aminities[]" id="flexCheckChecked">
+                                            <input class="form-check-input" type="checkbox" value="{{ $amenity->id }}" name="amenities[]" id="flexCheckChecked">
                                             <label class="form-check-label" style="font-weight: 500" for="flexCheckChecked">
                                                 {{ $amenity->name }}
                                             </label>
@@ -437,10 +438,10 @@
                             </div>
 
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label> Notes<span class="text-danger">*</span></label>
                                 <textarea name="note" id="" cols="3" rows="2" style="width: 100%"></textarea>
-                            </div>
+                            </div> --}}
                             <div class="submit-section">
                                 <button type="submit" class="btn btn-primary submit-btn">Submit</button>
                             </div>

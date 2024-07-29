@@ -136,7 +136,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="<?php echo e(url('property-update')); ?>" method="post" enctype="multipart/form-data">
+                                                    <form action="<?php echo e(url('property-update',$propertie->id)); ?>" method="post">
                                                         <?php echo csrf_field(); ?>
                                                         <div class="form-group">
                                                             <label>Property Title <span class="text-danger">*</span></label>
@@ -205,7 +205,7 @@
                                                                 <select class="form-control" name="contract_type" id="">
                                                                     <option value="">Select Contract</option>
                                                                     <?php $__currentLoopData = $contruct; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contract): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                        <option value="<?php echo e($contract->id); ?>" <?php if($propertie->contract_type == $contract->id): echo 'selected'; endif; ?>><?php echo e($contract->contruct_name); ?></option>
+                                                                        <option value="<?php echo e($contract->id); ?>" <?php if($propertie->contract_type == $contract->contruct_name): echo 'selected'; endif; ?>><?php echo e($contract->contruct_name); ?></option>
                                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                 </select>
                                                             </div>
@@ -222,15 +222,15 @@
                                                         <div class=" row">
                                                             <div class="form-group col-md-4">
                                                                 <label> Number of Floors <span class="text-danger">*</span></label>
-                                                                <input type="text" name="floor" id="edit_checkin" value="<?php echo e($propertie->status); ?>" class="form-control">
+                                                                <input type="text" name="floor" id="edit_checkin" value="<?php echo e($propertie->floor); ?>" class="form-control">
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label> No of Bedrooms <span class="text-danger">*</span></label>
-                                                                <input type="number" name="bedroom" value="<?php echo e($propertie->status); ?>" class="form-control" id="">
+                                                                <input type="number" name="bedroom" value="<?php echo e($propertie->bedroom); ?>" class="form-control" id="">
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label> Number of Bathrooms <span class="text-danger">*</span></label>
-                                                                <input type="text" name="bathroom" value="<?php echo e($propertie->status); ?>" id="edit_checkin" class="form-control">
+                                                                <input type="text" name="bathroom" value="<?php echo e($propertie->bathroom); ?>" id="edit_checkin" class="form-control">
                                                             </div>
                             
                                                         </div>
@@ -239,10 +239,11 @@
                                                             <div class="form-group col-md-8">
                                                                 <p style="font-weight: 600">Amenity</p>
                                                                 <div class="d-flex gap-2 align-items-center flex-wrap">
+                                                                    
                                                                     <?php $__currentLoopData = $amenities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $amenity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                         
                                                                     <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox" value="<?php echo e($amenity->id); ?>"  name="aminities[]" id="flexCheckChecked">
+                                                                        <input class="form-check-input" type="checkbox" value="<?php echo e($amenity->id); ?>" <?php if(isset($propertie->amenities) && in_array($amenity->id,$propertie->amenities)): echo 'checked'; endif; ?>  name="amenities[]" id="flexCheckChecked">
                                                                         <label class="form-check-label" style="font-weight: 500" for="flexCheckChecked">
                                                                             <?php echo e($amenity->name); ?>
 
@@ -256,10 +257,7 @@
                                                         </div>
                             
                             
-                                                        <div class="form-group d-flex flex-column">
-                                                            <label> Notes<span class="text-danger">*</span></label>
-                                                            <textarea name="note" id="" cols="3" rows="2" style="width: 100%"></textarea>
-                                                        </div>
+                                                        
                                                         <div class="submit-section">
                                                             <button type="submit" class="btn btn-primary submit-btn">Submit</button>
                                                         </div>
@@ -407,7 +405,7 @@
                                         <?php $__currentLoopData = $amenities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $amenity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="<?php echo e($amenity->id); ?>" name="aminities[]" id="flexCheckChecked">
+                                            <input class="form-check-input" type="checkbox" value="<?php echo e($amenity->id); ?>" name="amenities[]" id="flexCheckChecked">
                                             <label class="form-check-label" style="font-weight: 500" for="flexCheckChecked">
                                                 <?php echo e($amenity->name); ?>
 
@@ -421,10 +419,7 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label> Notes<span class="text-danger">*</span></label>
-                                <textarea name="note" id="" cols="3" rows="2" style="width: 100%"></textarea>
-                            </div>
+                            
                             <div class="submit-section">
                                 <button type="submit" class="btn btn-primary submit-btn">Submit</button>
                             </div>

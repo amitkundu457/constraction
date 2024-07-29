@@ -1054,6 +1054,44 @@
                                 href="{{ route('warehouse-transfer.index') }}">{{ __('Transfer Item') }}</a>
                         </li>
                     @endcan
+                    
+                    <li
+                        class="dash-item dash-hasmenu {{ Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : '' }}">
+                                <a class="dash-link" href="#">{{ __('Reports') }}<span
+                                        class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                                <ul class="dash-submenu">
+                                    {{-- @can('manage project task stage') --}}
+                                        <li
+                                            class="dash-item  {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                            <a class="dash-link"
+                                                href="{{ url('report/income-summary') }}">{{ __('Income Summary') }}</a>
+                                        </li>
+                                    {{-- @endcan
+                                    @can('manage bug status') --}}
+                                        <li 
+                                            class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                            <a class="dash-link"
+                                                href="{{ url('report/expense-summary') }}">{{ __('Expense Summary') }}</a>
+                                        </li>
+                                    {{-- @endcan --}}
+                                    <li 
+                                            class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                            <a class="dash-link"
+                                                href="{{ url('report/invoice-summary') }}">{{ __('Invoice Summary') }}</a>
+                                        </li>
+                                    <li 
+                                            class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                            <a class="dash-link"
+                                                href="{{ url('reports-daily-purchase') }}">{{ __('Daily Purchase') }}</a>
+                                        </li>
+                                    <li 
+                                            class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                            <a class="dash-link"
+                                                href="{{ url('report/product-stock-report') }}">{{ __('Stock Report') }}</a>
+                                        </li>
+                                </ul>
+                            </li>
+                       
 
 
                 </ul>

@@ -23,7 +23,7 @@ class PropertyController extends Controller
         // Retrieve all properties from the database and return them in a view
         $properties = Property::leftJoin('units', 'units.id', '=', 'properties.unit_id')->join('property_types', 'property_types.id', '=', 'properties.property_type')
             ->join('contructs', 'contructs.id', '=', 'properties.contract_type')
-            ->select('properties.*', 'units.name', 'contructs.contruct_name as contract_type')->latest()->paginate(10);
+            ->select('properties.*','property_types.type_name as property_type', 'units.name', 'contructs.contruct_name as contract_type')->latest()->paginate(10);
         $unit = Unit::all();
         $type = PropertyType::all();
         $contruct = Contruct::all();
@@ -77,6 +77,7 @@ class PropertyController extends Controller
         $property->area = $request->area;
         $property->floor = $request->floor;
         $property->bedroom = $request->bedroom;
+        $property->bathroom = $request->bathroom;
         $property->document =  "test";
         $property->photo =  "test";
         $property->plan =  "test";
@@ -101,6 +102,29 @@ class PropertyController extends Controller
     }
     public function propertyUpdate(Request $request, $id)
     {
+        // dd($request->contract_type);
+        $property = Property::findOrFail($id);
+        $property->agency_id = $request->agency_id;
+        $property->property_type = $request->property_type;
+        $property->contract_type = $request->contract_type;
+        $property->unit_id = $request->unit_id;
+        $property->property_feature_id = $request->property_feature_id;
+        $property->built_year = $request->built_year;
+        $property->title = $request->title;
+        $property->address = $request->address;
+        $property->location = $request->location;
+        $property->price = $request->price;
+        $property->area = $request->area;
+        $property->floor = $request->floor;
+        $property->bedroom = $request->bedroom;
+        $property->bathroom = $request->bathroom;
+        $property->document =  "test";
+        $property->photo =  "test";
+        $property->plan =  "test";
+        $property->status = $request->status;
+        $property->amenities = $request->amenities;
+        $property->save();
+        return back()->with('success', $property->title . 'property updated successfully');
     }
     public function propertyDelete($id)
     {

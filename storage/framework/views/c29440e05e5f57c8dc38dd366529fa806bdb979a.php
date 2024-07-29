@@ -1060,6 +1060,43 @@
                                 href="<?php echo e(route('warehouse-transfer.index')); ?>"><?php echo e(__('Transfer Item')); ?></a>
                         </li>
                     <?php endif; ?>
+                    
+                    <li
+                        class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : ''); ?>">
+                                <a class="dash-link" href="#"><?php echo e(__('Reports')); ?><span
+                                        class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                                <ul class="dash-submenu">
+                                    
+                                        <li
+                                            class="dash-item  <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
+                                            <a class="dash-link"
+                                                href="<?php echo e(url('report/income-summary')); ?>"><?php echo e(__('Income Summary')); ?></a>
+                                        </li>
+                                    
+                                        <li 
+                                            class="dash-item <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
+                                            <a class="dash-link"
+                                                href="<?php echo e(url('report/expense-summary')); ?>"><?php echo e(__('Expense Summary')); ?></a>
+                                        </li>
+                                    
+                                    <li 
+                                            class="dash-item <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
+                                            <a class="dash-link"
+                                                href="<?php echo e(url('report/invoice-summary')); ?>"><?php echo e(__('Invoice Summary')); ?></a>
+                                        </li>
+                                    <li 
+                                            class="dash-item <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
+                                            <a class="dash-link"
+                                                href="<?php echo e(url('reports-daily-purchase')); ?>"><?php echo e(__('Daily Purchase')); ?></a>
+                                        </li>
+                                    <li 
+                                            class="dash-item <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
+                                            <a class="dash-link"
+                                                href="<?php echo e(url('report/product-stock-report')); ?>"><?php echo e(__('Stock Report')); ?></a>
+                                        </li>
+                                </ul>
+                            </li>
+                       
 
 
                 </ul>
