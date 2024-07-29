@@ -21,6 +21,7 @@
 
 
 @section('content')
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
     <div class="row">
         <div class="col-md-6">
             <form action="{{ url('property-amenity-store') }}" method="post" enctype="multipart/form-data">
@@ -59,7 +60,7 @@
                             $count = 1;
                         @endphp
                         @foreach ($amenities as $amenity)
-                            <tr>
+                            <tr x-data="{aname:'{{ $amenity->name }}'}">
                                 <td>{{ $count }}</td>
 
                                 <td>{{ $amenity->name }}</td>
@@ -82,19 +83,19 @@
                                         <div class="modal-dialog modal modal-dialog-centered" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Property Type {{ $amenity->id }}</h5>
+                                                    <h5 class="modal-title">Property Amenity {{ $amenity->id }}</h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body text-start">
-                                                    <form action="{{ url('property-unit-update', $amenity->id) }}"
-                                                        method="post" enctype="multipart/form-data">
+                                                    <form action="{{ url('property-amenity-update', $amenity->id) }}"
+                                                        method="post" >
                                                         @csrf
                                                         <div class="form-group">
                                                             <label>Amenity Name <span class="text-danger">*</span></label>
-                                                            <input type="text" name="name" id="edit_checkin"
+                                                            <input type="text" x-bind:value="aname" name="name" id="edit_checkin"
                                                                 class="form-control mt-2">
                                                         </div>
 
@@ -118,24 +119,24 @@
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                                 <div class="modal-body">
-                                                    <div class="form-header">
+                                                    <div class="form-header text-start">
                                                         {{-- <h3>Delete {{ ucfirst($title) }}</h3> --}}
-                                                        <p>Are you sure you want to delete?</p>
+                                                        <p class="my-3">Are you sure you want to delete?</p>
                                                     </div>
-                                                    <form action="{{ url('property-unit-delete', $amenity->id) }}"
-                                                        method="get">
-                                                        {{-- @method('DELETE') --}}
+                                                    <form action="{{ url('property-amenity-delete', $amenity->id) }}"
+                                                        method="post">
+                                                        @method('delete')
                                                         @csrf
                                                         <input type="hidden" id="delete_id" name="id">
                                                         <div class="modal-btn delete-action">
-                                                            <div class="row">
-                                                                <div class="col-6">
+                                                            <div class="d-flex justify-content-between">
+                                                                <div class="">
                                                                     <button class="btn btn-primary continue-btn btn-block"
-                                                                        type="submit">Delete</button>
+                                                                        type="submit">Yes</button>
                                                                 </div>
-                                                                <div class="col-6">
-                                                                    <button data-dismiss="modal"
-                                                                        class="btn btn-primary cancel-btn btn-block">Cancel</button>
+                                                                <div class="">
+                                                                    <button type="button" data-dismiss="modal"
+                                                                        class="btn btn-danger cancel-btn btn-block">Cancel</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -183,13 +184,5 @@
             });
         });
 
-        function getAmenityData(){
-            return {
-                data:null,
-                fetchAmenity(id){
-                    fetch(`/property-amenity-update/${id}`).then((res)=>res.json).then()
-                }
-            };
-        }
     </script>
 @endsection

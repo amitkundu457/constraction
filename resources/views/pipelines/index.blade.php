@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 @section('page-title')
-    {{__('Manage Pipelines')}}
+    {{__('Manage Lead Types')}}
 @endsection
 @push('script-page')
 @endpush
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">{{__('Dashboard')}}</a></li>
-    <li class="breadcrumb-item">{{__('Pipelines')}}</li>
+    <li class="breadcrumb-item">{{__('Lead Type')}}</li>
 @endsection
 @section('action-btn')
     <div class="float-end">
@@ -28,7 +28,7 @@
                         <table class="table datatable">
                             <thead>
                             <tr>
-                                <th>{{__('Pipeline')}}</th>
+                                <th>{{__('Lead Type')}}</th>
                                 <th width="250px">{{__('Action')}}</th>
                             </tr>
                             </thead>

@@ -1793,6 +1793,7 @@ Route::group(['middleware' => ['verified']], function () {
 
             Route::get('property', [PropertyController::class, 'index']);
             Route::post('property-store', [PropertyController::class, 'propertyStore']);
+            Route::post('property-update/{id}', [PropertyController::class, 'propertyUpdate']);
             Route::get('property-delete/{id}', [PropertyController::class, 'propertyDelete']);
             Route::get('property-type', [PropertyController::class, 'propertyType']);
             Route::post('property-type-store', [PropertyController::class, 'propertyTypeStore']);
@@ -1814,7 +1815,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('property-amenity', [PropertyController::class, 'propertyamenity']);
             Route::post('property-amenity-store', [PropertyController::class, 'propertyAmenityStore']);
             Route::post('property-amenity-update/{id}', [PropertyController::class, 'propertyAmenityUpdate']);
-            Route::get('property-amenity-delete/{id}', [PropertyController::class, 'propertyAmenityDelete']);
+            Route::delete('property-amenity-delete/{id}', [PropertyController::class, 'propertyAmenityDelete']);
 
             Route::get('property-photo/{id}', [PropertyController::class, 'propertyphoto']);
             Route::post('property-photo-store', [PropertyController::class, 'propertyphotoStore']);

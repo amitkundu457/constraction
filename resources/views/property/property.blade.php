@@ -75,7 +75,7 @@
 
                                 <td class="text-end">
                                     <div class="" style="display: flex">
-                                        <a class="btn btn-sm btn-primary"><i class="ti ti-pencil"></i> </a>
+                                        <a data-bs-target="#edit_modal-{{ $propertie->id }}" data-bs-toggle="modal"  class="btn btn-sm btn-primary"><i class="ti ti-pencil"></i> </a>
                                         <a class="btn btn-sm btn-primary" style="margin-left: 0.5rem"
                                             href="{{ url('property-document', $propertie->id) }}">
                                             <i class="ti ti-file"></i>
@@ -91,6 +91,7 @@
                                             data-id="{{ $propertie->id }}">
                                             <i class="ti ti-trash"></i>
                                         </a>
+                                        
                                     </div>
                                     <div class="modal custom-modal fade" id="delete_modal" role="dialog">
                                         <div class="modal-dialog modal-dialog-centered">
@@ -116,6 +117,161 @@
                                                                         class="btn btn-primary cancel-btn btn-block">Cancel</button>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal custom-modal fade text-start" id="edit_modal-{{ $propertie->id }}" role="dialog">
+                                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Property</h5>
+                                                    
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ url('property-update') }}" method="post" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <div class="form-group">
+                                                            <label>Property Title <span class="text-danger">*</span></label>
+                                                            <input type="text" value="{{ $propertie->title }}"  name="title" id="edit_checkin" class="form-control">
+                                                        </div>
+                                                        
+                                                        <div class=" row">
+                                                            <div class="form-group col-md-6">
+                                                                <label> Property Type <span class="text-danger">*</span></label>
+                                                                <select class="form-control" name="property_type" id="">
+                                                                    <option value="">Select Property Type</option>
+                                                                    @foreach ($type as $types)
+                                                                        <option value="{{ $types->id }}" @selected($propertie->property_type == $types->type_name)>{{ $types->type_name }} - {{ $types->plot($types->plot_id)->name }}</option>
+                                                                    @endforeach
+                            
+                                                                </select>
+                                                            </div>
+                                                            
+                                                            <div class="form-group col-md-6">
+                                                                <label> Location <span class="text-danger">*</span></label>
+                                                                <input type="text" value="{{ $propertie->location }}" name="location" id="edit_checkin" class="form-control">
+                                                            </div>
+                            
+                                                        </div>
+                                                        {{-- <input type="hidden" name="id" id="edit_id"> --}}
+                            
+                            
+                                                        <div class="form-group">
+                                                            <label> Address <span class="text-danger">*</span></label>
+                                                            <textarea name="address" id="" cols="" rows="5" class="form-control">{{ $propertie->address }}</textarea>
+                                                        </div>
+                                                        <div class=" row">
+                                                            <div class="form-group col-md-4">
+                                                                <label> Price <span class="text-danger">*</span></label>
+                                                                <input type="text" value="{{ $propertie->price }}" name="price" id="edit_checkin" class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label> Area <span class="text-danger">*</span></label>
+                                                                <input type="text" value="{{ $propertie->area }}" name="area" id="edit_checkin" class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label> Unit <span class="text-danger">*</span></label>
+                                                                <select class="form-control" name="unit_id" id="">
+                                                                    <option value="">Select Unit</option>
+                                                                    @foreach ($unit as $area)
+                                                                        <option value="{{ $area->id }}" @selected($propertie->unit_id == $area->id)>{{ $area->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                            
+                                                        </div>
+                                                        
+                            
+                                                        <div class=" row">
+                                                            <div class="form-group col-md-4">
+                                                                <label>Assigned Agent <span class="text-danger">*</span></label>
+                                                                <select class="form-control" name="agency_id" id="">
+                                                                    <option value="">Select Agent</option>
+                                                                    @foreach ($agents as $agent)
+                                                                        <option value="{{ $agent->id }}" @selected($propertie->agency_id == $agent->id)>{{ $agent->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label>Contract <span class="text-danger">*</span></label>
+                                                                <select class="form-control" name="contract_type" id="">
+                                                                    <option value="">Select Contract</option>
+                                                                    @foreach ($contruct as $contract)
+                                                                        <option value="{{ $contract->id }}" @selected($propertie->contract_type == $contract->id)>{{ $contract->contruct_name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label> Status <span class="text-danger">*</span></label>
+                                                                <select name="status" id="" class="form-control">
+                                                                    <option value=""> Select Listing Status</option>
+                                                                    <option value="0"  @selected($propertie->status == '0')>Sold</option>
+                                                                    <option value="1" @selected($propertie->status == '1')>Active</option>
+                                                                    <option value="2" @selected($propertie->status == '2')>Pending</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class=" row">
+                                                            <div class="form-group col-md-4">
+                                                                <label> Number of Floors <span class="text-danger">*</span></label>
+                                                                <input type="text" name="floor" id="edit_checkin" value="{{ $propertie->status }}" class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label> No of Bedrooms <span class="text-danger">*</span></label>
+                                                                <input type="number" name="bedroom" value="{{ $propertie->status }}" class="form-control" id="">
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label> Number of Bathrooms <span class="text-danger">*</span></label>
+                                                                <input type="text" name="bathroom" value="{{ $propertie->status }}" id="edit_checkin" class="form-control">
+                                                            </div>
+                            
+                                                        </div>
+                                                        {{-- <div class=" row">
+                                                            <div class="form-group col-md-4">
+                                                                <label> Add Documents <span class="text-danger">*</span></label>
+                                                                <input type="file" name="document" id="edit_checkin" class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label> Add Photo <span class="text-danger">*</span></label>
+                                                                <input type="file" name="photo" id="edit_checkin" class="form-control">
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label> Add Floor Plan <span class="text-danger">*</span></label>
+                                                                <input type="file" name="plan" id="edit_checkin" class="form-control">
+                                                            </div>
+                                                        </div> --}}
+                                                        <div class=" row">                                                                
+                                                            <div class="form-group col-md-8">
+                                                                <p style="font-weight: 600">Amenity</p>
+                                                                <div class="d-flex gap-2 align-items-center flex-wrap">
+                                                                    @foreach ($amenities as $amenity)
+                                                                        
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox" value="{{ $amenity->id }}"  name="aminities[]" id="flexCheckChecked">
+                                                                        <label class="form-check-label" style="font-weight: 500" for="flexCheckChecked">
+                                                                            {{ $amenity->name }}
+                                                                        </label>
+                                                                    </div>
+                                                                    @endforeach
+                                                                </div>
+                                                                
+                                                            </div>
+                            
+                                                        </div>
+                            
+                            
+                                                        <div class="form-group d-flex flex-column">
+                                                            <label> Notes<span class="text-danger">*</span></label>
+                                                            <textarea name="note" id="" cols="3" rows="2" style="width: 100%"></textarea>
+                                                        </div>
+                                                        <div class="submit-section">
+                                                            <button type="submit" class="btn btn-primary submit-btn">Submit</button>
                                                         </div>
                                                     </form>
                                                 </div>

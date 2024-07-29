@@ -23,7 +23,7 @@ class PropertyController extends Controller
         // Retrieve all properties from the database and return them in a view
         $properties = Property::leftJoin('units', 'units.id', '=', 'properties.unit_id')->join('property_types', 'property_types.id', '=', 'properties.property_type')
             ->join('contructs', 'contructs.id', '=', 'properties.contract_type')
-            ->select('properties.id', 'properties.title', 'units.name', 'contructs.contruct_name as contract_type', 'property_types.type_name as property_type', 'properties.created_at', 'properties.status')->latest()->paginate(10);
+            ->select('properties.*', 'units.name', 'contructs.contruct_name as contract_type')->latest()->paginate(10);
         $unit = Unit::all();
         $type = PropertyType::all();
         $contruct = Contruct::all();
@@ -318,5 +318,16 @@ class PropertyController extends Controller
         return redirect()->back()->with('success', 'New amenity added');
     }
 
-    // public function property
+    public function propertyAmenityUpdate($id,Request $request){
+        $amenity = PropertyAmenity::findOrFail($id);
+        $amenity->name = $request->name;
+        $amenity->save();
+        return redirect()->back()->with('success', 'Amenity updated');
+    }
+
+    public function propertyAmenityDelete($id){
+        $amenity = PropertyAmenity::findOrFail($id);
+        $amenity->delete();
+        return redirect()->back()->with('success', 'Amenity deleted');
+    }
 }
