@@ -292,7 +292,7 @@
                                             <i class="ti ti-test-pipe"></i>
                                         </div>
                                         <div class="ms-2">
-                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Pipeline')); ?></p>
+                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Lead Stage')); ?></p>
                                             <h5 class="mb-0 text-info"><?php echo e($lead->pipeline->name); ?></h5>
                                         </div>
                                     </div>
@@ -303,7 +303,7 @@
                                             <i class="ti ti-server"></i>
                                         </div>
                                         <div class="ms-2">
-                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Stage')); ?></p>
+                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Lead Status')); ?></p>
                                             <h5 class="mb-0 text-primary"><?php echo e($lead->stage->name); ?></h5>
                                         </div>
                                     </div>
