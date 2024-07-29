@@ -1217,9 +1217,8 @@
             @endif
         @endif
         <!--------------------- End POs System ----------------------------------->
-
         @if (\Auth::user()->type != 'super admin')
-            <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'support' ? 'active' : '' }}">
+            <li style="display: none" class="dash-item dash-hasmenu {{ Request::segment(1) == 'support' ? 'active' : '' }}">
                 <a href="{{ route('support.index') }}" class="dash-link">
                     <span class="dash-micon"><i class="ti ti-headphones"></i></span><span
                         class="dash-mtext">{{ __('Support System') }}</span>
@@ -1255,7 +1254,7 @@
 
         @if (\Auth::user()->type != 'super admin')
             @if (Gate::check('manage company plan') || Gate::check('manage order') || Gate::check('manage company settings'))
-                <li
+                <li style="display: none"
                     class="dash-item dash-hasmenu {{ Request::segment(1) == 'settings' ||
                     Request::segment(1) == 'plans' ||
                     Request::segment(1) == 'stripe' ||
@@ -1460,7 +1459,7 @@
                 @endif
 
                 @if (Gate::check('manage system settings'))
-                    <li
+                    <li 
                         class="dash-item dash-hasmenu {{ Request::route()->getName() == 'systems.index' ? ' active' : '' }}">
                         <a href="{{ route('systems.index') }}" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-settings"></i></span><span
@@ -1473,7 +1472,7 @@
         @endif
 
 
-        <div class="navbar-footer border-top ">
+        <div class="navbar-footer border-top " style="display: none">
             <div class="d-flex align-items-center py-3 px-3 border-bottom">
                 <div class="me-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="29" height="30" viewBox="0 0 29 30"
@@ -1496,7 +1495,7 @@
                             fill="#162C4E"></path>
                     </svg>
                 </div>
-                <div>
+                <div >
                     <b class="d-block f-w-700">{{ __('You need help?') }}</b>
                     <span>{{ __('Check out our repository') }} </span>
                 </div>
