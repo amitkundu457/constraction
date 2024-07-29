@@ -54,6 +54,7 @@
                                     <th>{{ __('Name') }}</th>
                                     <th>{{ __('Subject') }}</th>
                                     <th>{{ __('Lead Stage') }}</th>
+                                    <th>{{ __('Lead Source') }}</th>
                                     <th>{{ __('Status') }}</th>
                                     <th>{{ __('TIMESTAMP') }}</th>
                                     {{-- <th>{{__('Users')}}</th> --}}
@@ -68,6 +69,7 @@
                                             <td>{{ $lead->subject }}</td>
                                             <td>{{ \App\Models\Pipeline::findOrFail($lead->pipeline_id)->first()->name }}
                                             </td>
+                                            <td>{{ \App\Models\Source::findOrFail($lead->source)->first()->name }}
                                             <td>{{ \App\Models\LeadStage::findOrFail($lead->stage_id)->first()->name }}
                                             </td>
                                             <td>{{ Carbon\Carbon::parse($lead->date)->format('d-M-Y') }}</td>

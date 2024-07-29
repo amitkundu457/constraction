@@ -327,14 +327,15 @@ class LeadController extends Controller
             $calenderTasks = [];
             $deal          = Deal::where('id', '=', $lead->is_converted)->first();
             $stageCnt      = LeadStage::where('pipeline_id', '=', $lead->pipeline_id)->where('created_by', '=', $lead->created_by)->get();
-            $i             = 0;
+            $i             = 1;
             foreach ($stageCnt as $stage) {
                 $i++;
                 if ($stage->id == $lead->stage_id) {
                     break;
                 }
             }
-            $precentage = number_format(($i * 100) / count($stageCnt));
+            // $precentage = number_format(($i * 100) / count($stageCnt));
+            $precentage = number_format(($i * 100) / 2);
 
             return view('leads.show', compact('lead', 'calenderTasks', 'deal', 'precentage'));
         } else {

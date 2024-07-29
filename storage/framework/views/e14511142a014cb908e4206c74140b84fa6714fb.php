@@ -53,6 +53,7 @@
                                     <th><?php echo e(__('Name')); ?></th>
                                     <th><?php echo e(__('Subject')); ?></th>
                                     <th><?php echo e(__('Lead Stage')); ?></th>
+                                    <th><?php echo e(__('Lead Source')); ?></th>
                                     <th><?php echo e(__('Status')); ?></th>
                                     <th><?php echo e(__('TIMESTAMP')); ?></th>
                                     
@@ -68,6 +69,8 @@
                                             <td><?php echo e(\App\Models\Pipeline::findOrFail($lead->pipeline_id)->first()->name); ?>
 
                                             </td>
+                                            <td><?php echo e(\App\Models\Source::findOrFail($lead->source)->first()->name); ?>
+
                                             <td><?php echo e(\App\Models\LeadStage::findOrFail($lead->stage_id)->first()->name); ?>
 
                                             </td>
