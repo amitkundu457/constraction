@@ -477,7 +477,7 @@
             @endif
 
             <!--------------------- End HRM ----------------------------------->
-            
+
 
             <!--------------------- Start Account ----------------------------------->
 
@@ -740,7 +740,7 @@
                             </a>
                         @endif
                     </li>
-                    
+
                     @if (Gate::check('manage project task stage') || Gate::check('manage bug status'))
                         <li
                             class="dash-item dash-hasmenu {{ Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : '' }}">
@@ -808,7 +808,7 @@
                             @can('manage lead')
                                 <li
                                     class="dash-item {{ Request::route()->getName() == 'leads.list' || Request::route()->getName() == 'leads.index' || Request::route()->getName() == 'leads.show' ? ' active' : '' }}">
-                                    <a class="dash-link" href="{{ route('leads.index') }}">{{ __('Leads') }}</a>
+                                    <a class="dash-link" href="{{ url('leads/list') }}">{{ __('Leads') }}</a>
                                 </li>
                             @endcan
                             @can('manage deal')
@@ -1054,44 +1054,39 @@
                                 href="{{ route('warehouse-transfer.index') }}">{{ __('Transfer Item') }}</a>
                         </li>
                     @endcan
-                    
+
                     <li
                         class="dash-item dash-hasmenu {{ Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : '' }}">
-                                <a class="dash-link" href="#">{{ __('Reports') }}<span
-                                        class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
-                                <ul class="dash-submenu">
-                                    {{-- @can('manage project task stage') --}}
-                                        <li
-                                            class="dash-item  {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
-                                            <a class="dash-link"
-                                                href="{{ url('report/income-summary') }}">{{ __('Income Summary') }}</a>
-                                        </li>
-                                    {{-- @endcan
-                                    @can('manage bug status') --}}
-                                        <li 
-                                            class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
-                                            <a class="dash-link"
-                                                href="{{ url('report/expense-summary') }}">{{ __('Expense Summary') }}</a>
-                                        </li>
-                                    {{-- @endcan --}}
-                                    <li 
-                                            class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
-                                            <a class="dash-link"
-                                                href="{{ url('report/invoice-summary') }}">{{ __('Invoice Summary') }}</a>
-                                        </li>
-                                    <li 
-                                            class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
-                                            <a class="dash-link"
-                                                href="{{ url('reports-daily-purchase') }}">{{ __('Daily Purchase') }}</a>
-                                        </li>
-                                    <li 
-                                            class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
-                                            <a class="dash-link"
-                                                href="{{ url('report/product-stock-report') }}">{{ __('Stock Report') }}</a>
-                                        </li>
-                                </ul>
+                        <a class="dash-link" href="#">{{ __('Reports') }}<span class="dash-arrow"><i
+                                    data-feather="chevron-right"></i></span></a>
+                        <ul class="dash-submenu">
+                            {{-- @can('manage project task stage') --}}
+                            <li class="dash-item  {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                <a class="dash-link"
+                                    href="{{ url('report/income-summary') }}">{{ __('Income Summary') }}</a>
                             </li>
-                       
+                            {{-- @endcan
+                                    @can('manage bug status') --}}
+                            <li class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                <a class="dash-link"
+                                    href="{{ url('report/expense-summary') }}">{{ __('Expense Summary') }}</a>
+                            </li>
+                            {{-- @endcan --}}
+                            <li class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                <a class="dash-link"
+                                    href="{{ url('report/invoice-summary') }}">{{ __('Invoice Summary') }}</a>
+                            </li>
+                            <li class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                <a class="dash-link"
+                                    href="{{ url('reports-daily-purchase') }}">{{ __('Daily Purchase') }}</a>
+                            </li>
+                            <li class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                <a class="dash-link"
+                                    href="{{ url('report/product-stock-report') }}">{{ __('Stock Report') }}</a>
+                            </li>
+                        </ul>
+                    </li>
+
 
 
                 </ul>
@@ -1123,7 +1118,7 @@
                     class="dash-item dash-hasmenu
                              {{ Request::route()->getName() == 'print-setting' ||
                              Request::segment(1) == 'customer' ||
-                            //  Request::segment(1) == 'vender' ||
+                             //  Request::segment(1) == 'vender' ||
                              Request::segment(1) == 'proposal' ||
                              Request::segment(1) == 'bank-account' ||
                              Request::segment(1) == 'bank-transfer' ||
@@ -1217,8 +1212,10 @@
             @endif
         @endif
         <!--------------------- End POs System ----------------------------------->
+
         @if (\Auth::user()->type != 'super admin')
-            <li style="display: none" class="dash-item dash-hasmenu {{ Request::segment(1) == 'support' ? 'active' : '' }}">
+            <li style="display: none"
+                class="dash-item dash-hasmenu {{ Request::segment(1) == 'support' ? 'active' : '' }}">
                 <a href="{{ route('support.index') }}" class="dash-link">
                     <span class="dash-micon"><i class="ti ti-headphones"></i></span><span
                         class="dash-mtext">{{ __('Support System') }}</span>
@@ -1459,7 +1456,7 @@
                 @endif
 
                 @if (Gate::check('manage system settings'))
-                    <li 
+                    <li
                         class="dash-item dash-hasmenu {{ Request::route()->getName() == 'systems.index' ? ' active' : '' }}">
                         <a href="{{ route('systems.index') }}" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-settings"></i></span><span
@@ -1495,7 +1492,7 @@
                             fill="#162C4E"></path>
                     </svg>
                 </div>
-                <div >
+                <div>
                     <b class="d-block f-w-700">{{ __('You need help?') }}</b>
                     <span>{{ __('Check out our repository') }} </span>
                 </div>

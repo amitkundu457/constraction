@@ -26,28 +26,29 @@ class LeadStageController extends Controller
      */
     public function index()
     {
-        if(\Auth::user()->can('manage lead stage'))
-        {
-            $lead_stages = LeadStage::select('lead_stages.*', 'pipelines.name as pipeline')->join('pipelines', 'pipelines.id', '=', 'lead_stages.pipeline_id')->where('pipelines.created_by', '=', \Auth::user()->ownerId())->where('lead_stages.created_by', '=', \Auth::user()->ownerId())->orderBy('lead_stages.pipeline_id')->orderBy('lead_stages.order')->get();
-            $pipelines   = [];
+        // if(\Auth::user()->can('manage lead stage'))
+        // {
+            // $lead_stages = LeadStage::select('lead_stages.*', 'pipelines.name as pipeline')->join('pipelines', 'pipelines.id', '=', 'lead_stages.pipeline_id')->where('pipelines.created_by', '=', \Auth::user()->ownerId())->where('lead_stages.created_by', '=', \Auth::user()->ownerId())->orderBy('lead_stages.pipeline_id')->orderBy('lead_stages.order')->get();
+            // $pipelines   = [];
 
-            foreach($lead_stages as $lead_stage)
-            {
-                if(!array_key_exists($lead_stage->pipeline_id, $pipelines))
-                {
-                    $pipelines[$lead_stage->pipeline_id]                = [];
-                    $pipelines[$lead_stage->pipeline_id]['name']        = $lead_stage['pipeline'];
-                    $pipelines[$lead_stage->pipeline_id]['lead_stages'] = [];
-                }
-                $pipelines[$lead_stage->pipeline_id]['lead_stages'][] = $lead_stage;
-            }
-
-            return view('lead_stages.index')->with('pipelines', $pipelines);
-        }
-        else
-        {
-            return redirect()->back()->with('error', __('Permission Denied.'));
-        }
+            // foreach($lead_stages as $lead_stage)
+            // {
+            //     if(!array_key_exists($lead_stage->pipeline_id, $pipelines))
+            //     {
+            //         $pipelines[$lead_stage->pipeline_id]                = [];
+            //         $pipelines[$lead_stage->pipeline_id]['name']        = $lead_stage['pipeline'];
+            //         $pipelines[$lead_stage->pipeline_id]['lead_stages'] = [];
+            //     }
+            //     $pipelines[$lead_stage->pipeline_id]['lead_stages'][] = $lead_stage;
+            // }
+            $stages = LeadStage::all();
+            
+            return view('lead_stages.index',compact('stages'));
+        // }
+        // else
+        // {
+        //     return redirect()->back()->with('error', __('Permission Denied.'));
+        // }
     }
 
     /**
@@ -83,7 +84,7 @@ class LeadStageController extends Controller
             $validator = \Validator::make(
                 $request->all(), [
                                    'name' => 'required|max:20',
-                                   'pipeline_id' => 'required',
+                                //    'pipeline_id' => 'required',
                                ]
             );
 
@@ -95,7 +96,7 @@ class LeadStageController extends Controller
             }
             $lead_stage              = new LeadStage();
             $lead_stage->name        = $request->name;
-            $lead_stage->pipeline_id = $request->pipeline_id;
+            // $lead_stage->pipeline_id = $request->pipeline_id;
             $lead_stage->created_by  = \Auth::user()->ownerId();
             $lead_stage->save();
 
@@ -166,7 +167,7 @@ class LeadStageController extends Controller
                 $validator = \Validator::make(
                     $request->all(), [
                                        'name' => 'required|max:20',
-                                       'pipeline_id' => 'required',
+                                    //    'pipeline_id' => 'required',
                                    ]
                 );
 
@@ -178,7 +179,7 @@ class LeadStageController extends Controller
                 }
 
                 $leadStage->name        = $request->name;
-                $leadStage->pipeline_id = $request->pipeline_id;
+                // $leadStage->pipeline_id = $request->pipeline_id;
                 $leadStage->save();
 
                 return redirect()->route('lead_stages.index')->with('success', __('Lead Stage successfully updated!'));

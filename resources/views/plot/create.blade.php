@@ -28,7 +28,6 @@
 @endsection --}}
 
 @section('content')
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
     <form  action="{{ route('plot.create') }}" class="mt-3" method="post"
         enctype="multipart/form-data">
         @csrf

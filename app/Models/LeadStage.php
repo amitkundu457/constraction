@@ -21,6 +21,7 @@ class LeadStage extends Model
             return Lead::select('leads.*')->join('user_leads', 'user_leads.lead_id', '=', 'leads.id')->where('user_leads.user_id', '=', \Auth::user()->id)->where('leads.stage_id', '=', $this->id)->orderBy('leads.order')->get();
 
         }
+       
 
     }
 }
