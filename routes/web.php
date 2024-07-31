@@ -146,7 +146,9 @@ use App\Http\Controllers\ProductServiceCategoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-
+use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\VehicleTypeController;
+use App\Models\VehicleType;
 
 /*
 |--------------------------------------------------------------------------
@@ -1860,6 +1862,16 @@ Route::group(['middleware' => ['verified']], function () {
 
     // Agent management
     Route::resource('/agents',AgentController::class);
+
+    // Plot management
+    Route::get('/vehicle',[VehicleController::class,'index'])->name('vehicle.index');
+    Route::prefix('vehicle')->name('vehicle.')->group(function(){
+        Route::post('/new',[VehicleController::class,'store'])->name('store');
+        Route::put('/{id}/edit',[VehicleController::class,'update'])->name('update');
+        Route::delete('/{id}/delete',[VehicleController::class,'destroy'])->name('delete');
+        Route::resource('type',VehicleTypeController::class);
+        
+    });
 });
 
 Route::any('/cookie-consent', [SystemController::class, 'CookieConsent'])->name('cookie-consent');

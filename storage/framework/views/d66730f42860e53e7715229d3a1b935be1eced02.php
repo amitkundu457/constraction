@@ -57,12 +57,12 @@
                                 <tr>
                                     
                                     <th><?php echo e(__(' Location Name')); ?></th>
-                                    <th><?php echo e(__(' Client Name')); ?></th>
+                                    
                                     <th><?php echo e(__('Contact')); ?></th>
                                     <th><?php echo e(__('Email')); ?></th>
-                                    <th><?php echo e(__('Budget')); ?></th>
-                                    <th><?php echo e(__('Start Date')); ?></th>
-                                    <th><?php echo e(__('End Date')); ?></th>
+                                    
+                                    
+                                    
                                     <th><?php echo e(__('Action')); ?></th>
                                 </tr>
                             </thead>
@@ -71,12 +71,12 @@
                                     <tr class="cust_tr" id="vend_detail">
                                         
                                         <td><?php echo e($Vender['name']); ?></td>
-                                        <td><?php echo e($Vender['cname']); ?></td>
+                                        
                                         <td><?php echo e($Vender['contact']); ?></td>
                                         <td><?php echo e($Vender['email']); ?></td>
-                                        <td><?php echo e($Vender['value']); ?></td>
-                                        <td><?php echo e($Vender['start_date']); ?></td>
-                                        <td><?php echo e($Vender['end_date']); ?></td>
+                                        
+                                        
+                                        
                                         
                                         <td class="Action">
                                             <span>

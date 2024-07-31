@@ -80,10 +80,10 @@
                                             href="{{ url('property-document', $propertie->id) }}">
                                             <i class="ti ti-file"></i>
                                         </a>
-                                        <a class="btn btn-sm btn-primary" style="margin-left: 0.5rem"
+                                        {{-- <a class="btn btn-sm btn-primary" style="margin-left: 0.5rem"
                                             href="{{ url('property-photo', $propertie->id) }}">
                                             <i class="ti ti-file"></i>
-                                        </a>
+                                        </a> --}}
                                         <a class="btn btn-sm btn-primary" style="margin-left: 0.5rem"><i
                                                 class="fa fa-eye m-r-5"></i> </a>
                                         <a class="btn btn-sm btn-danger" style="margin-left: 0.5rem"

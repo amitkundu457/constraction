@@ -56,12 +56,12 @@
                                 <tr>
                                     {{-- <th>#</th> --}}
                                     <th>{{ __(' Location Name') }}</th>
-                                    <th>{{ __(' Client Name') }}</th>
+                                    {{-- <th>{{ __(' Client Name') }}</th> --}}
                                     <th>{{ __('Contact') }}</th>
                                     <th>{{ __('Email') }}</th>
-                                    <th>{{ __('Budget') }}</th>
-                                    <th>{{ __('Start Date') }}</th>
-                                    <th>{{ __('End Date') }}</th>
+                                    {{-- <th>{{ __('Budget') }}</th> --}}
+                                    {{-- <th>{{ __('Start Date') }}</th> --}}
+                                    {{-- <th>{{ __('End Date') }}</th> --}}
                                     <th>{{ __('Action') }}</th>
                                 </tr>
                             </thead>
@@ -81,12 +81,12 @@
                                             @endcan
                                         </td> --}}
                                         <td>{{ $Vender['name'] }}</td>
-                                        <td>{{ $Vender['cname'] }}</td>
+                                        {{-- <td>{{ $Vender['cname'] }}</td> --}}
                                         <td>{{ $Vender['contact'] }}</td>
                                         <td>{{ $Vender['email'] }}</td>
-                                        <td>{{ $Vender['value'] }}</td>
-                                        <td>{{ $Vender['start_date'] }}</td>
-                                        <td>{{ $Vender['end_date'] }}</td>
+                                        {{-- <td>{{ $Vender['value'] }}</td> --}}
+                                        {{-- <td>{{ $Vender['start_date'] }}</td> --}}
+                                        {{-- <td>{{ $Vender['end_date'] }}</td> --}}
                                         {{-- <td>{{ \Auth::user()->priceFormat($Vender['balance']) }}</td> --}}
                                         <td class="Action">
                                             <span>

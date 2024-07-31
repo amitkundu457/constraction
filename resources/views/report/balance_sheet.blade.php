@@ -44,26 +44,23 @@
             });
         });
     </script>
-        <script>
-            $(document).ready(function () {
-                callback();
-                function callback() {
-                    var start_date = $(".startDate").val();
-                    var end_date = $(".endDate").val();
-    
-                    $('.start_date').val(start_date);
-                    $('.end_date').val(end_date);
-    
-                }
-                });
-    
-        </script>
+    <script>
+        $(document).ready(function() {
+            callback();
 
+            function callback() {
+                var start_date = $(".startDate").val();
+                var end_date = $(".endDate").val();
 
+                $('.start_date').val(start_date);
+                $('.end_date').val(end_date);
+
+            }
+        });
+    </script>
 @endpush
 
 @section('action-btn')
-
     <div class="float-end">
         {{ Form::open(['route' => ['balance.sheet.print']]) }}
         <input type="hidden" name="start_date" class="start_date">
@@ -87,8 +84,9 @@
     </div>
 
     <div class="float-end me-2">
-        <a href="{{ route('report.balance.sheet' , 'horizontal')}}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="{{ __('Horizontal View') }}"
-            data-original-title="{{ __('Horizontal View') }}"><i class="ti ti-separator-vertical"></i></a>
+        <a href="{{ route('report.balance.sheet', 'horizontal') }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
+            title="{{ __('Horizontal View') }}" data-original-title="{{ __('Horizontal View') }}"><i
+                class="ti ti-separator-vertical"></i></a>
     </div>
 @endsection
 
@@ -212,11 +210,11 @@
             $authUser = \Auth::user()->creatorId();
             $user = App\Models\User::find($authUser);
         @endphp
-        
+
         <div class="row justify-content-center" id="printableArea">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-body">
+                    {{-- <div class="card-body">
                         <div class="account-main-title mb-5">
                             <h5>{{ 'Balance Sheet of ' . $user->name . ' as of ' . $filter['startDateRange'] . ' to ' . $filter['endDateRange'] }}
                                 </h4>
@@ -224,7 +222,7 @@
                         <div
                             class="aacount-title d-flex align-items-center justify-content-between border-top border-bottom py-2">
                             <h6 class="mb-0">{{ __('Account') }}</h6>
-                            <h6 class="mb-0 text-center">{{ _('Account Code') }}</h6>
+                            <h6 class="mb-0 text-center">{{ __('Account Code') }}</h6>
                             <h6 class="mb-0 text-end">{{ __('Total') }}</h6>
                         </div>
                         @php
@@ -311,10 +309,72 @@
                                 }
                             @endphp
                         @endforeach
+                    </div> --}}
+                    {{-- {{ print_r($chartAccounts) }} --}}
+                    <div class="card-body">
+                        
+                        @foreach ($acctypes as $acc)
+                            <div class="table-responsive mb-4" style="width: 100%">
+                                <table class="table table-primary">
+                                    <thead>
+                                            <tr>
+                                                @if ($acc->id == 1)
+                                                    <th scope="col" class=" text-white" style="background-color: #A651BD"
+                                                        colspan="4">Asset Accounts</th>
+                                                @elseif($acc->id == 2)
+                                                    <th scope="col" class=" text-white" style="background-color: #FAB492"
+                                                        colspan="4">Liability Accounts</th>
+                                                @elseif($acc->id == 3)
+                                                    <th scope="col" class=" text-white" style="background-color: #576988"
+                                                        colspan="4">Equity Accounts</th>
+                                                @elseif($acc->id == 4)
+                                                    <th scope="col" class=" text-white" style="background-color: #3ECC90"
+                                                        colspan="4">Income Accounts</th>
+                                                @elseif($acc->id == 5)
+                                                    <th scope="col" class=" text-white" style="background-color: #42CEE3"
+                                                        colspan="4">Goods Sold Accounts</th>
+                                                @elseif($acc->id == 6)
+                                                    <th scope="col" class=" text-white" style="background-color: #F88C9B"
+                                                        colspan="4">Expenses Accounts</th>
+                                                @endif
+                                            </tr>
+                                        
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Account</th>
+                                            <th scope="col">Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       
+                                            @php $i = 1; @endphp
+                                            @foreach (\App\Models\ChartOfAccount::where('type',$acc->id)->get() as $item)
+                                                <tr>
+                                                    <td>{{ $i++ }}</td>
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>123456</td>
+                                                    <td>&#8377; {{ __('0') }}</td>
+                                                </tr>
+                                            @endforeach
+                                            
+                                       
+                                        <tr>
+                                            <td class="bg-white" colspan="3"></td>
+                                            <td class="bg-white" style="font-size: 18px; font-weight:600;">&#8377;2423
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endforeach
+
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-

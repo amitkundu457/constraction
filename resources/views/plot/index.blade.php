@@ -82,12 +82,12 @@
                                         <a class="btn btn-sm btn-primary" style="margin-left: 0.5rem"><i
                                                 class="fa fa-eye m-r-5"></i> </a> --}}
                                         <a class="btn btn-sm btn-danger" style="margin-left: 0.5rem"
-                                            href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#delete_modal"
+                                            href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#delete_modal-{{$plot->id}}"
                                             data-id="{{ $plot->id }}">
                                             <i class="ti ti-trash"></i>
                                         </a>
                                     </div>
-                                    <div class="modal custom-modal fade" id="delete_modal" role="dialog">
+                                    <div class="modal custom-modal fade" id="delete_modal-{{$plot->id}}" role="dialog">
                                         <div class="modal-dialog modal-dialog-centered">
                                             <div class="modal-content">
                                                 <div class="modal-body">

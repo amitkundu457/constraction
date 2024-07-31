@@ -43,4 +43,11 @@ class ChartOfAccount extends Model
     {
         return $this->hasOne('App\Models\ChartOfAccountSubType', 'id', 'sub_type');
     }
+
+    public function acctype(){
+        return $this->belongsTo(ChartOfAccountType::class);
+    }
+    public function accsubtype(){
+        return $this->belongsTo(ChartOfAccountSubType::class);
+    }
 }

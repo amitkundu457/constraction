@@ -2,16 +2,16 @@
 <div class="modal-body">
     <div class="row">
         <div class="form-group col-md-6">
-            {{ Form::label('from_warehouse', __('From Warehouse'),['class'=>'form-label']) }}<span class="text-danger">*</span>
-            <select class="form-control select" name="from_warehouse" id="warehouse_id" placeholder="Select Warehouse">
-                <option value="">{{__('Select Warehouse')}}</option>
+            {{ Form::label('from_warehouse', __('From Site'),['class'=>'form-label']) }}<span class="text-danger">*</span>
+            <select class="form-control select" name="from_warehouse" id="warehouse_id">
+                <option value="">{{__('Select Site')}}</option>
                 @foreach($from_warehouses as $warehouse)
                     <option value="{{ $warehouse->id }}">{{ $warehouse->name }}</option>
                 @endforeach
             </select>
         </div>
         <div class="form-group col-md-6">
-            {{Form::label('to_warehouse',__('To Warehouse'),array('class'=>'form-label')) }}<span class="text-danger">*</span>
+            {{Form::label('to_warehouse',__('To Site'),array('class'=>'form-label')) }}<span class="text-danger">*</span>
             {{ Form::select('to_warehouse', $to_warehouses,null, array('class' => 'form-control select','required'=>'required')) }}
         </div>
         <div class="form-group col-md-6" id="product_div">

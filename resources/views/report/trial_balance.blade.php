@@ -147,7 +147,7 @@
                     <div
                         class="aacount-title d-flex align-items-center justify-content-between border-top border-bottom py-2">
                         <h6 class="mb-0">{{ __('Account') }}</h6>
-                        <h6 class="mb-0 text-center">{{ _('Account Code') }}</h6>
+                        <h6 class="mb-0 text-center">{{ __('Account Code') }}</h6>
                         <h6 class="mb-0 text-end me-5">{{ __('Debit') }}</h6>
                         <h6 class="mb-0 text-end">{{ __('Credit') }}</h6>
 

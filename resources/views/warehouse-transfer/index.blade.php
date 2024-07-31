@@ -27,8 +27,8 @@
                         <table class="table datatable">
                             <thead>
                                 <tr>
-                                    <th>{{ __('From Warehouse') }}</th>
-                                    <th>{{ __('To Warehouse') }}</th>
+                                    <th>{{ __('From Site') }}</th>
+                                    <th>{{ __('To Site') }}</th>
                                     <th>{{ __('Product') }}</th>
                                     <th>{{ __('Quantity') }}</th>
                                     <th>{{ __('Date') }}</th>

@@ -963,73 +963,75 @@ class ReportController extends Controller
                 $end = date('Y-m-d', strtotime('+1 day'));
             }
 
-            $types = ChartOfAccountType::where('created_by', \Auth::user()->creatorId())->whereIn('name', ['Assets', 'Liabilities', 'Equity'])->get();
-            $chartAccounts = [];
-            foreach ($types as $type) {
-                $subTypes = ChartOfAccountSubType::where('type', $type->id)->get();
+            // $types = ChartOfAccountType::where('created_by', \Auth::user()->creatorId())->whereIn('name', ['Assets', 'Liabilities', 'Equity'])->get();
+            // $chartAccounts = [];
+            // foreach ($types as $type) {
+            //     $subTypes = ChartOfAccountSubType::where('type', $type->id)->get();
 
-                $subTypeArray = [];
-                foreach ($subTypes as $subType) {
-                    $accounts = ChartOfAccount::where('created_by', \Auth::user()->creatorId())
-                        ->where('type', $type->id)
-                        ->where('sub_type', $subType->id)
-                        ->get();
+            //     $subTypeArray = [];
+            //     foreach ($subTypes as $subType) {
+            //         $accounts = ChartOfAccount::where('created_by', \Auth::user()->creatorId())
+            //             ->where('type', $type->id)
+            //             ->where('sub_type', $subType->id)
+            //             ->get();
 
-                    $accountArray = [];
-                    $totalAmount = 0;
-                    $debitTotal = 0;
-                    $creditTotal = 0;
-                    $accountSubType = '';
-                    $totalBalance = 0;
-                    foreach ($accounts as $account) {
-                        $getAccount = ChartOfAccount::where('name', $account->name)->where('created_by', \Auth::user()->creatorId())->first();
-                        if ($getAccount) {
-                            $Balance = Utility::getAccountBalance($getAccount->id, $start, $end);
-                            $totalBalance += $Balance;
-                        }
+            //         $accountArray = [];
+            //         $totalAmount = 0;
+            //         $debitTotal = 0;
+            //         $creditTotal = 0;
+            //         $accountSubType = '';
+            //         $totalBalance = 0;
+            //         foreach ($accounts as $account) {
+            //             $getAccount = ChartOfAccount::where('name', $account->name)->where('created_by', \Auth::user()->creatorId())->first();
+            //             if ($getAccount) {
+            //                 $Balance = Utility::getAccountBalance($getAccount->id, $start, $end);
+            //                 $totalBalance += $Balance;
+            //             }
 
-                        if ($Balance != 0) {
-                            $data['account_id'] = $account->id;
-                            $data['account_code'] = $account->code;
-                            $data['account_name'] = $account->name;
-                            $data['totalCredit'] = 0;
-                            $data['totalDebit'] = 0;
-                            $data['netAmount'] = $Balance;
-                            $accountArray[] = $data;
+            //             if ($Balance != 0) {
+            //                 $data['account_id'] = $account->id;
+            //                 $data['account_code'] = $account->code;
+            //                 $data['account_name'] = $account->name;
+            //                 $data['totalCredit'] = 0;
+            //                 $data['totalDebit'] = 0;
+            //                 $data['netAmount'] = $Balance;
+            //                 $accountArray[] = $data;
 
-                            $creditTotal += $data['totalCredit'];
-                            $debitTotal += $data['totalDebit'];
-                            $totalAmount += $data['netAmount'];
-                        }
-                    }
-                    $totalAccountArray = [];
-                    if ($accountArray != []) {
-                        $dataTotal['account_id'] = '';
-                        $dataTotal['account_code'] = '';
-                        $dataTotal['account_name'] = 'Total ' . $subType->name;
-                        $dataTotal['totalCredit'] = $creditTotal;
-                        $dataTotal['totalDebit'] = $debitTotal;
-                        $dataTotal['netAmount'] = $totalAmount;
-                        $accountArrayTotal[] = $dataTotal;
+            //                 $creditTotal += $data['totalCredit'];
+            //                 $debitTotal += $data['totalDebit'];
+            //                 $totalAmount += $data['netAmount'];
+            //             }
+            //         }
+            //         $totalAccountArray = [];
+            //         if ($accountArray != []) {
+            //             $dataTotal['account_id'] = '';
+            //             $dataTotal['account_code'] = '';
+            //             $dataTotal['account_name'] = 'Total ' . $subType->name;
+            //             $dataTotal['totalCredit'] = $creditTotal;
+            //             $dataTotal['totalDebit'] = $debitTotal;
+            //             $dataTotal['netAmount'] = $totalAmount;
+            //             $accountArrayTotal[] = $dataTotal;
 
-                        $totalAccountArray = array_merge($accountArray, $accountArrayTotal);
-                    }
+            //             $totalAccountArray = array_merge($accountArray, $accountArrayTotal);
+            //         }
 
-                    if ($totalAccountArray != []) {
-                        $subTypeData['subType'] = ($totalAccountArray != []) ? $subType->name : '';
-                        $subTypeData['account'] = $totalAccountArray;
-                        $subTypeArray[] = ($subTypeData['account'] != [] && $subTypeData['subType'] != []) ? $subTypeData : [];
-                    }
-                }
-                $chartAccounts[$type->name] = $subTypeArray;
-            }
+            //         if ($totalAccountArray != []) {
+            //             $subTypeData['subType'] = ($totalAccountArray != []) ? $subType->name : '';
+            //             $subTypeData['account'] = $totalAccountArray;
+            //             $subTypeArray[] = ($subTypeData['account'] != [] && $subTypeData['subType'] != []) ? $subTypeData : [];
+            //         }
+            //     }
+            //     $chartAccounts[$type->name] = $subTypeArray;
+            // }
             $filter['startDateRange'] = $start;
             $filter['endDateRange'] = $end;
-
+            $acctypes = ChartOfAccountType::all();
+            // dd($chartAccounts);
             if ($request->view == 'horizontal' || $view == 'horizontal') {
                 return view('report.balance_sheet_horizontal', compact('filter', 'chartAccounts'));
             } elseif ($view == '' || $view == 'vertical') {
-                return view('report.balance_sheet', compact('filter', 'chartAccounts'));
+                // return view('report.balance_sheet', compact('filter', 'chartAccounts'));
+                return view('report.balance_sheet', compact('filter', 'acctypes'));
             } else {
                 return redirect()->back();
             }

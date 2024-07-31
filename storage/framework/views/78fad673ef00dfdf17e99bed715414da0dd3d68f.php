@@ -38,7 +38,7 @@
 
 
                         <div class="form-group">
-                            <label for="name"><?php echo e(__('Site Name')); ?></label>
+                            <label for="name"><?php echo e(__('Supplier Name')); ?></label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
 
