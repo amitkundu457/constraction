@@ -15,8 +15,8 @@
             {{ Form::select('to_warehouse', $to_warehouses,null, array('class' => 'form-control select','required'=>'required')) }}
         </div>
         <div class="form-group col-md-6" id="product_div">
-            {{Form::label('product',__('Product'),array('class'=>'form-label')) }}
-            <select class="form-control select" name="product_id" id="product_id" placeholder="Select Product">
+            {{Form::label('product',__('Material'),array('class'=>'form-label')) }}
+            <select class="form-control select" name="product_id" id="product_id" placeholder="Select Material">
             </select>
         </div>
 

@@ -131,12 +131,12 @@
                                                             </div>
                                                 <?php endif; ?>
                                                 <div class="action-btn bg-danger ms-2">
-                                                    <a href="#" class="mx-3 btn btn-sm  align-items-center bs-pass-para"
+                                                    <a href="mailto:admin@ecspvt.com" class="mx-3 btn btn-sm  align-items-center "
                                                         data-bs-toggle="tooltip" title="<?php echo e(__('Mail')); ?>"><i
                                                             class="ti ti-mail text-white"></i></a>
                                                 </div>
                                                 <div class="action-btn bg-danger ms-2">
-                                                    <a href="#" class="mx-3 btn btn-sm  align-items-center bs-pass-para"
+                                                    <a href="tel:8910346789" class="mx-3 btn btn-sm  align-items-center "
                                                         data-bs-toggle="tooltip" title="<?php echo e(__('Call')); ?>"><i
                                                             class="ti ti-phone text-white"></i></a>
                                                 </div>

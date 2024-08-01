@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Utility;
+use App\Models\VehicleType;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PosController;
@@ -48,6 +49,7 @@ use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\UserlogController;
+use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WarningController;
 use App\Http\Controllers\AamarpayController;
 use App\Http\Controllers\CashfreeController;
@@ -72,8 +74,10 @@ use App\Http\Controllers\BugStatusController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DebitNoteController;
+use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\IndicatorController;
 use App\Http\Controllers\LeadStageController;
+use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\SetSalaryController;
 use App\Http\Controllers\TaskStageController;
@@ -98,6 +102,7 @@ use App\Http\Controllers\ResignationController;
 use App\Http\Controllers\TerminationController;
 use App\Http\Controllers\TimeTrackerController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\VehicleTypeController;
 use App\Http\Controllers\ZoomMeetingController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BankTransferController;
@@ -109,8 +114,10 @@ use App\Http\Controllers\JournalEntryController;
 use App\Http\Controllers\OtherPaymentController;
 use App\Http\Controllers\PaytmPaymentController;
 use App\Http\Controllers\ProductStockController;
+use App\Http\Controllers\TrainingTypeController;
 use App\Http\Controllers\CompanyPolicyController;
 use App\Http\Controllers\EmailTemplateController;
+use App\Http\Controllers\EquipmentTypeController;
 use App\Http\Controllers\MolliePaymentController;
 use App\Http\Controllers\ProjectReportController;
 use App\Http\Controllers\ProjectstagesController;
@@ -123,6 +130,7 @@ use App\Http\Controllers\DucumentUploadController;
 use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\MercadoPaymentController;
 use App\Http\Controllers\ProductServiceController;
+use App\Http\Controllers\QualityControlController;
 use App\Http\Controllers\AllowanceOptionController;
 use App\Http\Controllers\CoingatePaymentController;
 use App\Http\Controllers\DeductionOptionController;
@@ -132,8 +140,10 @@ use App\Http\Controllers\RazorpayPaymentController;
 use App\Http\Controllers\TerminationTypeController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\InterviewScheduleController;
+use App\Http\Controllers\RegisterEquipmentController;
 use App\Http\Controllers\WarehouseTransferController;
 use App\Http\Controllers\AttendanceEmployeeController;
+use App\Http\Controllers\EquipmentConditionController;
 use App\Http\Controllers\FlutterwavePaymentController;
 use App\Http\Controllers\LandingPageSectionController;
 use App\Http\Controllers\PaymentWallPaymentController;
@@ -141,14 +151,13 @@ use App\Http\Controllers\ProductServiceUnitController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BankTransferPaymentController;
 use App\Http\Controllers\SaturationDeductionController;
+use App\Http\Controllers\EquipmentMaintainenceController;
+use App\Http\Controllers\EquipmentManufacturerController;
 use App\Http\Controllers\NotificationTemplatesController;
 use App\Http\Controllers\ProductServiceCategoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\VehicleController;
-use App\Http\Controllers\VehicleTypeController;
-use App\Models\VehicleType;
 
 /*
 |--------------------------------------------------------------------------
@@ -194,7 +203,7 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 // Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('home')->middleware(['XSS', 'revalidate',]);
 
 // Route::get('/home', [DashboardController::class, 'account_dashboard_index'])->name('home')->middleware(['XSS', 'revalidate',]);
-Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['XSS', 'revalidate','auth']);
+Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['XSS', 'revalidate', 'auth']);
 
 //Route::get('/register/{lang?}', function () {
 //    $settings = Utility::settings();
@@ -639,7 +648,7 @@ Route::group(['middleware' => ['verified']], function () {
             Route::get('report/expense-summary', [ReportController::class, 'expenseSummary'])->name('report.expense.summary');
             Route::get('report/income-vs-expense-summary', [ReportController::class, 'incomeVsExpenseSummary'])->name('report.income.vs.expense.summary');
             Route::get('report/tax-summary', [ReportController::class, 'taxSummary'])->name('report.tax.summary');
-            //        Route::get('report/profit-loss-summary', [ReportController::class, 'profitLossSummary'])->name('report.profit.loss.summary');
+            Route::get('report/profit-loss-summary', [ReportController::class, 'profitLoss'])->name('report.profit.loss.summary');
             Route::get('report/invoice-summary', [ReportController::class, 'invoiceSummary'])->name('report.invoice.summary');
             Route::get('report/bill-summary', [ReportController::class, 'billSummary'])->name('report.bill.summary');
             Route::get('report/product-stock-report', [ReportController::class, 'productStock'])->name('report.product.stock.report');
@@ -1318,7 +1327,7 @@ Route::group(['middleware' => ['verified']], function () {
 
     // Form Field Bind
     Route::get('/form_field/{id}', [FormBuilderController::class, 'formFieldBind'])->name('form.field.bind')->middleware(['auth', 'XSS']);
-    Route::post('/form_field_store/{id}}', [FormBuilderController::class, 'bindStore'])->name('form.bind.store')->middleware(['auth', 'XSS']);
+    Route::post('/form_field_store/{id}', [FormBuilderController::class, 'bindStore'])->name('form.bind.store')->middleware(['auth', 'XSS']);
 
 
     // contract
@@ -1851,27 +1860,53 @@ Route::group(['middleware' => ['verified']], function () {
     );
 
     // Plot management
-    Route::get('/plots',[PlotController::class,'index'])->name('plot.index');
-    Route::prefix('plot')->name('plot.')->group(function(){
-        Route::get('/new',[PlotController::class,'create'])->name('create');
-        Route::post('/new',[PlotController::class,'store']);
-        Route::get('/{id}/edit',[PlotController::class,'edit'])->name('edit');
-        Route::post('/{id}/edit',[PlotController::class,'update']);
-        Route::delete('/{id}/delete',[PlotController::class,'destroy'])->name('delete');
+    Route::get('/plots', [PlotController::class, 'index'])->name('plot.index');
+    Route::prefix('plot')->name('plot.')->group(function () {
+        Route::get('/new', [PlotController::class, 'create'])->name('create');
+        Route::post('/new', [PlotController::class, 'store']);
+        Route::get('/{id}/edit', [PlotController::class, 'edit'])->name('edit');
+        Route::post('/{id}/edit', [PlotController::class, 'update']);
+        Route::delete('/{id}/delete', [PlotController::class, 'destroy'])->name('delete');
     });
 
     // Agent management
-    Route::resource('/agents',AgentController::class);
+    Route::resource('/agents', AgentController::class);
 
-    // Plot management
-    Route::get('/vehicle',[VehicleController::class,'index'])->name('vehicle.index');
-    Route::prefix('vehicle')->name('vehicle.')->group(function(){
-        Route::post('/new',[VehicleController::class,'store'])->name('store');
-        Route::put('/{id}/edit',[VehicleController::class,'update'])->name('update');
-        Route::delete('/{id}/delete',[VehicleController::class,'destroy'])->name('delete');
-        Route::resource('type',VehicleTypeController::class);
-        
+    // Vehicle management
+    Route::get('/vehicle', [VehicleController::class, 'index'])->name('vehicle.index');
+    Route::prefix('vehicle')->name('vehicle.')->group(function () {
+        Route::post('/new', [VehicleController::class, 'store'])->name('store');
+        Route::put('/{id}/edit', [VehicleController::class, 'update'])->name('update');
+        Route::delete('/{id}/delete', [VehicleController::class, 'destroy'])->name('delete');
+        Route::resource('type', VehicleTypeController::class);
     });
+
+    // Equipment management
+    Route::get('/equipments', [EquipmentController::class, 'index'])->name('equipments.index');
+    Route::prefix('equipment')->name('equipment.')->group(function () {
+        Route::post('/new', [EquipmentController::class, 'store'])->name('store');
+        Route::put('/{id}/edit', [EquipmentController::class, 'update'])->name('update');
+        Route::delete('/{id}/delete', [EquipmentController::class, 'destroy'])->name('delete');
+        Route::resource('type', EquipmentTypeController::class);
+        Route::resource('manufacturer', EquipmentManufacturerController::class);
+        Route::resource('condition', EquipmentConditionController::class);
+        Route::get('/register', [RegisterEquipmentController::class, 'index'])->name('register.index');
+        Route::post('/register/new', [RegisterEquipmentController::class, 'store'])->name('register.store');
+        Route::put('/register/{id}/edit', [RegisterEquipmentController::class, 'update'])->name('register.update');
+        Route::delete('/register/{id}/delete', [RegisterEquipmentController::class, 'destroy'])->name('register.delete');
+        Route::get('/maintainance', [EquipmentMaintainenceController::class, 'index'])->name('maintainance.index');
+        Route::get('/quality/{id}', [EquipmentMaintainenceController::class, 'getQualityByEquipment']);
+        Route::post('/maintainance/new', [EquipmentMaintainenceController::class, 'store'])->name('maintainance.store');
+        Route::get('/maintainance/{id}', [EquipmentMaintainenceController::class, 'show'])->name('maintainance.show');
+        Route::put('/maintainance/{id}/report', [EquipmentMaintainenceController::class, 'reviewReport'])->name('maintainance.review');
+        Route::put('/maintainance/{id}/edit', [EquipmentMaintainenceController::class, 'update'])->name('maintainance.update');
+        Route::delete('/maintainance/{id}/delete', [EquipmentMaintainenceController::class, 'destroy'])->name('maintainance.delete');
+        Route::get('/quality-control', [QualityControlController::class, 'index'])->name('quality.index');
+        Route::post('/quality-control/new', [QualityControlController::class, 'store'])->name('quality.store');
+        Route::put('/quality-control/{id}/edit', [QualityControlController::class, 'update'])->name('quality.update');
+        Route::delete('/quality-control/{id}/delete', [QualityControlController::class, 'destroy'])->name('quality.delete');
+    });
+
 });
 
 Route::any('/cookie-consent', [SystemController::class, 'CookieConsent'])->name('cookie-consent');

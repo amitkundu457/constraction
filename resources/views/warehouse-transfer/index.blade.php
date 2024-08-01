@@ -1,17 +1,17 @@
 @extends('layouts.admin')
 @section('page-title')
-    {{ __('Warehouse Transfer') }}
+    {{ __('Material Transfer') }}
 @endsection
 @push('script-page')
 @endpush
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Warehouse Transfer') }}</li>
+    <li class="breadcrumb-item">{{ __('Material Transfer') }}</li>
 @endsection
 @section('action-btn')
     <div class="float-end">
         <a href="#" data-size="lg" data-url="{{ route('warehouse-transfer.create') }}" data-ajax-popup="true"
-            data-bs-toggle="tooltip" title="{{ __('Create') }}" data-title="{{ __('Create Warehouse Transfer') }}"
+            data-bs-toggle="tooltip" title="{{ __('Create') }}" data-title="{{ __('Create Material Transfer') }}"
             class="btn btn-sm btn-primary">
             <i class="ti ti-plus"></i>
         </a>
@@ -29,7 +29,7 @@
                                 <tr>
                                     <th>{{ __('From Site') }}</th>
                                     <th>{{ __('To Site') }}</th>
-                                    <th>{{ __('Product') }}</th>
+                                    <th>{{ __('Material') }}</th>
                                     <th>{{ __('Quantity') }}</th>
                                     <th>{{ __('Date') }}</th>
                                     <th>{{ __('Action') }}</th>

@@ -1,17 +1,17 @@
 <?php $__env->startSection('page-title'); ?>
-    <?php echo e(__('Warehouse')); ?>
+    <?php echo e(__('Manege Site')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <?php $__env->stopPush(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
     <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
-    <li class="breadcrumb-item"><?php echo e(__('Warehouse')); ?></li>
+    <li class="breadcrumb-item"><?php echo e(__('Manage Site')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
     <div class="float-end">
 
-        <a href="#" data-size="lg" data-url="<?php echo e(route('warehouse.create')); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>" data-title="<?php echo e(__('Create Warehouse')); ?>"  class="btn btn-sm btn-primary">
+        <a href="#" data-size="lg" data-url="<?php echo e(route('warehouse.create')); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>" data-title="<?php echo e(__('Create Site')); ?>"  class="btn btn-sm btn-primary">
             <i class="ti ti-plus"></i>
         </a>
 
@@ -55,7 +55,7 @@
                                             <?php endif; ?>
                                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit warehouse')): ?>
                                                 <div class="action-btn bg-info ms-2">
-                                                    <a href="#" class="mx-3 btn btn-sm  align-items-center" data-url="<?php echo e(route('warehouse.edit',$warehouse->id)); ?>" data-ajax-popup="true"  data-size="lg " data-bs-toggle="tooltip" title="<?php echo e(__('Edit')); ?>"  data-title="<?php echo e(__('Edit Warehouse')); ?>">
+                                                    <a href="#" class="mx-3 btn btn-sm  align-items-center" data-url="<?php echo e(route('warehouse.edit',$warehouse->id)); ?>" data-ajax-popup="true"  data-size="lg " data-bs-toggle="tooltip" title="<?php echo e(__('Edit')); ?>"  data-title="<?php echo e(__('Edit Site Name')); ?>">
                                                         <i class="ti ti-pencil text-white"></i>
                                                     </a>
                                                 </div>

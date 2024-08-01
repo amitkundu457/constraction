@@ -1,12 +1,12 @@
 
 
 <?php $__env->startSection('page-title'); ?>
-    <?php echo e(__('Manage Promotion')); ?>
+    <?php echo e(__('Manage Vehicles')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
     <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
-    <li class="breadcrumb-item"><?php echo e(__('Promotion')); ?></li>
+    <li class="breadcrumb-item"><?php echo e(__('Vehicle')); ?></li>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('action-btn'); ?>

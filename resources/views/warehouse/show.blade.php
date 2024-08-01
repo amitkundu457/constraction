@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 @section('page-title')
-    {{__('Warehouse Stock Details')}}
+    {{__('Site Material Details')}}
 @endsection
 
 @push('script-page')
 @endpush
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">{{__('Dashboard')}}</a></li>
-    <li class="breadcrumb-item">{{__('Warehouse Stock Details')}}</li>
+    <li class="breadcrumb-item">{{__('Material Details')}}</li>
 @endsection
 @section('action-btn')
 @endsection

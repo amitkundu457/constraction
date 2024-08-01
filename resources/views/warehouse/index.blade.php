@@ -1,17 +1,17 @@
 @extends('layouts.admin')
 @section('page-title')
-    {{__('Warehouse')}}
+    {{__('Manege Site')}}
 @endsection
 @push('script-page')
 @endpush
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">{{__('Dashboard')}}</a></li>
-    <li class="breadcrumb-item">{{__('Warehouse')}}</li>
+    <li class="breadcrumb-item">{{__('Manage Site')}}</li>
 @endsection
 @section('action-btn')
     <div class="float-end">
 
-        <a href="#" data-size="lg" data-url="{{ route('warehouse.create') }}" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Create')}}" data-title="{{__('Create Warehouse')}}"  class="btn btn-sm btn-primary">
+        <a href="#" data-size="lg" data-url="{{ route('warehouse.create') }}" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Create')}}" data-title="{{__('Create Site')}}"  class="btn btn-sm btn-primary">
             <i class="ti ti-plus"></i>
         </a>
 
@@ -55,7 +55,7 @@
                                             @endcan
                                             @can('edit warehouse')
                                                 <div class="action-btn bg-info ms-2">
-                                                    <a href="#" class="mx-3 btn btn-sm  align-items-center" data-url="{{ route('warehouse.edit',$warehouse->id) }}" data-ajax-popup="true"  data-size="lg " data-bs-toggle="tooltip" title="{{__('Edit')}}"  data-title="{{__('Edit Warehouse')}}">
+                                                    <a href="#" class="mx-3 btn btn-sm  align-items-center" data-url="{{ route('warehouse.edit',$warehouse->id) }}" data-ajax-popup="true"  data-size="lg " data-bs-toggle="tooltip" title="{{__('Edit')}}"  data-title="{{__('Edit Site Name')}}">
                                                         <i class="ti ti-pencil text-white"></i>
                                                     </a>
                                                 </div>

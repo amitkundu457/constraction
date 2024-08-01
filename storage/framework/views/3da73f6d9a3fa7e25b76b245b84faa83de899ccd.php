@@ -1,17 +1,17 @@
 <?php $__env->startSection('page-title'); ?>
-    <?php echo e(__('Warehouse Transfer')); ?>
+    <?php echo e(__('Material Transfer')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
 <?php $__env->stopPush(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
     <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
-    <li class="breadcrumb-item"><?php echo e(__('Warehouse Transfer')); ?></li>
+    <li class="breadcrumb-item"><?php echo e(__('Material Transfer')); ?></li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
     <div class="float-end">
         <a href="#" data-size="lg" data-url="<?php echo e(route('warehouse-transfer.create')); ?>" data-ajax-popup="true"
-            data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>" data-title="<?php echo e(__('Create Warehouse Transfer')); ?>"
+            data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>" data-title="<?php echo e(__('Create Material Transfer')); ?>"
             class="btn btn-sm btn-primary">
             <i class="ti ti-plus"></i>
         </a>
@@ -29,7 +29,7 @@
                                 <tr>
                                     <th><?php echo e(__('From Site')); ?></th>
                                     <th><?php echo e(__('To Site')); ?></th>
-                                    <th><?php echo e(__('Product')); ?></th>
+                                    <th><?php echo e(__('Material')); ?></th>
                                     <th><?php echo e(__('Quantity')); ?></th>
                                     <th><?php echo e(__('Date')); ?></th>
                                     <th><?php echo e(__('Action')); ?></th>
