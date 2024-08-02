@@ -158,6 +158,9 @@ use App\Http\Controllers\ProductServiceCategoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\DriverController;
+use App\Http\Controllers\FuelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1871,15 +1874,28 @@ Route::group(['middleware' => ['verified']], function () {
 
     // Agent management
     Route::resource('/agents', AgentController::class);
+    Route::resource('/drivers', DriverController::class);
 
     // Vehicle management
     Route::get('/vehicle', [VehicleController::class, 'index'])->name('vehicle.index');
+    Route::get('/booking', [BookingController::class, 'index'])->name('booking.index'); 
+    Route::get('/fuel', [FuelController::class, 'index'])->name('fuel.index'); 
     Route::prefix('vehicle')->name('vehicle.')->group(function () {
         Route::post('/new', [VehicleController::class, 'store'])->name('store');
         Route::put('/{id}/edit', [VehicleController::class, 'update'])->name('update');
         Route::delete('/{id}/delete', [VehicleController::class, 'destroy'])->name('delete');
         Route::resource('type', VehicleTypeController::class);
+        Route::post('/booking/new', [BookingController::class, 'store'])->name('booking.store');
+        Route::put('/booking/{id}/edit', [BookingController::class, 'update'])->name('booking.update');
+        Route::delete('/booking/{id}/delete', [BookingController::class, 'destroy'])->name('booking.delete');
+        Route::post('/fuel/new', [BookingController::class, 'store'])->name('fuel.store');
+        Route::put('/fuel/{id}/edit', [BookingController::class, 'update'])->name('fuel.update');
+        Route::delete('/fuel/{id}/delete', [BookingController::class, 'destroy'])->name('fuel.delete');
+        Route::get('/vehicle-type/{id}', [BookingController::class, 'getVehicleFromType']);
+    //     Route::resource('type', VehicleTypeController::class);
     });
+    
+    
 
     // Equipment management
     Route::get('/equipments', [EquipmentController::class, 'index'])->name('equipments.index');

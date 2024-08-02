@@ -1055,6 +1055,12 @@
                             <a class="dash-link" href="{{ route('agents.index') }}">{{ __('Agent') }}</a>
                         </li>
                     @endcan
+                    @can('manage client')
+                        <li
+                            class="dash-item {{ Request::route()->getName() == 'clients.index' || Request::segment(1) == 'clients' || Request::route()->getName() == 'clients.edit' ? ' active' : '' }}">
+                            <a class="dash-link" href="{{ route('drivers.index') }}">{{ __('Driver') }}</a>
+                        </li>
+                    @endcan
                     {{--                                    @can('manage user') --}}
                     {{--                                        <li class="dash-item {{ (Request::route()->getName() == 'users.index' || Request::segment(1) == 'users' || Request::route()->getName() == 'users.edit') ? ' active' : '' }}"> --}}
                     {{--                                            <a class="dash-link" href="{{ route('user.userlog') }}">{{__('User Logs')}}</a> --}}
@@ -1204,6 +1210,10 @@
                                 <a class="dash-link"
                                     href="{{route('equipment.maintainance.index') }}">{{ __('Service Schedule') }}</a>
                             </li>
+                            <li class="dash-item">
+                                <a class="dash-link"
+                                    href="#">{{ __('Bad Equipment') }}</a>
+                            </li>
                             <li
                                 class="dash-item {{ Request::segment(1) == 'equipment.type.index' || Request::route()->getName() == 'equipment.manufacturer.index' || Request::route()->getName() == 'equipment.condition.index' ? 'active ' : '' }}">
                                 <a class="dash-link"
@@ -1336,7 +1346,19 @@
                     <ul class="dash-submenu">
                         {{-- @can('manage pos') --}}
                         <li class="dash-item {{ Request::route()->getName() == 'vehicle.index' ? ' active' : '' }}">
-                            <a class="dash-link" href="{{ route('vehicle.index') }}">{{ __(' Vehicle') }}</a>
+                            <a class="dash-link" href="{{ route('vehicle.index') }}">{{ __('Vehicle') }}</a>
+                        </li>
+                        <li class="dash-item {{ Request::route()->getName() == 'booking.index' ? ' active' : '' }}">
+                            <a class="dash-link" href="{{ route('booking.index') }}">{{ __('Booking') }}</a>
+                        </li>
+                        <li class="dash-item ">
+                            <a class="dash-link" href="#">{{ __('Fuel Management') }}</a>
+                        </li>
+                        <li class="dash-item ">
+                            <a class="dash-link" href="#">{{ __('Income & Expense') }}</a>
+                        </li>
+                        <li class="dash-item ">
+                            <a class="dash-link" href="#">{{ __('Availability') }}</a>
                         </li>
                         {{-- <li
                             class="dash-item {{ Request::route()->getName() == 'pos.report' || Request::route()->getName() == 'pos.show' ? ' active' : '' }}">

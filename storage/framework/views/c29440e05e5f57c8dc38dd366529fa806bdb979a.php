@@ -1003,6 +1003,12 @@
                             <a class="dash-link" href="<?php echo e(route('agents.index')); ?>"><?php echo e(__('Agent')); ?></a>
                         </li>
                     <?php endif; ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage client')): ?>
+                        <li
+                            class="dash-item <?php echo e(Request::route()->getName() == 'clients.index' || Request::segment(1) == 'clients' || Request::route()->getName() == 'clients.edit' ? ' active' : ''); ?>">
+                            <a class="dash-link" href="<?php echo e(route('drivers.index')); ?>"><?php echo e(__('Driver')); ?></a>
+                        </li>
+                    <?php endif; ?>
                     
                     
                     
@@ -1130,6 +1136,10 @@
                             <li class="dash-item <?php echo e(Request::segment(1) == 'equipment.maintainance.index' ? 'active' : ''); ?>">
                                 <a class="dash-link"
                                     href="<?php echo e(route('equipment.maintainance.index')); ?>"><?php echo e(__('Service Schedule')); ?></a>
+                            </li>
+                            <li class="dash-item">
+                                <a class="dash-link"
+                                    href="#"><?php echo e(__('Bad Equipment')); ?></a>
                             </li>
                             <li
                                 class="dash-item <?php echo e(Request::segment(1) == 'equipment.type.index' || Request::route()->getName() == 'equipment.manufacturer.index' || Request::route()->getName() == 'equipment.condition.index' ? 'active ' : ''); ?>">
@@ -1259,7 +1269,19 @@
                     <ul class="dash-submenu">
                         
                         <li class="dash-item <?php echo e(Request::route()->getName() == 'vehicle.index' ? ' active' : ''); ?>">
-                            <a class="dash-link" href="<?php echo e(route('vehicle.index')); ?>"><?php echo e(__(' Vehicle')); ?></a>
+                            <a class="dash-link" href="<?php echo e(route('vehicle.index')); ?>"><?php echo e(__('Vehicle')); ?></a>
+                        </li>
+                        <li class="dash-item <?php echo e(Request::route()->getName() == 'booking.index' ? ' active' : ''); ?>">
+                            <a class="dash-link" href="<?php echo e(route('booking.index')); ?>"><?php echo e(__('Booking')); ?></a>
+                        </li>
+                        <li class="dash-item ">
+                            <a class="dash-link" href="#"><?php echo e(__('Fuel Management')); ?></a>
+                        </li>
+                        <li class="dash-item ">
+                            <a class="dash-link" href="#"><?php echo e(__('Income & Expense')); ?></a>
+                        </li>
+                        <li class="dash-item ">
+                            <a class="dash-link" href="#"><?php echo e(__('Availability')); ?></a>
                         </li>
                         
                         

@@ -2,7 +2,7 @@
     <div class="list-group list-group-flush" id="useradd-sidenav">
         <a href="<?php echo e(route('vehicle.type.index')); ?>" class="list-group-item list-group-item-action border-0 <?php echo e((Request::route()->getName() == 'vehicle.type.index' ) ? ' active' : ''); ?>"><?php echo e(__('Vehicle Types')); ?> <div class="float-end"><i class="ti ti-chevron-right"></i></div></a>
 
-        <a href="" class="list-group-item list-group-item-action border-0 <?php echo e((Request::route()->getName() == 'product-category.index' ) ? 'active' : ''); ?>"><?php echo e(__('Vehicle Spare')); ?><div class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+        
 
         
 

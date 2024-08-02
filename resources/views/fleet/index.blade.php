@@ -17,15 +17,6 @@
 @endsection
 
 
-
-@section('action-btn')
-    <div class="float-end">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#callstore" class="btn btn-sm btn-primary">
-            <i class="ti ti-plus"></i>
-        </a>
-    </div>
-@endsection
-
 @section('content')
     <div class="row">
         <div class="col-md-12">
