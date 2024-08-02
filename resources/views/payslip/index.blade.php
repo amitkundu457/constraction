@@ -104,6 +104,50 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td colspan="2">
+                                    <div>
+                                        <div class="d-flex gap-1">
+                                            <h5 class="text-info">01 - 30 Jun, 24</h5>
+                                            <p class="text-secondary" style="font-size: 13px; font-weight:600">includes 3 employees</p>
+                                        </div>
+                                        <div class="d-flex gap-1">
+                                            <p class="">Monthly - None Based |</p>
+                                            <p class=""><span class="h5 text-info">Mannual</span> - followed by customized</p>
+                                        </div>
+                                        <div class="d-flex gap-1">
+                                            <h5 class="text-info">ID :</h5>
+                                            <p class="text-secondary" style="font-size: 13px; font-weight:600">ADCXYZ</p>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                           <button class="btn btn-sm border border-secondary text-secondary">View Payslip</button>
+                                            <button class="btn btn-sm border border-danger text-danger"><i class="ti ti-download"></i> Export</button>
+                                        </div>
+                                        
+                                    </div>
+                                </td>
+                                <td colspan="3">
+                                    <div>
+                                        <div>
+                                            <span class="bg-secondary px-2 rounded-pill text-white" style="font-weight: 600">Generated</span>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1" style="font-size:13px;""> 
+                                            <p class="text-secondary"><i class="ti ti-calendar"></i></p>
+                                            <p class="text-secondary" style="font-size:13px;">Created At</p>
+                                            <p style="font-size:13px;">Today</p>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1" style="font-size:13px;""> 
+                                            <p class="text-secondary"><i class="ti ti-user-check"></i></p>
+                                            <p class="text-secondary" style="font-size:13px;">Not yet send</p>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1" style="font-size:13px;""> 
+                                            <p class="text-secondary"><i class="ti ti-flag"></i></p>
+                                            <p style="font-size:13px; font-weight: 600; color:#ff7200;">Payslip of 2 employees are conflicted <a href="#" style="color:#075cdb">Manage</a></p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -132,7 +176,7 @@
 @endsection
 
 @push('script-page')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             callback();
 
@@ -459,5 +503,5 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 @endpush
