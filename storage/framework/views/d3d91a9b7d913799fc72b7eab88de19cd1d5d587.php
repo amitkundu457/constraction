@@ -27,7 +27,7 @@
                         <div class="btn-box">
                             <?php echo e(Form::label('year', __('Select Year'), ['class' => 'form-label'])); ?>
 
-                            <?php echo e(Form::select('year', $year, null, ['class' => 'form-control select'])); ?>
+                            <?php echo e(Form::select('year', $year, date('Y'), ['class' => 'form-control select'])); ?>
 
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                             </div>
                             <div class="col-xl-2 col-lg-3 col-md-6 col-sm-12 col-12 me-2">
                                 <div class="btn-box">
-                                    <?php echo e(Form::select('year', $year, null, ['class' => 'form-control year_date '])); ?>
+                                    <?php echo e(Form::select('year', $year, date('Y'), ['class' => 'form-control year_date'])); ?>
 
                                 </div>
                             </div>
@@ -90,6 +90,7 @@
 
                             </div>
                             
+                            <a class="btn btn-primary" href="<?php echo e(url('payslip/bulk_send',date('y-m'))); ?>">Bulk Send Payslip</a>
                         </div>
                     </div>
                 </div>

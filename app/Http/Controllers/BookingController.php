@@ -123,4 +123,8 @@ class BookingController extends Controller
         $vehicles = Vehicle::where('vehicle_type_id', $id)->get();
         return \response()->json(['vehicles' => $vehicles]);
     }
+
+    public function availability(){
+        return view('fleet.calendar');
+    }
 }

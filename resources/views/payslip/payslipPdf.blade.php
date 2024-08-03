@@ -10,7 +10,7 @@
 @section('content')
     <div class="main-content">
         <div class="text-md-right mb-2">
-            <a href="#" class="btn btn-warning" onclick="saveAsPDF()"><span class="fa fa-download"></span></a>
+            <button type="button" class="btn btn-warning" onclick="saveAsPDF()"><span class="fa fa-download"></span></button>
         </div>
         <div class="col-8">
             <div class="invoice" id="printableArea">
@@ -153,10 +153,11 @@
 
     </div>
 @endsection
-@push('theme-script')
-<script type="text/javascript" src="{{ asset('js/html2pdf.bundle.min.js') }}"></script>
-@endpush
+{{-- @push('theme-script')
+@endpush --}}
 @push('script-page')
+<script type="text/javascript" src="{{ asset('js/html2pdf.bundle.min.js') }}"></script>
+
 <script>
 
     function saveAsPDF() {

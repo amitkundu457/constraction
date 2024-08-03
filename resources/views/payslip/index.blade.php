@@ -24,7 +24,7 @@
                     <div class="col-xl-2 col-lg-3 col-md-6 col-sm-12 col-12 mx-2">
                         <div class="btn-box">
                             {{ Form::label('year', __('Select Year'), ['class' => 'form-label']) }}
-                            {{ Form::select('year', $year, null, ['class' => 'form-control select']) }}
+                            {{ Form::select('year', $year, date('Y'), ['class' => 'form-control select']) }}
                         </div>
                     </div>
                     <div class="col-auto float-end ms-2 mt-4">
@@ -69,7 +69,7 @@
                             </div>
                             <div class="col-xl-2 col-lg-3 col-md-6 col-sm-12 col-12 me-2">
                                 <div class="btn-box">
-                                    {{ Form::select('year', $year, null, ['class' => 'form-control year_date ']) }}
+                                    {{ Form::select('year', $year, date('Y'), ['class' => 'form-control year_date']) }}
                                 </div>
                             </div>
                             <div class="col-auto float-end me-2">
@@ -85,6 +85,7 @@
                                         id="bulk_payment">
                                 @endcan
                             </div> --}}
+                            <a class="btn btn-primary" href="{{ url('payslip/bulk_send',date('y-m')) }}">Bulk Send Payslip</a>
                         </div>
                     </div>
                 </div>

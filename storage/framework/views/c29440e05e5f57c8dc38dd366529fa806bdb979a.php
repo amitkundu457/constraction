@@ -1256,7 +1256,11 @@
                     Gate::check('trial balance report')): ?>
                 <li
                     class="dash-item dash-hasmenu
-                             <?php echo e(Request::route()->getName() == 'vehicle.index' 
+                             <?php echo e(Request::route()->getName() == 'vehicle.index'|| 
+                             Request::route()->getName() == 'booking.index' ||
+                             Request::route()->getName() == 'fuel.index' ||
+                             Request::route()->getName() == 'vehicle-expenses.index' ||
+                             Request::route()->getName() == 'vehicle.availability'
                              
                                  ? ' active dash-trigger'
                                  : ''); ?>">
@@ -1274,14 +1278,14 @@
                         <li class="dash-item <?php echo e(Request::route()->getName() == 'booking.index' ? ' active' : ''); ?>">
                             <a class="dash-link" href="<?php echo e(route('booking.index')); ?>"><?php echo e(__('Booking')); ?></a>
                         </li>
-                        <li class="dash-item ">
-                            <a class="dash-link" href="#"><?php echo e(__('Fuel Management')); ?></a>
+                        <li class="dash-item <?php echo e(Request::route()->getName() == 'fuel.index' ? ' active' : ''); ?>">
+                            <a class="dash-link" href="<?php echo e(route('fuels.index')); ?>"><?php echo e(__('Fuel Management')); ?></a>
                         </li>
-                        <li class="dash-item ">
-                            <a class="dash-link" href="#"><?php echo e(__('Income & Expense')); ?></a>
+                        <li class="dash-item <?php echo e(Request::route()->getName() == 'vehicle-expenses.index' ? ' active' : ''); ?>">
+                            <a class="dash-link" href="<?php echo e(route('vehicle-expenses.index')); ?>"><?php echo e(__('Income & Expense')); ?></a>
                         </li>
-                        <li class="dash-item ">
-                            <a class="dash-link" href="#"><?php echo e(__('Availability')); ?></a>
+                        <li class="dash-item <?php echo e(Request::route()->getName() == 'vehicle.availability' ? ' active' : ''); ?>"">
+                            <a class="dash-link" href="<?php echo e(route('vehicle.availability')); ?>"><?php echo e(__('Availability')); ?></a>
                         </li>
                         
                         
@@ -1307,6 +1311,38 @@
             <?php endif; ?>
         <?php endif; ?>
         <!--------------------- End Fleet System ----------------------------------->
+        <!--------------------- Start Food Management --------------------------------->
+        <li
+                    class="dash-item dash-hasmenu
+                             <?php echo e(Request::route()->getName() == 'vehicle.index' 
+                             
+                                 ? ' active dash-trigger'
+                                 : ''); ?>">
+                    <a href="#!" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-cheese"></i></span><span
+                            class="dash-mtext"><?php echo e(__('Food Management')); ?>
+
+                        </span><span class="dash-arrow"><i data-feather="chevron-right"></i></span>
+                    </a>
+                    <ul class="dash-submenu">
+                        <li class="dash-item <?php echo e(Request::route()->getName() == 'vehicle.index' ? ' active' : ''); ?>">
+                            <a class="dash-link" href="#"><?php echo e(__('Product')); ?></a>
+                        </li>
+                        <li class="dash-item <?php echo e(Request::route()->getName() == 'vehicle.index' ? ' active' : ''); ?>">
+                            <a class="dash-link" href="#"><?php echo e(__('Retailer')); ?></a>
+                        </li>
+                        <li class="dash-item <?php echo e(Request::route()->getName() == 'vehicle.index' ? ' active' : ''); ?>">
+                            <a class="dash-link" href="#"><?php echo e(__('Manufacturer')); ?></a>
+                        </li>
+                        <li class="dash-item <?php echo e(Request::route()->getName() == 'vehicle.index' ? ' active' : ''); ?>">
+                            <a class="dash-link" href="#"><?php echo e(__('Dristributor')); ?></a>
+                        </li>
+                        <li class="dash-item <?php echo e(Request::route()->getName() == 'vehicle.index' ? ' active' : ''); ?>">
+                            <a class="dash-link" href="#"><?php echo e(__('Food Setup')); ?></a>
+                        </li>
+                    </ul>
+        </li>
+        <!--------------------- End Food Management ----------------------------------->
         <!--------------------- Start POs System ----------------------------------->
         <?php if(\Auth::user()->show_pos() == 1): ?>
             <?php if(Gate::check('manage warehouse') ||

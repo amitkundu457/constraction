@@ -161,6 +161,7 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\FuelController;
+use App\Http\Controllers\VehicleExpensesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1879,7 +1880,8 @@ Route::group(['middleware' => ['verified']], function () {
     // Vehicle management
     Route::get('/vehicle', [VehicleController::class, 'index'])->name('vehicle.index');
     Route::get('/booking', [BookingController::class, 'index'])->name('booking.index'); 
-    Route::get('/fuel', [FuelController::class, 'index'])->name('fuel.index'); 
+    Route::get('/fuel', [FuelController::class, 'index'])->name('fuels.index'); 
+    Route::get('/vehicle-expenses', [VehicleExpensesController::class, 'index'])->name('vehicle-expenses.index');
     Route::prefix('vehicle')->name('vehicle.')->group(function () {
         Route::post('/new', [VehicleController::class, 'store'])->name('store');
         Route::put('/{id}/edit', [VehicleController::class, 'update'])->name('update');
@@ -1888,14 +1890,18 @@ Route::group(['middleware' => ['verified']], function () {
         Route::post('/booking/new', [BookingController::class, 'store'])->name('booking.store');
         Route::put('/booking/{id}/edit', [BookingController::class, 'update'])->name('booking.update');
         Route::delete('/booking/{id}/delete', [BookingController::class, 'destroy'])->name('booking.delete');
-        Route::post('/fuel/new', [BookingController::class, 'store'])->name('fuel.store');
-        Route::put('/fuel/{id}/edit', [BookingController::class, 'update'])->name('fuel.update');
-        Route::delete('/fuel/{id}/delete', [BookingController::class, 'destroy'])->name('fuel.delete');
+        Route::post('/fuel/new', [FuelController::class, 'store'])->name('fuel.store');
+        Route::put('/fuel/{id}/edit', [FuelController::class, 'update'])->name('fuel.update');
+        Route::delete('/fuel/{id}/delete', [FuelController::class, 'destroy'])->name('fuel.delete');
+        Route::post('/expense/new', [VehicleExpensesController::class, 'store'])->name('expense.store');
+        Route::put('/expense/{id}/edit', [VehicleExpensesController::class, 'update'])->name('expense.update');
+        Route::delete('/expense/{id}/delete', [VehicleExpensesController::class, 'destroy'])->name('expense.delete');
         Route::get('/vehicle-type/{id}', [BookingController::class, 'getVehicleFromType']);
-    //     Route::resource('type', VehicleTypeController::class);
+        Route::get('/availability',[BookingController::class,'availability'])->name('availability');
+
     });
     
-    
+    Route::get('payslip/bulk_send/{month}', [PaySlipController::class, 'bulkSend'])->name('payslip.bulk_send')->middleware(['auth','XSS']);
 
     // Equipment management
     Route::get('/equipments', [EquipmentController::class, 'index'])->name('equipments.index');
@@ -1922,6 +1928,9 @@ Route::group(['middleware' => ['verified']], function () {
         Route::put('/quality-control/{id}/edit', [QualityControlController::class, 'update'])->name('quality.update');
         Route::delete('/quality-control/{id}/delete', [QualityControlController::class, 'destroy'])->name('quality.delete');
     });
+
+    // Food Management
+    // Route::resources('product-unit',ProductUn);
 
 });
 

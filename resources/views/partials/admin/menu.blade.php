@@ -1334,7 +1334,11 @@
                     Gate::check('trial balance report'))
                 <li
                     class="dash-item dash-hasmenu
-                             {{ Request::route()->getName() == 'vehicle.index' 
+                             {{ Request::route()->getName() == 'vehicle.index'|| 
+                             Request::route()->getName() == 'booking.index' ||
+                             Request::route()->getName() == 'fuel.index' ||
+                             Request::route()->getName() == 'vehicle-expenses.index' ||
+                             Request::route()->getName() == 'vehicle.availability'
                              
                                  ? ' active dash-trigger'
                                  : '' }}">
@@ -1351,14 +1355,14 @@
                         <li class="dash-item {{ Request::route()->getName() == 'booking.index' ? ' active' : '' }}">
                             <a class="dash-link" href="{{ route('booking.index') }}">{{ __('Booking') }}</a>
                         </li>
-                        <li class="dash-item ">
-                            <a class="dash-link" href="#">{{ __('Fuel Management') }}</a>
+                        <li class="dash-item {{ Request::route()->getName() == 'fuel.index' ? ' active' : '' }}">
+                            <a class="dash-link" href="{{ route('fuels.index') }}">{{ __('Fuel Management') }}</a>
                         </li>
-                        <li class="dash-item ">
-                            <a class="dash-link" href="#">{{ __('Income & Expense') }}</a>
+                        <li class="dash-item {{ Request::route()->getName() == 'vehicle-expenses.index' ? ' active' : '' }}">
+                            <a class="dash-link" href="{{ route('vehicle-expenses.index') }}">{{ __('Income & Expense') }}</a>
                         </li>
-                        <li class="dash-item ">
-                            <a class="dash-link" href="#">{{ __('Availability') }}</a>
+                        <li class="dash-item {{ Request::route()->getName() == 'vehicle.availability' ? ' active' : '' }}"">
+                            <a class="dash-link" href="{{ route('vehicle.availability') }}">{{ __('Availability') }}</a>
                         </li>
                         {{-- <li
                             class="dash-item {{ Request::route()->getName() == 'pos.report' || Request::route()->getName() == 'pos.show' ? ' active' : '' }}">
@@ -1396,6 +1400,37 @@
             @endif
         @endif
         <!--------------------- End Fleet System ----------------------------------->
+        <!--------------------- Start Food Management --------------------------------->
+        <li
+                    class="dash-item dash-hasmenu
+                             {{ Request::route()->getName() == 'vehicle.index' 
+                             
+                                 ? ' active dash-trigger'
+                                 : '' }}">
+                    <a href="#!" class="dash-link"><span class="dash-micon"><i
+                                class="ti ti-cheese"></i></span><span
+                            class="dash-mtext">{{ __('Food Management') }}
+                        </span><span class="dash-arrow"><i data-feather="chevron-right"></i></span>
+                    </a>
+                    <ul class="dash-submenu">
+                        <li class="dash-item {{ Request::route()->getName() == 'vehicle.index' ? ' active' : '' }}">
+                            <a class="dash-link" href="#">{{ __('Product') }}</a>
+                        </li>
+                        <li class="dash-item {{ Request::route()->getName() == 'vehicle.index' ? ' active' : '' }}">
+                            <a class="dash-link" href="#">{{ __('Retailer') }}</a>
+                        </li>
+                        <li class="dash-item {{ Request::route()->getName() == 'vehicle.index' ? ' active' : '' }}">
+                            <a class="dash-link" href="#">{{ __('Manufacturer') }}</a>
+                        </li>
+                        <li class="dash-item {{ Request::route()->getName() == 'vehicle.index' ? ' active' : '' }}">
+                            <a class="dash-link" href="#">{{ __('Dristributor') }}</a>
+                        </li>
+                        <li class="dash-item {{ Request::route()->getName() == 'vehicle.index' ? ' active' : '' }}">
+                            <a class="dash-link" href="#">{{ __('Food Setup') }}</a>
+                        </li>
+                    </ul>
+        </li>
+        <!--------------------- End Food Management ----------------------------------->
         <!--------------------- Start POs System ----------------------------------->
         @if (\Auth::user()->show_pos() == 1)
             @if (Gate::check('manage warehouse') ||

@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Mail\CommonEmailTemplate;
 use App\Mail\TestMail;
+use AWS\CRT\HTTP\Request;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -3260,10 +3262,12 @@ class Utility extends Model
 //        return $payslip;
 //    }
 
-    public static function employeePayslipDetail($employeeId, $month)
+    public static function employeePayslipDetail($employeeId,$month)
     {
+        
         // allowance
         $earning['allowance'] = PaySlip::where('employee_id', $employeeId)->where('salary_month', $month)->get();
+
 
         $employess = Employee::find($employeeId);
 

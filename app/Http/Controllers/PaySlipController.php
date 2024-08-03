@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Log;
 use App\Models\Loan;
 use App\Models\PaySlip;
 use App\Models\Utility;
@@ -15,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Exports\PayslipExport;
 use App\Models\PaySalarryHisory;
 use App\Models\SaturationDeduction;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
@@ -62,6 +62,8 @@ class PaySlipController extends Controller
                 '2029' => '2029',
                 '2030' => '2030',
             ];
+            
+            
 
             return view('payslip.index', compact('employees', 'month', 'year'));
         } else {
@@ -367,7 +369,7 @@ class PaySlipController extends Controller
         $payslip  = PaySlip::where('id', $payslipId)->where('created_by', \Auth::user()->creatorId())->first();
         $employee = Employee::find($payslip->employee_id);
 
-        $payslipDetail = Utility::employeePayslipDetail($payslip->employee_id);
+        $payslipDetail = Utility::employeePayslipDetail($payslip->employee_id,$payslip->salary_month);
 
         return view('payslip.payslipPdf', compact('payslip', 'employee', 'payslipDetail'));
     }
@@ -494,5 +496,95 @@ class PaySlipController extends Controller
             Log::error('Error in payslipPay: ' . $e->getMessage());
             return response()->json(['error' => 'An unexpected error occurred'], 500);
         }
+    }
+
+    public function bulkSend($month)
+    {
+        $settings = Utility::settings();
+
+        if ($settings['payslip_sent'] == 1) {
+            $created_by = \Auth::user()->creatorId();
+            $employees = Employee::where('created_by', $created_by)->get();
+            $allSuccess = true; // Flag to track overall success
+            $failedEmployees = []; // Array to keep track of employees who failed to receive emails
+
+            foreach ($employees as $employee) {
+                $dateParts = explode('-', $month);
+                if (count($dateParts) == 2) {
+                    $day = $dateParts[0];
+                    $monthPart = $dateParts[1];
+
+                    // Ensure day and month are valid
+                    if (checkdate($monthPart, $day, now()->year)) {
+                        $formattedMonth = now()->year . '-' . str_pad($monthPart, 2, '0', STR_PAD_LEFT);
+                    } else {
+                        Log::error('Invalid date format for salary month.', ['month' => $month]);
+                        $allSuccess = false;
+                        continue;
+                    }
+                } else {
+                    Log::error('Invalid month format.', ['month' => $month]);
+                    $allSuccess = false;
+                    continue;
+                }
+                // $unpaidEmployees = PaySlip::where('salary_month', $date)->where('created_by', \Auth::user()->creatorId())->where('status', '=', 0)->get();
+
+                // foreach ($unpaidEmployees as $employee) {
+                //     $employee->status = 1;
+                //     $employee->save();
+                // }
+                $payslip = PaySlip::where('employee_id', $employee->id)
+                    ->where('salary_month', $formattedMonth)
+                    ->where('created_by', $created_by)
+                    ->first();
+
+                if ($payslip) {
+                    if ($payslip->pay_status !== 'done') {
+                        $payslip->name  = $employee->name;
+                        $payslip->email = $employee->email;
+
+                        // $payslipId    = Crypt::encrypt($payslip->id);
+                        $payslipId    = Crypt::encrypt($payslip->id);
+                        $payslip->url = route('payslip.payslipPdf', $payslipId);
+
+                        $payslipArr = [
+                            'employee_name' => $employee->name,
+                            'employee_email' => $employee->email,
+                            'payslip_name' => $payslip->name,
+                            'payslip_salary_month' => $payslip->salary_month,
+                            'payslip_url' => $payslip->url,
+                        ];
+
+                        $resp = Utility::sendEmailTemplate('payslip_sent', [$employee->email], $payslipArr);
+
+                        if ($resp['is_success']) {
+                            $payslip->pay_status = '1';
+                            $payslip->status = 1;
+                            $payslip->save();
+                            Log::info('Email sent and pay_status updated for employee.', ['employee_id' => $employee->id]);
+                        } else {
+                            Log::error('Failed to send email.', ['employee_id' => $employee->id, 'error' => $resp['error']]);
+                            $allSuccess = false; // Mark as failure
+                            $failedEmployees[] = $employee->id; // Add to failed list
+                        }
+                    } else {
+                        Log::info('Payslip already processed for employee.', ['employee_id' => $employee->id]);
+                    }
+                } else {
+                    Log::warning('Payslip not found.', ['employee_id' => $employee->id, 'formatted_month' => $formattedMonth]);
+                    $allSuccess = false;
+                    $failedEmployees[] = $employee->id; // Add to failed list
+                }
+            }
+
+            if ($allSuccess) {
+                return redirect()->route('successPage')->with('success', __('Payslips successfully sent to all employees.'));
+            } else {
+                // Provide details about which employees failed
+                return redirect('payslip')->with('error', __('Payslips successfully sent to all employees.') . '<br> <span class="text-danger">Failed employees: ' . implode(', ', $failedEmployees) . '</span>');
+            }
+        }
+
+        return redirect()->route('settingsPage')->with('error', __('Payslip sending is disabled in settings.'));
     }
 }
