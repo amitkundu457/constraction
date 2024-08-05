@@ -8,6 +8,7 @@ use App\Http\Controllers\PosController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\DealController;
+use App\Http\Controllers\FuelController;
 use App\Http\Controllers\GoalController;
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\LoanController;
@@ -28,6 +29,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\DriverController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\PaytabController;
 use App\Http\Controllers\ReportController;
@@ -35,6 +37,7 @@ use App\Http\Controllers\SourceController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\TravelController;
 use App\Http\Controllers\VenderController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\HolidayController;
@@ -57,6 +60,7 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\FoodUnitController;
 use App\Http\Controllers\GoalTypeController;
 use App\Http\Controllers\JobStageController;
 use App\Http\Controllers\LanguageController;
@@ -109,6 +113,7 @@ use App\Http\Controllers\BankTransferController;
 use App\Http\Controllers\CompetenciesController;
 use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\DealPropertyController;
+use App\Http\Controllers\FoodCategoryController;
 use App\Http\Controllers\GoalTrackingController;
 use App\Http\Controllers\JournalEntryController;
 use App\Http\Controllers\OtherPaymentController;
@@ -138,6 +143,7 @@ use App\Http\Controllers\PaystackPaymentController;
 use App\Http\Controllers\PerformanceTypeController;
 use App\Http\Controllers\RazorpayPaymentController;
 use App\Http\Controllers\TerminationTypeController;
+use App\Http\Controllers\VehicleExpensesController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\InterviewScheduleController;
 use App\Http\Controllers\RegisterEquipmentController;
@@ -158,10 +164,11 @@ use App\Http\Controllers\ProductServiceCategoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\DriverController;
-use App\Http\Controllers\FuelController;
-use App\Http\Controllers\VehicleExpensesController;
+use App\Http\Controllers\DistributorController;
+use App\Http\Controllers\FoodAreaController;
+use App\Http\Controllers\ManufacturerController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RetailerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1930,7 +1937,15 @@ Route::group(['middleware' => ['verified']], function () {
     });
 
     // Food Management
-    // Route::resources('product-unit',ProductUn);
+    Route::prefix('supply-chain')->name('food.')->group(function(){
+        Route::resource('product',ProductController::class);
+        Route::resource('manufacturer',ManufacturerController::class);
+        Route::resource('distributor',DistributorController::class);
+        Route::resource('retailer',RetailerController::class);
+        Route::resource('unit',FoodUnitController::class);
+        Route::resource('category',FoodCategoryController::class);
+        Route::resource('area',FoodAreaController::class);
+    });
 
 });
 

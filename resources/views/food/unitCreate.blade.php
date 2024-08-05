@@ -1,8 +1,8 @@
-{{ Form::open(['url' => 'vehicle/type']) }}
+{{ Form::open(['route' => 'food.unit.store']) }}
 <div class="modal-body">
 
     <div class="form-group ">
-        {{ Form::label('name', __('Vehicle Type Name'), ['class' => 'form-label']) }}
+        {{ Form::label('name', __('Unit Name'), ['class' => 'form-label']) }}
         {{ Form::text('name', '', ['class' => 'form-control', 'required' => 'required']) }}
         @error('name')
             <small class="invalid-name" role="alert">

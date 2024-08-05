@@ -1,9 +1,9 @@
-{{ Form::open(['url' => ['vehicle/type',$type->id],'method'=>'put']) }}
+{{ Form::open(['route' => ['food.unit.update',$unit->id],'method'=>'put']) }}
 <div class="modal-body">
 
     <div class="form-group ">
-        {{ Form::label('name', __('Vehicle Type Name'), ['class' => 'form-label']) }}
-        {{ Form::text('name', $type->name, ['class' => 'form-control', 'required' => 'required']) }}
+        {{ Form::label('name', __('Unit Name'), ['class' => 'form-label']) }}
+        {{ Form::text('name', $unit->name, ['class' => 'form-control', 'required' => 'required']) }}
         @error('name')
             <small class="invalid-name" role="alert">
                 <strong class="text-danger">{{ $message }}</strong>
