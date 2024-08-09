@@ -169,6 +169,9 @@ use App\Http\Controllers\FoodAreaController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RetailerController;
+use App\Http\Controllers\SheetShareController;
+use App\Http\Controllers\SpreadsheetController;
+use Google\Service\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -1946,7 +1949,18 @@ Route::group(['middleware' => ['verified']], function () {
         Route::resource('category',FoodCategoryController::class);
         Route::resource('area',FoodAreaController::class);
     });
+    // spreadsheet
+    Route::get('/spreadsheet',[SpreadsheetController::class,'index'])->name('sheet.index');
+    Route::get('/spreadsheet/create',[SpreadsheetController::class,'create'])->name('sheet.create');
+    Route::post('/spreadsheet/create',[SpreadsheetController::class,'store']);
+    Route::get('/spreadsheet/{id}/edit', [SpreadsheetController::class, 'edit'])->name('sheet.edit');
+    Route::put('/spreadsheet/{id}/edit', [SpreadsheetController::class, 'update']);
+    Route::post('/spreadsheet/share/{id}', [SheetShareController::class,'store'])->name('sheet.share');
+    Route::get('/spreadsheet/share/{id}', [SheetShareController::class,'show'])->name('sheet.share.show');
+    Route::delete('/spreadsheet/share/{id}', [SheetShareController::class,'destroy'])->name('sheet.share.destroy');
 
+    // filemanager
+    Route::get('/filemanager',function(){ return view('filemanager.index'); });
 });
 
 Route::any('/cookie-consent', [SystemController::class, 'CookieConsent'])->name('cookie-consent');

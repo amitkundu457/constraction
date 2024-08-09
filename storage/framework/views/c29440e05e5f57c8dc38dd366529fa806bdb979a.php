@@ -49,6 +49,34 @@
                     </a>
                 </li>
                 <!--------------------- End Dashboard ----------------------------------->
+                <!--------------------- Start Spreadsheet ----------------------------------->
+                <li
+                    class="dash-item dash-hasmenu <?php echo e(Request::route()->getName() == 'sheets.index' ? 'active dash-trigger' : ''); ?>">
+                    <a href="<?php echo e(url('spreadsheet')); ?>" class="dash-link ">
+                        <span class="dash-micon">
+                            <i class="ti ti-table"></i>
+                        </span>
+                        <span class="dash-mtext">
+                            <?php echo e(__('Spreadsheet Online')); ?>
+
+                        </span>
+                    </a>
+                </li>
+                <!--------------------- End Spreadsheet ----------------------------------->
+                <!--------------------- Start FileManager ----------------------------------->
+                <li
+                    class="dash-item dash-hasmenu <?php echo e(Request::route()->getName() == 'filemanager.index' ? 'active dash-trigger' : ''); ?>">
+                    <a href="<?php echo e(url('filemanager')); ?>" class="dash-link ">
+                        <span class="dash-micon">
+                            <i class="ti ti-server"></i>
+                        </span>
+                        <span class="dash-mtext">
+                            <?php echo e(__('File Manager')); ?>
+
+                        </span>
+                    </a>
+                </li>
+                <!--------------------- End Filemanager ----------------------------------->
 
 
                 <!--------------------- Start HRM ----------------------------------->
@@ -669,11 +697,32 @@
                                 </li>
                             <?php endif; ?>
                             <?php if(\Auth::user()->type == 'company'): ?>
-                                <li style="display: none"
-                                    class="dash-item <?php echo e(Request::segment(1) == 'budget' ? 'active' : ''); ?>">
-                                    <a class="dash-link"
-                                        href="<?php echo e(route('budget.index')); ?>"><?php echo e(__('Budget Planner')); ?></a>
-                                </li>
+                                
+                                <li style="display: none;"
+                                class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : ''); ?>">
+                                <a class="dash-link" href="#"><?php echo e(__('Budget Management')); ?><span class="dash-arrow"><i
+                                            data-feather="chevron-right"></i></span></a>
+                                <ul class="dash-submenu">
+                                    
+                                    <li
+                                        class="dash-item  <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
+                                        <a class="dash-link"
+                                            href="#"><?php echo e(__('Manage Budget')); ?></a>
+                                    </li>
+                                    
+                                    <li
+                                        class="dash-item <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
+                                        <a class="dash-link"
+                                            href="#"><?php echo e(__('Expense Tracking')); ?></a>
+                                    </li>
+                                    
+                                    <li
+                                        class="dash-item <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
+                                        <a class="dash-link"
+                                            href="#"><?php echo e(__('Financial Reporting')); ?></a>
+                                    </li>
+                                </ul>
+                            </li>
                             <?php endif; ?>
                             <?php if(Gate::check('manage goal')): ?>
                                 <li style="display: none"
@@ -1332,7 +1381,7 @@
         </li>
         <!--------------------- End Food Management ----------------------------------->
         <!--------------------- Start Quality Control ----------------------------------->
-        <li class="dash-item dash-hasmenu
+        <li style="display: none;" class="dash-item dash-hasmenu
                              ">
             <a href="#!" class="dash-link"><span class="dash-micon"><i class="ti ti-flask"></i></span><span
                     class="dash-mtext"><?php echo e(__('Quality Control')); ?>

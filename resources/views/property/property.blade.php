@@ -8,14 +8,6 @@
     <li class="breadcrumb-item">{{ __('Property') }}</li>
 @endsection
 
-@section('action-btn')
-    <div class="float-end">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#callstore" class="btn btn-sm btn-primary">
-            <i class="ti ti-plus"></i>
-        </a>
-    </div>
-@endsection
-
 
 
 @section('action-btn')
@@ -34,15 +26,11 @@
                     <thead>
                         <tr>
                             <th>#</th>
-
                             <th>Name</th>
                             <th>Type</th>
                             <th>Contract</th>
                             <th>Status</th>
-
-
                             <th> TimeStamp</th>
-
                             <th class="text-end">Action</th>
                         </tr>
                     </thead>
