@@ -18,7 +18,7 @@
 
 <?php $__env->startSection('content'); ?>
     <div class="row">
-        <div class="col-md-12" style="position: relative;height:100%; ">
+        <div class="col-md-12" style="position: relative;height:100%;">
             <div id="luckysheet" style="margin:0px;padding:0px;position:absolute;width:100%;height:600px;left:0px;top:0px;">
             </div>
         </div>
@@ -35,21 +35,42 @@
                 container: 'luckysheet',
                 title: <?php echo json_encode($share->sheet->title, 15, 512) ?>,
                 data: <?php echo json_encode(json_decode($share->sheet->data), 15, 512) ?>,
-                showtoolbar: true,
-                functionButton:false,
-                showsheetbarConfig:{
-                    add:false,
-                    sheet:false,
+                showtoolbar: false,
+                functionButton: false,
+                showsheetbarConfig: {
+                    add: false,
+                    sheet: false,
                 },
-                showtoolbarConfig:{
-                    protection:false,
+                cellRightClickConfig: {
+                    copy: false,
+                    copyAs: false,
+                    paste: false,
+                    insertRow: false,
+                    insertColumn: false,
+                    deleteRow: false,
+                    deleteColumn: false,
+                    deleteCell: false,
+                    hideRow: false,
+                    hideColumn: false,
+                    rowHeight: false,
+                    columnWidth: false, // column width
+                    clear: false, // clear content
+                    matrix: false, // matrix operation selection
+                    sort: false, // sort selection
+                    filter: false, // filter selection
+                    chart: false, // chart generation
+                    image: false, // insert picture
+                    link: false, // insert link
+                    data: false, // data verification
+                    cellFormat: false // Set cell format
                 },
-                allowCopy:false,
-                myFolderUrl:"<?php echo e(route('sheet.index')); ?>"
+                
+                allowCopy: false,
+                myFolderUrl: "<?php echo e(route('sheet.index')); ?>"
             };
 
             luckysheet.create(options);
-            
+
         });
     </script>
 <?php $__env->stopPush(); ?>

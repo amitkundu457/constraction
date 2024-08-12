@@ -58,8 +58,8 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                {{Form::label('deals_in',__('Deals In'),['class'=>'form-label']) }}
-                {{Form::text('deals_in',null,array('class'=>'form-control','placeholder'=>__('e.g. Mumbai,Pune'),'required'=>'required'))}}
+                {{Form::label('deals_in',__('Agency Name'),['class'=>'form-label']) }}
+                {{Form::text('deals_in',null,array('class'=>'form-control','placeholder'=>__('Agency Name'),'required'=>'required'))}}
                 @error('deals_in')
                 <small class="invalid-deals_in" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>
@@ -69,10 +69,10 @@
         </div>
         <div class="col-md-12">
             <div class="form-group">
-                {{Form::label('address',__('Address'),['class'=>'form-label']) }}
-                {{Form::textarea('address',null,array('class'=>'form-control','placeholder'=>__('Enter agent address'),'required'=>'required'))}}
-                @error('name')
-                <small class="invalid-name" role="alert">
+                {{Form::label('document',__('Document'),['class'=>'form-label']) }}
+                <input type="file" class="form-control" name="document">
+                @error('document')
+                <small class="invalid-document" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>
                 </small>
                 @enderror
@@ -111,6 +111,19 @@
                 @enderror
             </div>
         </div>
+        
+        <div class="col-md-12">
+            <div class="form-group">
+                {{Form::label('address',__('Address'),['class'=>'form-label']) }}
+                {{Form::textarea('address',null,array('class'=>'form-control','placeholder'=>__('Enter agent address'),'required'=>'required','rows'=>'4'))}}
+                @error('name')
+                <small class="invalid-name" role="alert">
+                    <strong class="text-danger">{{ $message }}</strong>
+                </small>
+                @enderror
+            </div>
+        </div>
+        
         {{-- @if(\Auth::user()->type != 'super admin')
             <div class="form-group col-md-6">
                 {{ Form::label('role', __('User Role'),['class'=>'form-label']) }}

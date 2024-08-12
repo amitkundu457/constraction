@@ -104,9 +104,9 @@ unset($__errorArgs, $__bag); ?>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <?php echo e(Form::label('deals_in',__('Deals In'),['class'=>'form-label'])); ?>
+                <?php echo e(Form::label('deals_in',__('Agency Name'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::text('deals_in',null,array('class'=>'form-control','placeholder'=>__('e.g. Mumbai,Pune'),'required'=>'required'))); ?>
+                <?php echo e(Form::text('deals_in',null,array('class'=>'form-control','placeholder'=>__('Agency Name'),'required'=>'required'))); ?>
 
                 <?php $__errorArgs = ['deals_in'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -124,16 +124,15 @@ unset($__errorArgs, $__bag); ?>
         </div>
         <div class="col-md-12">
             <div class="form-group">
-                <?php echo e(Form::label('address',__('Address'),['class'=>'form-label'])); ?>
+                <?php echo e(Form::label('document',__('Document'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::textarea('address',null,array('class'=>'form-control','placeholder'=>__('Enter agent address'),'required'=>'required'))); ?>
-
-                <?php $__errorArgs = ['name'];
+                <input type="file" class="form-control" name="document">
+                <?php $__errorArgs = ['document'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                <small class="invalid-name" role="alert">
+                <small class="invalid-document" role="alert">
                     <strong class="text-danger"><?php echo e($message); ?></strong>
                 </small>
                 <?php unset($message);
@@ -202,6 +201,28 @@ endif;
 unset($__errorArgs, $__bag); ?>
             </div>
         </div>
+        
+        <div class="col-md-12">
+            <div class="form-group">
+                <?php echo e(Form::label('address',__('Address'),['class'=>'form-label'])); ?>
+
+                <?php echo e(Form::textarea('address',null,array('class'=>'form-control','placeholder'=>__('Enter agent address'),'required'=>'required','rows'=>'4'))); ?>
+
+                <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                <small class="invalid-name" role="alert">
+                    <strong class="text-danger"><?php echo e($message); ?></strong>
+                </small>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+            </div>
+        </div>
+        
         
     </div>
 

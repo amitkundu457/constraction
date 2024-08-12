@@ -63,6 +63,20 @@
                     </a>
                 </li>
                 <!--------------------- End Spreadsheet ----------------------------------->
+                <!--------------------- Start Word ----------------------------------->
+                <li
+                    class="dash-item dash-hasmenu <?php echo e(Request::route()->getName() == 'word.index' ? 'active dash-trigger' : ''); ?>">
+                    <a href="<?php echo e(route('word.index')); ?>" class="dash-link ">
+                        <span class="dash-micon">
+                            <i class="ti ti-file"></i>
+                        </span>
+                        <span class="dash-mtext">
+                            <?php echo e(__('Word Online')); ?>
+
+                        </span>
+                    </a>
+                </li>
+                <!--------------------- End Word ----------------------------------->
                 <!--------------------- Start FileManager ----------------------------------->
                 <li
                     class="dash-item dash-hasmenu <?php echo e(Request::route()->getName() == 'filemanager.index' ? 'active dash-trigger' : ''); ?>">
@@ -698,31 +712,29 @@
                             <?php endif; ?>
                             <?php if(\Auth::user()->type == 'company'): ?>
                                 
-                                <li style="display: none;"
-                                class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : ''); ?>">
-                                <a class="dash-link" href="#"><?php echo e(__('Budget Management')); ?><span class="dash-arrow"><i
-                                            data-feather="chevron-right"></i></span></a>
-                                <ul class="dash-submenu">
-                                    
-                                    <li
-                                        class="dash-item  <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
-                                        <a class="dash-link"
-                                            href="#"><?php echo e(__('Manage Budget')); ?></a>
-                                    </li>
-                                    
-                                    <li
-                                        class="dash-item <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
-                                        <a class="dash-link"
-                                            href="#"><?php echo e(__('Expense Tracking')); ?></a>
-                                    </li>
-                                    
-                                    <li
-                                        class="dash-item <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
-                                        <a class="dash-link"
-                                            href="#"><?php echo e(__('Financial Reporting')); ?></a>
-                                    </li>
-                                </ul>
-                            </li>
+                                <li
+                                    class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : ''); ?>">
+                                    <a class="dash-link" href="#"><?php echo e(__('Budget Management')); ?><span
+                                            class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                                    <ul class="dash-submenu">
+                                        
+                                        <li
+                                            class="dash-item  <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
+                                            <a class="dash-link" href="/budget"><?php echo e(__('Budget')); ?></a>
+                                        </li>
+                                        
+                                        <li style="display: none;"
+                                            class="dash-item <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
+                                            <a class="dash-link" href="#"><?php echo e(__('Expense Tracking')); ?></a>
+                                        </li>
+                                        
+                                        <li style="display: none;"
+                                            class="dash-item <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
+                                            <a class="dash-link"
+                                                href="#"><?php echo e(__('Financial Reporting')); ?></a>
+                                        </li>
+                                    </ul>
+                                </li>
                             <?php endif; ?>
                             <?php if(Gate::check('manage goal')): ?>
                                 <li style="display: none"
@@ -837,6 +849,13 @@
                                         class="dash-item  <?php echo e(Request::route()->getName() == 'project-task-stages.index' ? 'active' : ''); ?>">
                                         <a class="dash-link"
                                             href="<?php echo e(url('property-amenity')); ?>"><?php echo e(__('Property Amenity')); ?></a>
+                                    </li>
+                                <?php endif; ?>
+                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage project task stage')): ?>
+                                    <li
+                                        class="dash-item  <?php echo e(Request::route()->getName() == 'project-task-stages.index' ? 'active' : ''); ?>">
+                                        <a class="dash-link"
+                                            href="<?php echo e(url('property-bhk')); ?>"><?php echo e(__('Property BHK')); ?></a>
                                     </li>
                                 <?php endif; ?>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage bug status')): ?>

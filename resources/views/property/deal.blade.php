@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{ __('Manage Promotion') }}
+    {{ __('Manage Deal') }}
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Promotion') }}</li>
+    <li class="breadcrumb-item">{{ __('Deal') }}</li>
 @endsection
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 @section('action-btn')
@@ -202,7 +202,7 @@
                             @csrf
                             <div class="row">
                                 <div class="form-group col-4">
-                                    <label>Deal On <span class="text-danger">*</span></label>
+                                    <label>Client Name <span class="text-danger">*</span></label>
                                     <select name="client_id" class="form-control" id="">
                                         <option value="">Client Name</option>
                                         @foreach ($client as $clients)
@@ -214,7 +214,7 @@
 
                                 </div>
                                 <div class="form-group col-4">
-                                    <label>Deal On <span class="text-danger">*</span></label>
+                                    <label>Property Type <span class="text-danger">*</span></label>
                                     <select name="type_id" class="form-control" id="">
                                         <option value="">property Type</option>
                                         @foreach ($type as $clients)

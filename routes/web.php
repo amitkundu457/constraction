@@ -171,6 +171,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RetailerController;
 use App\Http\Controllers\SheetShareController;
 use App\Http\Controllers\SpreadsheetController;
+use App\Http\Controllers\WordController;
 use Google\Service\Storage;
 
 /*
@@ -184,9 +185,9 @@ use Google\Service\Storage;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('frontend.index');
+});
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -217,7 +218,7 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 // Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('home')->middleware(['XSS', 'revalidate',]);
 
 // Route::get('/home', [DashboardController::class, 'account_dashboard_index'])->name('home')->middleware(['XSS', 'revalidate',]);
-Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['XSS', 'revalidate', 'auth']);
+// Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['XSS', 'revalidate', 'auth']);
 
 //Route::get('/register/{lang?}', function () {
 //    $settings = Utility::settings();
@@ -1841,6 +1842,11 @@ Route::group(['middleware' => ['verified']], function () {
             Route::post('property-amenity-store', [PropertyController::class, 'propertyAmenityStore']);
             Route::post('property-amenity-update/{id}', [PropertyController::class, 'propertyAmenityUpdate']);
             Route::delete('property-amenity-delete/{id}', [PropertyController::class, 'propertyAmenityDelete']);
+            
+            Route::get('property-bhk', [PropertyController::class, 'propertybhk']);
+            Route::post('property-bhk-store', [PropertyController::class, 'propertyBHKStore']);
+            Route::post('property-bhk-update/{id}', [PropertyController::class, 'propertyBHKUpdate']);
+            Route::delete('property-bhk-delete/{id}', [PropertyController::class, 'propertyBHKDelete']);
 
             Route::get('property-photo/{id}', [PropertyController::class, 'propertyphoto']);
             Route::post('property-photo-store', [PropertyController::class, 'propertyphotoStore']);
@@ -1958,6 +1964,14 @@ Route::group(['middleware' => ['verified']], function () {
     Route::post('/spreadsheet/share/{id}', [SheetShareController::class,'store'])->name('sheet.share');
     Route::get('/spreadsheet/share/{id}', [SheetShareController::class,'show'])->name('sheet.share.show');
     Route::delete('/spreadsheet/share/{id}', [SheetShareController::class,'destroy'])->name('sheet.share.destroy');
+    // word 
+    Route::get('/worddoc',[WordController::class,'index'])->name('word.index');
+    Route::get('/worddoc/new',[WordController::class,'create'])->name('word.create');
+    Route::post('/worddoc/new',[WordController::class,'store']);
+    Route::get('/worddoc/{id}/edit',[WordController::class,'edit'])->name('word.edit');
+    Route::post('/worddoc/{id}/edit',[WordController::class,'update']);
+    Route::get('/worddoc/{id}/show',[WordController::class,'show'])->name('word.show');
+    
 
     // filemanager
     Route::get('/filemanager',function(){ return view('filemanager.index'); });

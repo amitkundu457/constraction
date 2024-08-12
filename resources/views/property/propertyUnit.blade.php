@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{ __('Manage Promotion') }}
+    {{ __('Manage Property Unit') }}
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Promotion') }}</li>
+    <li class="breadcrumb-item">{{ __('Property Unit') }}</li>
 @endsection
 
 

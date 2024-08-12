@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\TallyController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,3 +24,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('stop-tracker', [ApiController::class, 'stopTracker']);
     Route::post('upload-photos', [ApiController::class, 'uploadImage']);
 });
+
+Route::resource('tally',TallyController::class);
+

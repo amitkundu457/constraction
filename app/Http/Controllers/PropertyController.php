@@ -9,6 +9,7 @@ use App\Models\Contruct;
 use App\Models\Document;
 use App\Models\Property;
 use App\Models\PropertyAmenity;
+use App\Models\PropertyBhk;
 use App\Models\PropertyType;
 use Illuminate\Http\Request;
 use App\Models\PropertyDocument;
@@ -23,13 +24,14 @@ class PropertyController extends Controller
         // Retrieve all properties from the database and return them in a view
         $properties = Property::leftJoin('units', 'units.id', '=', 'properties.unit_id')->join('property_types', 'property_types.id', '=', 'properties.property_type')
             ->join('contructs', 'contructs.id', '=', 'properties.contract_type')
-            ->select('properties.*','property_types.type_name as property_type', 'units.name', 'contructs.contruct_name as contract_type')->latest()->paginate(10);
+            ->select('properties.*','property_types.type_name as property_type','property_types.id as property_type_id', 'units.name', 'contructs.contruct_name as contract_type')->latest()->paginate(10);
         $unit = Unit::all();
         $type = PropertyType::all();
         $contruct = Contruct::all();
         $agents = Agent::all();
         $amenities = PropertyAmenity::all();
-        return view('property/property', compact('amenities','agents','properties', 'title', 'contruct', 'type', 'unit',));
+        $bhks = PropertyBhk::all();
+        return view('property/property', compact('bhks','amenities','agents','properties', 'title', 'contruct', 'type', 'unit',));
     }
 
 
@@ -68,6 +70,7 @@ class PropertyController extends Controller
         $property->property_type = $request->property_type;
         $property->contract_type = $request->contract_type;
         $property->unit_id = $request->unit_id;
+        $property->bhk_id = $request->bhk_id;
         $property->property_feature_id = $request->property_feature_id;
         $property->built_year = $request->built_year;
         $property->title = $request->title;
@@ -75,9 +78,9 @@ class PropertyController extends Controller
         $property->location = $request->location;
         $property->price = $request->price;
         $property->area = $request->area;
-        $property->floor = $request->floor;
-        $property->bedroom = $request->bedroom;
-        $property->bathroom = $request->bathroom;
+        $property->floor = $request->floor ?? 0;
+        $property->bedroom = $request->bedroom ?? 0;
+        $property->bathroom = $request->bathroom ?? 0;
         $property->document =  "test";
         $property->photo =  "test";
         $property->plan =  "test";
@@ -108,6 +111,7 @@ class PropertyController extends Controller
         $property->property_type = $request->property_type;
         $property->contract_type = $request->contract_type;
         $property->unit_id = $request->unit_id;
+        $property->bhk_id = $request->bhk_id;
         $property->property_feature_id = $request->property_feature_id;
         $property->built_year = $request->built_year;
         $property->title = $request->title;
@@ -115,9 +119,9 @@ class PropertyController extends Controller
         $property->location = $request->location;
         $property->price = $request->price;
         $property->area = $request->area;
-        $property->floor = $request->floor;
-        $property->bedroom = $request->bedroom;
-        $property->bathroom = $request->bathroom;
+        $property->floor = $request->floor ?? 0;
+        $property->bedroom = $request->bedroom ?? 0;
+        $property->bathroom = $request->bathroom ?? 0;
         $property->document =  "test";
         $property->photo =  "test";
         $property->plan =  "test";
@@ -351,6 +355,30 @@ class PropertyController extends Controller
 
     public function propertyAmenityDelete($id){
         $amenity = PropertyAmenity::findOrFail($id);
+        $amenity->delete();
+        return redirect()->back()->with('success', 'Amenity deleted');
+    }
+    public function propertybhk(){
+        $amenities = PropertyBhk::all();
+        return view('property.propertyBhk',\compact('amenities'));
+    }
+
+    public function propertyBHKStore(Request $request){
+        $amenity = new PropertyBhk();
+        $amenity->name = $request->name;
+        $amenity->save();
+        return redirect()->back()->with('success', 'New amenity added');
+    }
+
+    public function propertyBHKUpdate($id,Request $request){
+        $amenity = PropertyBhk::findOrFail($id);
+        $amenity->name = $request->name;
+        $amenity->save();
+        return redirect()->back()->with('success', 'Amenity updated');
+    }
+
+    public function propertyBHKDelete($id){
+        $amenity = PropertyBhk::findOrFail($id);
         $amenity->delete();
         return redirect()->back()->with('success', 'Amenity deleted');
     }

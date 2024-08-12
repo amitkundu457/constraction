@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{ __('Manage Promotion') }}
+    {{ __('Manage Payment History') }}
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Promotion') }}</li>
+    <li class="breadcrumb-item">{{ __('Payment History') }}</li>
 @endsection
 
 @section('action-btn')
@@ -21,8 +21,6 @@
 
 
 @section('content')
-    {{ $deal->id }}
-
     <table class="table border">
         <thead>
             <tr>

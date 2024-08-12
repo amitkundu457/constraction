@@ -20,7 +20,4 @@
 @endsection
 @push('script')
 <script src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
-    <script>
-
-    </script>
 @endpush

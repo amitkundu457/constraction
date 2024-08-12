@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('dob');
             $table->string('pan');
             $table->string('deals_in');
+            $table->string('document');
             $table->text('address');
             $table->string('city');
             $table->string('state');

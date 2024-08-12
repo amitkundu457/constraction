@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{ __('Manage Promotion') }}
+    {{ __('Manage Payments') }}
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Promotion') }}</li>
+    <li class="breadcrumb-item">{{ __('Payments') }}</li>
 @endsection
 
 @section('action-btn')
@@ -18,7 +18,6 @@
 
 
 @section('content')
-    {{ $deal->id }}
 
     @if ($firstInstallment && $firstInstallment->status == 0)
         <form action="{{ url('make-payment-store') }}" method="post">

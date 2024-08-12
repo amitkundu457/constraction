@@ -1,7 +1,7 @@
 
 <?php
-   // $profile=asset(Storage::url('uploads/avatar/'));
-    $profile=\App\Models\Utility::get_file('uploads/avatar');
+    // $profile=asset(Storage::url('uploads/avatar/'));
+    $profile = \App\Models\Utility::get_file('uploads/avatar');
 ?>
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(__('Manage Agents')); ?>
@@ -15,13 +15,10 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('action-btn'); ?>
     <div class="float-end">
-        <?php if(\Auth::user()->type == 'company' || \Auth::user()->type == 'HR'): ?>
-            <a href="<?php echo e(route('user.userlog')); ?>" class="btn btn-primary btn-sm <?php echo e(Request::segment(1) == 'user'); ?>"
-                   data-bs-toggle="tooltip" data-bs-placement="top" title="<?php echo e(__('User Logs History')); ?>"><i class="ti ti-user-check"></i>
-            </a>
-        <?php endif; ?>
+        
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create user')): ?>
-            <a href="#" data-size="lg" data-url="<?php echo e(route('agents.create')); ?>" data-ajax-popup="true"  data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"  class="btn btn-sm btn-primary">
+            <a href="#" data-size="lg" data-url="<?php echo e(route('agents.create')); ?>" data-ajax-popup="true" data-bs-toggle="tooltip"
+                title="<?php echo e(__('Create Agent')); ?>" class="btn btn-sm btn-primary">
                 <i class="ti ti-plus"></i>
             </a>
         <?php endif; ?>
@@ -29,80 +26,61 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
     <div class="row">
-        <div class="col-xxl-12">
-            <div class="row">
-                <?php $__currentLoopData = $agents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div class="col-md-3 mb-4">
-                        <div class="card text-center card-2">
-                            <div class="card-header border-0 pb-0">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h6 class="mb-0">
-                                        <div class="badge bg-primary p-2 px-3 rounded">
-                                            
-                                            <?php echo e(__('Agent')); ?>
+        <div class="col-12">
+            <table class="table table-striped custom-table mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Deals</th>
+                        <th>TimeStamp</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $i = 0;
+                    ?>
+                    <?php $__currentLoopData = $agents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <tr>
+                            <td><?php echo e(++$i); ?></td>
+                            <td><?php echo e($agent->name); ?></td>
+                            <td><?php echo e($agent->email); ?></td>
+                            <td><?php echo e($agent->contact); ?></td>
+                            <td><?php echo e($agent->property->count() . ' Properties'); ?></td>
+                            <td><?php echo e(Carbon\Carbon::parse($agent->created_at)->format('d M, Y h:i A')); ?></td>
+                            <td>
+                                <div class="" style="display: flex">
+                                    <a href="#" data-size="lg" data-url="<?php echo e(route('agents.edit', $agent->id)); ?>"
+                                        data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__('Update')); ?>"
+                                        class="btn btn-sm btn-primary">
+                                        <i class="ti ti-pencil"></i>
+                                    </a>
+                                    <?php echo Form::open([
+                                        'method' => 'DELETE',
+                                        'route' => ['agents.destroy', $agent->id],
+                                        'id' => 'delete-form-' . $agent->id,
+                                    ]); ?>
 
-                                        </div>
-                                    </h6>
+                                    <a href="#" class="mx-1 btn btn-sm bg-danger align-items-center bs-pass-para"
+                                        data-bs-toggle="tooltip" title="<?php echo e(__('Delete')); ?>"
+                                        data-original-title="<?php echo e(__('Delete')); ?>"
+                                        data-confirm="<?php echo e(__('Are You Sure?') . '|' . __('This action can not be undone. Do you want to continue?')); ?>"
+                                        data-confirm-yes="document.getElementById('delete-form-<?php echo e($agent->id); ?>').submit();">
+                                        <i class="ti ti-trash text-white"></i>
+                                    </a>
+                                    <?php echo Form::close(); ?>
+
                                 </div>
-                                <?php if(Gate::check('edit user') || Gate::check('delete user')): ?>
-                                    <div class="card-header-right">
-                                        <div class="btn-group card-option">
-                                            
-                                                <button type="button" class="btn dropdown-toggle"
-                                                        data-bs-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                    <i class="ti ti-dots-vertical"></i>
-                                                </button>
+                            </td>
+                        </tr>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </tbody>
+            </table>
 
-                                                <div class="dropdown-menu dropdown-menu-end">
 
-                                                    
-                                                        <a href="#!" data-size="lg" data-url="<?php echo e(route('users.edit',$agent->id)); ?>" data-ajax-popup="true" class="dropdown-item" data-bs-original-title="<?php echo e(__('Edit User')); ?>">
-                                                            <i class="ti ti-pencil"></i>
-                                                            <span><?php echo e(__('Edit')); ?></span>
-                                                        </a>
-                                                    
-
-                                                    
-                                                        <?php echo Form::open(['method' => 'DELETE', 'route' => ['users.destroy', $agent['id']],'id'=>'delete-form-'.$agent['id']]); ?>
-
-                                                        <a href="#!"  class="dropdown-item bs-pass-para">
-                                                            <i class="ti ti-archive"></i>
-                                                            
-                                                        </a>
-                                                        <?php echo Form::close(); ?>
-
-                                                    
-
-                                                    <a href="#!" data-url="<?php echo e(route('users.reset',\Crypt::encrypt($agent->id))); ?>" data-ajax-popup="true" data-size="md" class="dropdown-item" data-bs-original-title="<?php echo e(__('Reset Password')); ?>">
-                                                        <i class="ti ti-adjustments"></i>
-                                                        <span>  <?php echo e(__('Reset Password')); ?></span>
-                                                    </a>
-                                                </div>
-                                            
-
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-
-                            <div class="card-body full-card">
-                                <div class="img-fluid rounded-circle card-avatar">
-                                    <img src="https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg" class="img-user wid-80 round-img rounded-circle">
-                                </div>
-                                <h4 class=" mt-3 text-primary"><?php echo e($agent->name); ?></h4>
-                                
-                                <small class="text-primary"><?php echo e($agent->email); ?></small>
-                                <p></p>
-                                <div class="text-center" data-bs-toggle="tooltip" title="<?php echo e(__('Last Login')); ?>">
-                                    
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </div>
         </div>
     </div>
 <?php $__env->stopSection(); ?>

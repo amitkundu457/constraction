@@ -61,6 +61,19 @@
                     </a>
                 </li>
                 <!--------------------- End Spreadsheet ----------------------------------->
+                <!--------------------- Start Word ----------------------------------->
+                <li
+                    class="dash-item dash-hasmenu {{ Request::route()->getName() == 'word.index' ? 'active dash-trigger' : '' }}">
+                    <a href="{{ route('word.index') }}" class="dash-link ">
+                        <span class="dash-micon">
+                            <i class="ti ti-file"></i>
+                        </span>
+                        <span class="dash-mtext">
+                            {{ __('Word Online') }}
+                        </span>
+                    </a>
+                </li>
+                <!--------------------- End Word ----------------------------------->
                 <!--------------------- Start FileManager ----------------------------------->
                 <li
                     class="dash-item dash-hasmenu {{ Request::route()->getName() == 'filemanager.index' ? 'active dash-trigger' : '' }}">
@@ -747,32 +760,30 @@
                                 {{-- <li class="dash-item {{ Request::segment(1) == 'budget' ? 'active' : '' }}">
                                     <a class="dash-link" href="{{ route('budget.index') }}">{{ __('Budget Management') }}</a>
                                 </li> --}}
-                                <li style="display: none;"
-                                class="dash-item dash-hasmenu {{ Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : '' }}">
-                                <a class="dash-link" href="#">{{ __('Budget Management') }}<span class="dash-arrow"><i
-                                            data-feather="chevron-right"></i></span></a>
-                                <ul class="dash-submenu">
-                                    {{-- @can('manage project task stage') --}}
-                                    <li
-                                        class="dash-item  {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
-                                        <a class="dash-link"
-                                            href="#">{{ __('Manage Budget') }}</a>
-                                    </li>
-                                    {{-- @endcan
+                                <li
+                                    class="dash-item dash-hasmenu {{ Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : '' }}">
+                                    <a class="dash-link" href="#">{{ __('Budget Management') }}<span
+                                            class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                                    <ul class="dash-submenu">
+                                        {{-- @can('manage project task stage') --}}
+                                        <li
+                                            class="dash-item  {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                            <a class="dash-link" href="/budget">{{ __('Budget') }}</a>
+                                        </li>
+                                        {{-- @endcan
                                     @can('manage bug status') --}}
-                                    <li
-                                        class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
-                                        <a class="dash-link"
-                                            href="#">{{ __('Expense Tracking') }}</a>
-                                    </li>
-                                    {{-- @endcan --}}
-                                    <li
-                                        class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
-                                        <a class="dash-link"
-                                            href="#">{{ __('Financial Reporting') }}</a>
-                                    </li>
-                                </ul>
-                            </li>
+                                        <li style="display: none;"
+                                            class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                            <a class="dash-link" href="#">{{ __('Expense Tracking') }}</a>
+                                        </li>
+                                        {{-- @endcan --}}
+                                        <li style="display: none;"
+                                            class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
+                                            <a class="dash-link"
+                                                href="#">{{ __('Financial Reporting') }}</a>
+                                        </li>
+                                    </ul>
+                                </li>
                             @endif
                             @if (Gate::check('manage goal'))
                                 <li style="display: none"
@@ -886,6 +897,13 @@
                                         class="dash-item  {{ Request::route()->getName() == 'project-task-stages.index' ? 'active' : '' }}">
                                         <a class="dash-link"
                                             href="{{ url('property-amenity') }}">{{ __('Property Amenity') }}</a>
+                                    </li>
+                                @endcan
+                                @can('manage project task stage')
+                                    <li
+                                        class="dash-item  {{ Request::route()->getName() == 'project-task-stages.index' ? 'active' : '' }}">
+                                        <a class="dash-link"
+                                            href="{{ url('property-bhk') }}">{{ __('Property BHK') }}</a>
                                     </li>
                                 @endcan
                                 @can('manage bug status')

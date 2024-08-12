@@ -15,8 +15,5 @@
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script'); ?>
 <script src="<?php echo e(asset('vendor/file-manager/js/file-manager.js')); ?>"></script>
-    <script>
-
-    </script>
 <?php $__env->stopPush(); ?>
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\laragon\www\construction\resources\views/filemanager/index.blade.php ENDPATH**/ ?>
