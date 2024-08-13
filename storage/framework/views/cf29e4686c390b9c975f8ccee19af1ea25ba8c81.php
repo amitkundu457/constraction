@@ -125,7 +125,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <form action="<?php echo e(url('property-update', $propertie->id)); ?>"
-                                                        method="post" x-data="{ ptype:null }">
+                                                        method="post" x-data="{ ptype: null }">
                                                         <?php echo csrf_field(); ?>
                                                         <div class="form-group">
                                                             <label>Property Title <span class="text-danger">*</span></label>
@@ -138,10 +138,12 @@
                                                                 <label> Property Type <span
                                                                         class="text-danger">*</span></label>
                                                                 <select class="form-control" name="property_type"
-                                                                    id="" x-on:change="ptype = $event.target.options[$event.target.selectedIndex].dataset.type.toLowerCase()">
+                                                                    id=""
+                                                                    x-on:change="ptype = $event.target.options[$event.target.selectedIndex].dataset.type.toLowerCase()">
                                                                     <option value="">Select Property Type</option>
                                                                     <?php $__currentLoopData = $type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $types): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                        <option value="<?php echo e($types->id); ?>" data-type="<?php echo e($types->type_name); ?>"
+                                                                        <option value="<?php echo e($types->id); ?>"
+                                                                            data-type="<?php echo e($types->type_name); ?>"
                                                                             <?php if($propertie->property_type_id == $types->id): echo 'selected'; endif; ?>>
                                                                             <?php echo e($types->type_name); ?> -
                                                                             <?php echo e($types->plot($types->plot_id)->name); ?>
@@ -167,36 +169,46 @@
                                                             <textarea name="address" id="" cols="" rows="5" class="form-control"><?php echo e($propertie->address); ?></textarea>
                                                         </div>
                                                         <div class=" row">
-                                                            <div class="form-group col-md-4">
+                                                            <div class="form-group"
+                                                                :class="ptype !== ('apartment' || 'flat') ? 'col-md-6' :
+                                                                    'col-md-4'">
                                                                 <label> Price <span class="text-danger">*</span></label>
                                                                 <input type="text" value="<?php echo e($propertie->price); ?>"
                                                                     name="price" id="edit_checkin"
                                                                     class="form-control">
                                                             </div>
+                                                            <template x-if="ptype !== ('apartment'||'flat')">
+                                                                <div class="form-group col-md-6">
+                                                                    <label> Area <span class="text-danger">*</span></label>
+                                                                    <input type="text" value="<?php echo e($propertie->area); ?>"
+                                                                        name="area" id="edit_checkin"
+                                                                        class="form-control">
+                                                                </div>
+                                                            </template>
                                                             <template x-if="ptype === ('apartment'||'flat')">
                                                                 <div class="form-group col-md-4">
-                                                                    <label> Area <span class="text-danger">*</span></label>
-                                                                    <input type="text" value="<?php echo e($propertie->area); ?>" name="area" id="edit_checkin" class="form-control">
+                                                                    <label> BHK <span class="text-danger">*</span></label>
+                                                                    <select class="form-control" name="bhk_id"
+                                                                        id="">
+                                                                        <option value="">--Select BHK--</option>
+                                                                        <?php $__currentLoopData = $bhks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bhk): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                            <option value="<?php echo e($bhk->id); ?>"
+                                                                                <?php if($propertie->bhk_id == $bhk->id): echo 'selected'; endif; ?>>
+                                                                                <?php echo e($bhk->name); ?></option>
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                    </select>
                                                                 </div>
                                                             </template>
                                                             <template x-if="ptype === ('apartment' || 'flat')">
                                                                 <div class="form-group col-md-4">
                                                                     <label> Unit <span class="text-danger">*</span></label>
-                                                                    <select class="form-control" name="unit_id" id="">
+                                                                    <select class="form-control" name="unit_id"
+                                                                        id="">
                                                                         <option value="">Select Unit</option>
                                                                         <?php $__currentLoopData = $unit; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $area): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                            <option value="<?php echo e($area->id); ?>" <?php if($propertie->unit_id == $area->id): echo 'selected'; endif; ?>><?php echo e($area->name); ?></option>
-                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                    </select>
-                                                                </div>
-                                                            </template>
-                                                            <template x-if="ptype !== ('apartment'||'flat')">
-                                                                <div class="form-group col-md-8">
-                                                                    <label> BHK <span class="text-danger">*</span></label>
-                                                                    <select class="form-control" name="bhk_id" id="">
-                                                                        <option value="">--Select BHK--</option>
-                                                                        <?php $__currentLoopData = $bhks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bhk): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                            <option value="<?php echo e($bhk->id); ?>" <?php if($propertie->bhk_id == $bhk->id): echo 'selected'; endif; ?>><?php echo e($bhk->name); ?></option>
+                                                                            <option value="<?php echo e($area->id); ?>"
+                                                                                <?php if($propertie->unit_id == $area->id): echo 'selected'; endif; ?>>
+                                                                                <?php echo e($area->name); ?></option>
                                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                     </select>
                                                                 </div>
@@ -204,34 +216,71 @@
 
                                                         </div>
 
-
-                                                        <div class=" row">
-                                                            <div class="form-group col-md-4">
-                                                                <label>Assigned Agent <span
+                                                        <div class="row" x-data="{ ctype: <?php echo e($propertie->ctype); ?> || 1, agents: [], getAgents(id) { fetch(`/agency/${id}`).then((res) => res.json()).then((data) => this.agents = data.agents) } }">
+                                                            <div class="form-group"
+                                                                :class="ctype == 1 ? 'col-md-6' : 'col-md-4'">
+                                                                <label>Contact Type <span
                                                                         class="text-danger">*</span></label>
-                                                                <select class="form-control" name="agency_id"
-                                                                    id="">
-                                                                    <option value="">Select Agent</option>
-                                                                    <?php $__currentLoopData = $agents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                        <option value="<?php echo e($agent->id); ?>"
-                                                                            <?php if($propertie->agency_id == $agent->id): echo 'selected'; endif; ?>>
-                                                                            <?php echo e($agent->name); ?> - <?php echo e($agent->deals_in); ?></option>
-                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                <select class="form-control"
+                                                                    x-on:change="ctype = $event.target.value"
+                                                                    name="ctype" id="">
+                                                                    <option value="1" <?php if($propertie->ctype == 1): echo 'selected'; endif; ?>>Direct</option>
+                                                                    <option value="2" <?php if($propertie->ctype == 2): echo 'selected'; endif; ?>>Agency</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-4">
+                                                            <template x-if="ctype == 2">
+                                                                <div class="form-group col-md-4" x-init="getAgents(<?php echo e($propertie->agency_id); ?>)">
+                                                                    <label>Agency <span
+                                                                            class="text-danger">*</span></label>
+                                                                    <select class="form-control"
+                                                                        x-on:change="getAgents($event.target.value)"
+                                                                        name="agency_id" id="">
+                                                                        <option value="">Select Agency</option>
+                                                                        <?php $__currentLoopData = $agency; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                            <option value="<?php echo e($p->id); ?>" <?php if($propertie->agency_id == $p->id): echo 'selected'; endif; ?>>
+                                                                                <?php echo e($p->name); ?></option>
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                    </select>
+                                                                </div>
+                                                            </template>
+                                                            <div class="form-group"
+                                                                :class="ctype == 1 ? 'col-md-6' : 'col-md-4'">
+                                                                <label>Agent <span class="text-danger">*</span></label>
+                                                                <template x-if="ctype == 1">
+                                                                    <select class="form-control" name="agent_id"
+                                                                        id="">
+                                                                        <option value="">Select Agent</option>
+                                                                        <?php $__currentLoopData = $agents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                            <option value="<?php echo e($agent->id); ?>">
+                                                                                <?php echo e($agent->name); ?></option>
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                    </select>
+                                                                </template>
+                                                                <template x-if="ctype == 2">
+                                                                    <select class="form-control" name="agency_id"
+                                                                        id="">
+                                                                        <template x-for="agent in agents">
+                                                                            <option :value="agent.id"
+                                                                                x-text="agent.name"></option>
+                                                                        </template>
+                                                                    </select>
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                        <div class=" row">
+                                                            <div class="form-group col-md-6">
                                                                 <label>Contract <span class="text-danger">*</span></label>
                                                                 <select class="form-control" name="contract_type"
-                                                                    id="" >
+                                                                    id="">
                                                                     <option value="">Select Contract</option>
                                                                     <?php $__currentLoopData = $contruct; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contract): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                        <option value="<?php echo e($contract->id); ?>" 
+                                                                        <option value="<?php echo e($contract->id); ?>"
                                                                             <?php if($propertie->contract_type == $contract->contruct_name): echo 'selected'; endif; ?>>
                                                                             <?php echo e($contract->contruct_name); ?></option>
                                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-4">
+                                                            <div class="form-group col-md-6">
                                                                 <label> Status <span class="text-danger">*</span></label>
                                                                 <select name="status" id=""
                                                                     class="form-control">
@@ -305,7 +354,7 @@
                     </div>
                     <div class="modal-body">
                         <form action="<?php echo e(url('property-store')); ?>" method="post" enctype="multipart/form-data"
-                            x-data="{ptype:null}">
+                            x-data="{ ptype: null }">
                             <?php echo csrf_field(); ?>
                             <div class="form-group">
                                 <label>Property Title <span class="text-danger">*</span></label>
@@ -314,7 +363,8 @@
                             <div class=" row">
                                 <div class="form-group col-md-6">
                                     <label> Property Type <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="property_type" x-on:change="ptype = $event.target.options[$event.target.selectedIndex].dataset.type.toLowerCase()"
+                                    <select class="form-control" name="property_type"
+                                        x-on:change="ptype = $event.target.options[$event.target.selectedIndex].dataset.type.toLowerCase()"
                                         id="">
                                         <option value="">Select Property Type</option>
                                         <?php $__currentLoopData = $type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $types): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -340,14 +390,25 @@
                                 <textarea name="address" id="" cols="" rows="5" class="form-control"></textarea>
                             </div>
                             <div class=" row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group" :class="ptype !== ('apartment' || 'flat') ? 'col-md-6' : 'col-md-4'">
                                     <label> Price <span class="text-danger">*</span></label>
                                     <input type="text" name="price" id="edit_checkin" class="form-control">
                                 </div>
-                                <template x-if="ptype === ('apartment'||'flat')">
-                                    <div class="form-group col-md-4">
+                                <template x-if="ptype !== ('apartment'||'flat')">
+                                    <div class="form-group col-md-6">
                                         <label> Area <span class="text-danger">*</span></label>
                                         <input type="text" name="area" id="edit_checkin" class="form-control">
+                                    </div>
+                                </template>
+                                <template x-if="ptype === ('apartment'||'flat')">
+                                    <div class="form-group col-md-4">
+                                        <label> BHK <span class="text-danger">*</span></label>
+                                        <select class="form-control" name="bhk_id" id="">
+                                            <option value="">--Select BHK--</option>
+                                            <?php $__currentLoopData = $bhks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bhk): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($bhk->id); ?>"><?php echo e($bhk->name); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </select>
                                     </div>
                                 </template>
                                 <template x-if="ptype === ('apartment' || 'flat')">
@@ -361,31 +422,49 @@
                                         </select>
                                     </div>
                                 </template>
-                                <template x-if="ptype !== ('apartment'||'flat')">
-                                    <div class="form-group col-md-8">
-                                        <label> BHK <span class="text-danger">*</span></label>
-                                        <select class="form-control" name="bhk_id" id="">
-                                            <option value="">--Select BHK--</option>
-                                            <?php $__currentLoopData = $bhks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bhk): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <option value="<?php echo e($bhk->id); ?>"><?php echo e($bhk->name); ?></option>
+                            </div>
+                            <div class="row" x-data="{ ctype: 1, agents: [], getAgents(id) { fetch(`/agency/${id}`).then((res) => res.json()).then((data) => this.agents = data.agents) } }">
+                                <div class="form-group" :class="ctype == 1 ? 'col-md-6' : 'col-md-4'">
+                                    <label>Contact Type <span class="text-danger">*</span></label>
+                                    <select class="form-control" x-on:change="ctype = $event.target.value" name="ctype"
+                                        id="">
+                                        <option value="1">Direct</option>
+                                        <option value="2">Agency</option>
+                                    </select>
+                                </div>
+                                <template x-if="ctype == 2">
+                                    <div class="form-group col-md-4">
+                                        <label>Agency <span class="text-danger">*</span></label>
+                                        <select class="form-control" x-on:change="getAgents($event.target.value)"
+                                            name="agency_id" id="">
+                                            <option value="">Select Agency</option>
+                                            <?php $__currentLoopData = $agency; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($p->id); ?>"><?php echo e($p->name); ?></option>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
                                 </template>
-                            </div>
-
-
-                            <div class=" row">
-                                <div class="form-group col-md-4">
-                                    <label>Assigned Agent <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="agency_id" id="">
-                                        <option value="">Select Agent</option>
-                                        <?php $__currentLoopData = $agents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($agent->id); ?>"><?php echo e($agent->name); ?> - <?php echo e($agent->deals_in); ?></option>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </select>
+                                <div class="form-group" :class="ctype == 1 ? 'col-md-6' : 'col-md-4'">
+                                    <label>Agent <span class="text-danger">*</span></label>
+                                    <template x-if="ctype == 1">
+                                        <select class="form-control" name="agent_id" id="">
+                                            <option value="">Select Agent</option>
+                                            <?php $__currentLoopData = $agents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($agent->id); ?>"><?php echo e($agent->name); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </select>
+                                    </template>
+                                    <template x-if="ctype == 2">
+                                        <select class="form-control" name="agency_id" id="">
+                                            <template x-for="agent in agents">
+                                                <option :value="agent.id" x-text="agent.name"></option>
+                                            </template>
+                                        </select>
+                                    </template>
                                 </div>
-                                <div class="form-group col-md-4">
+                            </div>
+                            <div class=" row">
+                                <div class="form-group col-md-6">
                                     <label>Contract <span class="text-danger">*</span></label>
                                     <select class="form-control" name="contract_type" id="">
                                         <option value="">Select Contract</option>
@@ -394,7 +473,7 @@
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label> Status <span class="text-danger">*</span></label>
                                     <select name="status" id="" class="form-control">
                                         <option value=""> Select Listing Status</option>
@@ -463,6 +542,14 @@
         //         $('#delete_id').val(id);
         //     });
         // });
+
+        // getAgents(id){
+
+        // }
+
+        // document.addEventListener("alpine:init",function(){
+        //     Alpine.data('getAgents',getAgents)
+        // })
     </script>
 <?php $__env->stopSection(); ?>
 

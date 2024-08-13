@@ -12,4 +12,8 @@ class Agent extends Model
     public function property(){
         return $this->hasMany(Property::class,'agency_id','id');
     }
+
+    public function agency($id){
+        return Agency::findOrFail($id);
+    }
 }

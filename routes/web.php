@@ -2,6 +2,7 @@
 
 use App\Models\Utility;
 use App\Models\VehicleType;
+use Google\Service\Storage;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PosController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PlotController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WordController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AwardController;
@@ -25,6 +27,7 @@ use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\PaytrController;
 use App\Http\Controllers\SspayController;
 use App\Http\Controllers\StageController;
+use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\ClientController;
@@ -47,6 +50,7 @@ use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\PayFastController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaySlipController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\SupportController;
@@ -60,6 +64,7 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\FoodAreaController;
 use App\Http\Controllers\FoodUnitController;
 use App\Http\Controllers\GoalTypeController;
 use App\Http\Controllers\JobStageController;
@@ -69,6 +74,7 @@ use App\Http\Controllers\PipelineController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\RetailerController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\AllowanceController;
@@ -94,15 +100,18 @@ use App\Http\Controllers\CreditNoteController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\LoanOptionController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\SheetShareController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\CustomFieldController;
 use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\FormBuilderController;
 use App\Http\Controllers\JobCategoryController;
 use App\Http\Controllers\PayslipTypeController;
 use App\Http\Controllers\PlanRequestController;
 use App\Http\Controllers\ProjectTaskController;
 use App\Http\Controllers\ResignationController;
+use App\Http\Controllers\SpreadsheetController;
 use App\Http\Controllers\TerminationController;
 use App\Http\Controllers\TimeTrackerController;
 use App\Http\Controllers\TransactionController;
@@ -116,6 +125,7 @@ use App\Http\Controllers\DealPropertyController;
 use App\Http\Controllers\FoodCategoryController;
 use App\Http\Controllers\GoalTrackingController;
 use App\Http\Controllers\JournalEntryController;
+use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\OtherPaymentController;
 use App\Http\Controllers\PaytmPaymentController;
 use App\Http\Controllers\ProductStockController;
@@ -164,15 +174,6 @@ use App\Http\Controllers\ProductServiceCategoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\DistributorController;
-use App\Http\Controllers\FoodAreaController;
-use App\Http\Controllers\ManufacturerController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\RetailerController;
-use App\Http\Controllers\SheetShareController;
-use App\Http\Controllers\SpreadsheetController;
-use App\Http\Controllers\WordController;
-use Google\Service\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -185,9 +186,9 @@ use Google\Service\Storage;
 |
 */
 
-Route::get('/', function () {
-    return view('frontend.index');
-});
+// Route::get('/', function () {
+//     return view('frontend.index');
+// });
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -218,7 +219,7 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 // Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('home')->middleware(['XSS', 'revalidate',]);
 
 // Route::get('/home', [DashboardController::class, 'account_dashboard_index'])->name('home')->middleware(['XSS', 'revalidate',]);
-// Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['XSS', 'revalidate', 'auth']);
+Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['XSS', 'revalidate', 'auth']);
 
 //Route::get('/register/{lang?}', function () {
 //    $settings = Utility::settings();
@@ -1891,6 +1892,7 @@ Route::group(['middleware' => ['verified']], function () {
 
     // Agent management
     Route::resource('/agents', AgentController::class);
+    Route::resource('/agency', AgencyController::class);
     Route::resource('/drivers', DriverController::class);
 
     // Vehicle management

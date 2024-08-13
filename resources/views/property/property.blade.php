@@ -126,7 +126,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <form action="{{ url('property-update', $propertie->id) }}"
-                                                        method="post" x-data="{ ptype:null }">
+                                                        method="post" x-data="{ ptype: null }">
                                                         @csrf
                                                         <div class="form-group">
                                                             <label>Property Title <span class="text-danger">*</span></label>
@@ -139,10 +139,12 @@
                                                                 <label> Property Type <span
                                                                         class="text-danger">*</span></label>
                                                                 <select class="form-control" name="property_type"
-                                                                    id="" x-on:change="ptype = $event.target.options[$event.target.selectedIndex].dataset.type.toLowerCase()">
+                                                                    id=""
+                                                                    x-on:change="ptype = $event.target.options[$event.target.selectedIndex].dataset.type.toLowerCase()">
                                                                     <option value="">Select Property Type</option>
                                                                     @foreach ($type as $types)
-                                                                        <option value="{{ $types->id }}" data-type="{{ $types->type_name }}"
+                                                                        <option value="{{ $types->id }}"
+                                                                            data-type="{{ $types->type_name }}"
                                                                             @selected($propertie->property_type_id == $types->id)>
                                                                             {{ $types->type_name }} -
                                                                             {{ $types->plot($types->plot_id)->name }}
@@ -167,36 +169,46 @@
                                                             <textarea name="address" id="" cols="" rows="5" class="form-control">{{ $propertie->address }}</textarea>
                                                         </div>
                                                         <div class=" row">
-                                                            <div class="form-group col-md-4">
+                                                            <div class="form-group"
+                                                                :class="ptype !== ('apartment' || 'flat') ? 'col-md-6' :
+                                                                    'col-md-4'">
                                                                 <label> Price <span class="text-danger">*</span></label>
                                                                 <input type="text" value="{{ $propertie->price }}"
                                                                     name="price" id="edit_checkin"
                                                                     class="form-control">
                                                             </div>
+                                                            <template x-if="ptype !== ('apartment'||'flat')">
+                                                                <div class="form-group col-md-6">
+                                                                    <label> Area <span class="text-danger">*</span></label>
+                                                                    <input type="text" value="{{ $propertie->area }}"
+                                                                        name="area" id="edit_checkin"
+                                                                        class="form-control">
+                                                                </div>
+                                                            </template>
                                                             <template x-if="ptype === ('apartment'||'flat')">
                                                                 <div class="form-group col-md-4">
-                                                                    <label> Area <span class="text-danger">*</span></label>
-                                                                    <input type="text" value="{{ $propertie->area }}" name="area" id="edit_checkin" class="form-control">
+                                                                    <label> BHK <span class="text-danger">*</span></label>
+                                                                    <select class="form-control" name="bhk_id"
+                                                                        id="">
+                                                                        <option value="">--Select BHK--</option>
+                                                                        @foreach ($bhks as $bhk)
+                                                                            <option value="{{ $bhk->id }}"
+                                                                                @selected($propertie->bhk_id == $bhk->id)>
+                                                                                {{ $bhk->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
                                                                 </div>
                                                             </template>
                                                             <template x-if="ptype === ('apartment' || 'flat')">
                                                                 <div class="form-group col-md-4">
                                                                     <label> Unit <span class="text-danger">*</span></label>
-                                                                    <select class="form-control" name="unit_id" id="">
+                                                                    <select class="form-control" name="unit_id"
+                                                                        id="">
                                                                         <option value="">Select Unit</option>
                                                                         @foreach ($unit as $area)
-                                                                            <option value="{{ $area->id }}" @selected($propertie->unit_id == $area->id)>{{ $area->name }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </template>
-                                                            <template x-if="ptype !== ('apartment'||'flat')">
-                                                                <div class="form-group col-md-8">
-                                                                    <label> BHK <span class="text-danger">*</span></label>
-                                                                    <select class="form-control" name="bhk_id" id="">
-                                                                        <option value="">--Select BHK--</option>
-                                                                        @foreach ($bhks as $bhk)
-                                                                            <option value="{{ $bhk->id }}" @selected($propertie->bhk_id == $bhk->id)>{{ $bhk->name }}</option>
+                                                                            <option value="{{ $area->id }}"
+                                                                                @selected($propertie->unit_id == $area->id)>
+                                                                                {{ $area->name }}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
@@ -204,34 +216,71 @@
 
                                                         </div>
 
-
-                                                        <div class=" row">
-                                                            <div class="form-group col-md-4">
-                                                                <label>Assigned Agent <span
+                                                        <div class="row" x-data="{ ctype: {{ $propertie->ctype }} || 1, agents: [], getAgents(id) { fetch(`/agency/${id}`).then((res) => res.json()).then((data) => this.agents = data.agents) } }">
+                                                            <div class="form-group"
+                                                                :class="ctype == 1 ? 'col-md-6' : 'col-md-4'">
+                                                                <label>Contact Type <span
                                                                         class="text-danger">*</span></label>
-                                                                <select class="form-control" name="agency_id"
-                                                                    id="">
-                                                                    <option value="">Select Agent</option>
-                                                                    @foreach ($agents as $agent)
-                                                                        <option value="{{ $agent->id }}"
-                                                                            @selected($propertie->agency_id == $agent->id)>
-                                                                            {{ $agent->name }} - {{ $agent->deals_in }}</option>
-                                                                    @endforeach
+                                                                <select class="form-control"
+                                                                    x-on:change="ctype = $event.target.value"
+                                                                    name="ctype" id="">
+                                                                    <option value="1" @selected($propertie->ctype == 1)>Direct</option>
+                                                                    <option value="2" @selected($propertie->ctype == 2)>Agency</option>
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-4">
+                                                            <template x-if="ctype == 2">
+                                                                <div class="form-group col-md-4" x-init="getAgents({{ $propertie->agency_id }})">
+                                                                    <label>Agency <span
+                                                                            class="text-danger">*</span></label>
+                                                                    <select class="form-control"
+                                                                        x-on:change="getAgents($event.target.value)"
+                                                                        name="agency_id" id="">
+                                                                        <option value="">Select Agency</option>
+                                                                        @foreach ($agency as $p)
+                                                                            <option value="{{ $p->id }}" @selected($propertie->agency_id == $p->id)>
+                                                                                {{ $p->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </template>
+                                                            <div class="form-group"
+                                                                :class="ctype == 1 ? 'col-md-6' : 'col-md-4'">
+                                                                <label>Agent <span class="text-danger">*</span></label>
+                                                                <template x-if="ctype == 1">
+                                                                    <select class="form-control" name="agent_id"
+                                                                        id="">
+                                                                        <option value="">Select Agent</option>
+                                                                        @foreach ($agents as $agent)
+                                                                            <option value="{{ $agent->id }}">
+                                                                                {{ $agent->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </template>
+                                                                <template x-if="ctype == 2">
+                                                                    <select class="form-control" name="agency_id"
+                                                                        id="">
+                                                                        <template x-for="agent in agents">
+                                                                            <option :value="agent.id"
+                                                                                x-text="agent.name"></option>
+                                                                        </template>
+                                                                    </select>
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                        <div class=" row">
+                                                            <div class="form-group col-md-6">
                                                                 <label>Contract <span class="text-danger">*</span></label>
                                                                 <select class="form-control" name="contract_type"
-                                                                    id="" >
+                                                                    id="">
                                                                     <option value="">Select Contract</option>
                                                                     @foreach ($contruct as $contract)
-                                                                        <option value="{{ $contract->id }}" 
+                                                                        <option value="{{ $contract->id }}"
                                                                             @selected($propertie->contract_type == $contract->contruct_name)>
                                                                             {{ $contract->contruct_name }}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group col-md-4">
+                                                            <div class="form-group col-md-6">
                                                                 <label> Status <span class="text-danger">*</span></label>
                                                                 <select name="status" id=""
                                                                     class="form-control">
@@ -333,7 +382,7 @@
                     </div>
                     <div class="modal-body">
                         <form action="{{ url('property-store') }}" method="post" enctype="multipart/form-data"
-                            x-data="{ptype:null}">
+                            x-data="{ ptype: null }">
                             @csrf
                             <div class="form-group">
                                 <label>Property Title <span class="text-danger">*</span></label>
@@ -342,7 +391,8 @@
                             <div class=" row">
                                 <div class="form-group col-md-6">
                                     <label> Property Type <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="property_type" x-on:change="ptype = $event.target.options[$event.target.selectedIndex].dataset.type.toLowerCase()"
+                                    <select class="form-control" name="property_type"
+                                        x-on:change="ptype = $event.target.options[$event.target.selectedIndex].dataset.type.toLowerCase()"
                                         id="">
                                         <option value="">Select Property Type</option>
                                         @foreach ($type as $types)
@@ -367,14 +417,25 @@
                                 <textarea name="address" id="" cols="" rows="5" class="form-control"></textarea>
                             </div>
                             <div class=" row">
-                                <div class="form-group col-md-4">
+                                <div class="form-group" :class="ptype !== ('apartment' || 'flat') ? 'col-md-6' : 'col-md-4'">
                                     <label> Price <span class="text-danger">*</span></label>
                                     <input type="text" name="price" id="edit_checkin" class="form-control">
                                 </div>
-                                <template x-if="ptype === ('apartment'||'flat')">
-                                    <div class="form-group col-md-4">
+                                <template x-if="ptype !== ('apartment'||'flat')">
+                                    <div class="form-group col-md-6">
                                         <label> Area <span class="text-danger">*</span></label>
                                         <input type="text" name="area" id="edit_checkin" class="form-control">
+                                    </div>
+                                </template>
+                                <template x-if="ptype === ('apartment'||'flat')">
+                                    <div class="form-group col-md-4">
+                                        <label> BHK <span class="text-danger">*</span></label>
+                                        <select class="form-control" name="bhk_id" id="">
+                                            <option value="">--Select BHK--</option>
+                                            @foreach ($bhks as $bhk)
+                                                <option value="{{ $bhk->id }}">{{ $bhk->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </template>
                                 <template x-if="ptype === ('apartment' || 'flat')">
@@ -388,31 +449,49 @@
                                         </select>
                                     </div>
                                 </template>
-                                <template x-if="ptype !== ('apartment'||'flat')">
-                                    <div class="form-group col-md-8">
-                                        <label> BHK <span class="text-danger">*</span></label>
-                                        <select class="form-control" name="bhk_id" id="">
-                                            <option value="">--Select BHK--</option>
-                                            @foreach ($bhks as $bhk)
-                                                <option value="{{ $bhk->id }}">{{ $bhk->name }}</option>
+                            </div>
+                            <div class="row" x-data="{ ctype: 1, agents: [], getAgents(id) { fetch(`/agency/${id}`).then((res) => res.json()).then((data) => this.agents = data.agents) } }">
+                                <div class="form-group" :class="ctype == 1 ? 'col-md-6' : 'col-md-4'">
+                                    <label>Contact Type <span class="text-danger">*</span></label>
+                                    <select class="form-control" x-on:change="ctype = $event.target.value" name="ctype"
+                                        id="">
+                                        <option value="1">Direct</option>
+                                        <option value="2">Agency</option>
+                                    </select>
+                                </div>
+                                <template x-if="ctype == 2">
+                                    <div class="form-group col-md-4">
+                                        <label>Agency <span class="text-danger">*</span></label>
+                                        <select class="form-control" x-on:change="getAgents($event.target.value)"
+                                            name="agency_id" id="">
+                                            <option value="">Select Agency</option>
+                                            @foreach ($agency as $p)
+                                                <option value="{{ $p->id }}">{{ $p->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </template>
-                            </div>
-
-
-                            <div class=" row">
-                                <div class="form-group col-md-4">
-                                    <label>Assigned Agent <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="agency_id" id="">
-                                        <option value="">Select Agent</option>
-                                        @foreach ($agents as $agent)
-                                            <option value="{{ $agent->id }}">{{ $agent->name }} - {{ $agent->deals_in }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="form-group" :class="ctype == 1 ? 'col-md-6' : 'col-md-4'">
+                                    <label>Agent <span class="text-danger">*</span></label>
+                                    <template x-if="ctype == 1">
+                                        <select class="form-control" name="agent_id" id="">
+                                            <option value="">Select Agent</option>
+                                            @foreach ($agents as $agent)
+                                                <option value="{{ $agent->id }}">{{ $agent->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </template>
+                                    <template x-if="ctype == 2">
+                                        <select class="form-control" name="agency_id" id="">
+                                            <template x-for="agent in agents">
+                                                <option :value="agent.id" x-text="agent.name"></option>
+                                            </template>
+                                        </select>
+                                    </template>
                                 </div>
-                                <div class="form-group col-md-4">
+                            </div>
+                            <div class=" row">
+                                <div class="form-group col-md-6">
                                     <label>Contract <span class="text-danger">*</span></label>
                                     <select class="form-control" name="contract_type" id="">
                                         <option value="">Select Contract</option>
@@ -421,7 +500,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label> Status <span class="text-danger">*</span></label>
                                     <select name="status" id="" class="form-control">
                                         <option value=""> Select Listing Status</option>
@@ -513,5 +592,13 @@
         //         $('#delete_id').val(id);
         //     });
         // });
+
+        // getAgents(id){
+
+        // }
+
+        // document.addEventListener("alpine:init",function(){
+        //     Alpine.data('getAgents',getAgents)
+        // })
     </script>
 @endsection

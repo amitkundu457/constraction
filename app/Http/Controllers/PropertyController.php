@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agency;
 use App\Models\Plot;
 use App\Models\Unit;
 use App\Models\Agent;
@@ -31,7 +32,8 @@ class PropertyController extends Controller
         $agents = Agent::all();
         $amenities = PropertyAmenity::all();
         $bhks = PropertyBhk::all();
-        return view('property/property', compact('bhks','amenities','agents','properties', 'title', 'contruct', 'type', 'unit',));
+        $agency = Agency::all();
+        return view('property/property', compact('agency','bhks','amenities','agents','properties', 'title', 'contruct', 'type', 'unit',));
     }
 
 
@@ -67,6 +69,8 @@ class PropertyController extends Controller
 
         $property = new Property();
         $property->agency_id = $request->agency_id;
+        $property->agent_id = $request->agent_id;
+        $property->ctype = $request->ctype;
         $property->property_type = $request->property_type;
         $property->contract_type = $request->contract_type;
         $property->unit_id = $request->unit_id;
@@ -108,6 +112,8 @@ class PropertyController extends Controller
         // dd($request->contract_type);
         $property = Property::findOrFail($id);
         $property->agency_id = $request->agency_id;
+        $property->agent_id = $request->agent_id;
+        $property->ctype = $request->ctype;
         $property->property_type = $request->property_type;
         $property->contract_type = $request->contract_type;
         $property->unit_id = $request->unit_id;

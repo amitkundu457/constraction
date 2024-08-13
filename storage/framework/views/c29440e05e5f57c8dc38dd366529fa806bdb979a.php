@@ -1067,8 +1067,14 @@
                     <?php endif; ?>
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage client')): ?>
                         <li
-                            class="dash-item <?php echo e(Request::route()->getName() == 'clients.index' || Request::segment(1) == 'clients' || Request::route()->getName() == 'clients.edit' ? ' active' : ''); ?>">
+                            class="dash-item <?php echo e(Request::route()->getName() == 'agents' ? ' active' : ''); ?>">
                             <a class="dash-link" href="<?php echo e(route('agents.index')); ?>"><?php echo e(__('Agent')); ?></a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage client')): ?>
+                        <li
+                            class="dash-item <?php echo e(Request::route()->getName() == 'agency' ? ' active' : ''); ?>">
+                            <a class="dash-link" href="<?php echo e(route('agency.index')); ?>"><?php echo e(__('Agency')); ?></a>
                         </li>
                     <?php endif; ?>
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage client')): ?>

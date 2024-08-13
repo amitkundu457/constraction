@@ -1119,8 +1119,14 @@
                     @endcan
                     @can('manage client')
                         <li
-                            class="dash-item {{ Request::route()->getName() == 'clients.index' || Request::segment(1) == 'clients' || Request::route()->getName() == 'clients.edit' ? ' active' : '' }}">
+                            class="dash-item {{ Request::route()->getName() == 'agents' ? ' active' : '' }}">
                             <a class="dash-link" href="{{ route('agents.index') }}">{{ __('Agent') }}</a>
+                        </li>
+                    @endcan
+                    @can('manage client')
+                        <li
+                            class="dash-item {{ Request::route()->getName() == 'agency' ? ' active' : '' }}">
+                            <a class="dash-link" href="{{ route('agency.index') }}">{{ __('Agency') }}</a>
                         </li>
                     @endcan
                     @can('manage client')

@@ -58,16 +58,33 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                {{Form::label('deals_in',__('Agency Name'),['class'=>'form-label']) }}
-                {{Form::text('deals_in',null,array('class'=>'form-control','placeholder'=>__('Agency Name'),'required'=>'required'))}}
-                @error('deals_in')
-                <small class="invalid-deals_in" role="alert">
+                {{Form::label('adhaar',__('Adhaar NO.'),['class'=>'form-label']) }}
+                {{Form::text('adhaar',$agent->adhaar,array('class'=>'form-control','placeholder'=>__('Enter Adhaar No'),'required'=>'required'))}}
+                @error('adhaar')
+                <small class="invalid-adhaar" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>
                 </small>
                 @enderror
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="form-group">
+                {{Form::label('agency_id',__('Agency Name'),['class'=>'form-label']) }}
+                <select name="agency_id" id="" class="form-control">
+                    <option value=""> -- Select Agency --</option>
+                    {{-- <option value="">No Agency</option> --}}
+                    @foreach ($agency as $item)
+                    <option value="{{ $item->id }}" @selected($agent->agency_id == $item->id)>{{ $item->name }}</option>
+                    @endforeach
+                </select>
+                @error('agency_id')
+                <small class="invalid-agency_id" role="alert">
+                    <strong class="text-danger">{{ $message }}</strong>
+                </small>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 {{Form::label('document',__('Document'),['class'=>'form-label']) }}
                 <input type="file" class="form-control" name="document">
@@ -81,7 +98,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 {{Form::label('city',__('City'),['class'=>'form-label']) }}
-                {{Form::text('city',null,array('class'=>'form-control','placeholder'=>__('Enter City'),'required'=>'required'))}}
+                {{Form::text('city',$agent->city,array('class'=>'form-control','placeholder'=>__('Enter City'),'required'=>'required'))}}
                 @error('city')
                 <small class="invalid-city" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>
@@ -92,7 +109,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 {{Form::label('state',__('State'),['class'=>'form-label']) }}
-                {{Form::text('state',null,array('class'=>'form-control','placeholder'=>__('Enter State'),'required'=>'required'))}}
+                {{Form::text('state',$agent->state,array('class'=>'form-control','placeholder'=>__('Enter State'),'required'=>'required'))}}
                 @error('state')
                 <small class="invalid-state" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>
@@ -103,7 +120,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 {{Form::label('pincode',__('Pincode'),['class'=>'form-label']) }}
-                {{Form::number('pincode',null,array('class'=>'form-control','placeholder'=>__('Enter Pincode'),'required'=>'required'))}}
+                {{Form::number('pincode',$agent->pincode,array('class'=>'form-control','placeholder'=>__('Enter Pincode'),'required'=>'required'))}}
                 @error('pincode')
                 <small class="invalid-pincode" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>
@@ -114,7 +131,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 {{Form::label('address',__('Address'),['class'=>'form-label']) }}
-                {{Form::textarea('address',null,array('class'=>'form-control','placeholder'=>__('Enter agent address'),'required'=>'required','rows'=>'4'))}}
+                {{Form::textarea('address',$agent->address,array('class'=>'form-control','placeholder'=>__('Enter agent address'),'required'=>'required','rows'=>'4'))}}
                 @error('name')
                 <small class="invalid-name" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>

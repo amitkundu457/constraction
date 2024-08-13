@@ -58,16 +58,33 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                {{Form::label('deals_in',__('Agency Name'),['class'=>'form-label']) }}
-                {{Form::text('deals_in',null,array('class'=>'form-control','placeholder'=>__('Agency Name'),'required'=>'required'))}}
-                @error('deals_in')
-                <small class="invalid-deals_in" role="alert">
+                {{Form::label('adhaar',__('Adhaar NO.'),['class'=>'form-label']) }}
+                {{Form::text('adhaar',null,array('class'=>'form-control','placeholder'=>__('Enter Adhaar No'),'required'=>'required'))}}
+                @error('adhaar')
+                <small class="invalid-adhaar" role="alert">
                     <strong class="text-danger">{{ $message }}</strong>
                 </small>
                 @enderror
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="form-group">
+                {{Form::label('agency_id',__('Agency Name'),['class'=>'form-label']) }}
+                <select name="agency_id" id="" class="form-control">
+                    <option value=""> -- Select Agency --</option>
+                    {{-- <option value="">No Agency</option> --}}
+                    @foreach ($agency as $item)
+                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endforeach
+                </select>
+                @error('agency_id')
+                <small class="invalid-agency_id" role="alert">
+                    <strong class="text-danger">{{ $message }}</strong>
+                </small>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 {{Form::label('document',__('Document'),['class'=>'form-label']) }}
                 <input type="file" class="form-control" name="document">

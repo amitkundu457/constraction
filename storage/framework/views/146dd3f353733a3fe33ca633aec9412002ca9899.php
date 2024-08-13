@@ -104,16 +104,16 @@ unset($__errorArgs, $__bag); ?>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <?php echo e(Form::label('deals_in',__('Agency Name'),['class'=>'form-label'])); ?>
+                <?php echo e(Form::label('adhaar',__('Adhaar NO.'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::text('deals_in',null,array('class'=>'form-control','placeholder'=>__('Agency Name'),'required'=>'required'))); ?>
+                <?php echo e(Form::text('adhaar',null,array('class'=>'form-control','placeholder'=>__('Enter Adhaar No'),'required'=>'required'))); ?>
 
-                <?php $__errorArgs = ['deals_in'];
+                <?php $__errorArgs = ['adhaar'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                <small class="invalid-deals_in" role="alert">
+                <small class="invalid-adhaar" role="alert">
                     <strong class="text-danger"><?php echo e($message); ?></strong>
                 </small>
                 <?php unset($message);
@@ -122,7 +122,32 @@ endif;
 unset($__errorArgs, $__bag); ?>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="form-group">
+                <?php echo e(Form::label('agency_id',__('Agency Name'),['class'=>'form-label'])); ?>
+
+                <select name="agency_id" id="" class="form-control">
+                    <option value=""> -- Select Agency --</option>
+                    
+                    <?php $__currentLoopData = $agency; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($item->id); ?>"><?php echo e($item->name); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+                <?php $__errorArgs = ['agency_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                <small class="invalid-agency_id" role="alert">
+                    <strong class="text-danger"><?php echo e($message); ?></strong>
+                </small>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <?php echo e(Form::label('document',__('Document'),['class'=>'form-label'])); ?>
 

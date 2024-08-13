@@ -104,16 +104,16 @@ unset($__errorArgs, $__bag); ?>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <?php echo e(Form::label('deals_in',__('Agency Name'),['class'=>'form-label'])); ?>
+                <?php echo e(Form::label('adhaar',__('Adhaar NO.'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::text('deals_in',null,array('class'=>'form-control','placeholder'=>__('Agency Name'),'required'=>'required'))); ?>
+                <?php echo e(Form::text('adhaar',$agent->adhaar,array('class'=>'form-control','placeholder'=>__('Enter Adhaar No'),'required'=>'required'))); ?>
 
-                <?php $__errorArgs = ['deals_in'];
+                <?php $__errorArgs = ['adhaar'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                <small class="invalid-deals_in" role="alert">
+                <small class="invalid-adhaar" role="alert">
                     <strong class="text-danger"><?php echo e($message); ?></strong>
                 </small>
                 <?php unset($message);
@@ -122,7 +122,32 @@ endif;
 unset($__errorArgs, $__bag); ?>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="form-group">
+                <?php echo e(Form::label('agency_id',__('Agency Name'),['class'=>'form-label'])); ?>
+
+                <select name="agency_id" id="" class="form-control">
+                    <option value=""> -- Select Agency --</option>
+                    
+                    <?php $__currentLoopData = $agency; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($item->id); ?>" <?php if($agent->agency_id == $item->id): echo 'selected'; endif; ?>><?php echo e($item->name); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+                <?php $__errorArgs = ['agency_id'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                <small class="invalid-agency_id" role="alert">
+                    <strong class="text-danger"><?php echo e($message); ?></strong>
+                </small>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <?php echo e(Form::label('document',__('Document'),['class'=>'form-label'])); ?>
 
@@ -145,7 +170,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="form-group">
                 <?php echo e(Form::label('city',__('City'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::text('city',null,array('class'=>'form-control','placeholder'=>__('Enter City'),'required'=>'required'))); ?>
+                <?php echo e(Form::text('city',$agent->city,array('class'=>'form-control','placeholder'=>__('Enter City'),'required'=>'required'))); ?>
 
                 <?php $__errorArgs = ['city'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -165,7 +190,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="form-group">
                 <?php echo e(Form::label('state',__('State'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::text('state',null,array('class'=>'form-control','placeholder'=>__('Enter State'),'required'=>'required'))); ?>
+                <?php echo e(Form::text('state',$agent->state,array('class'=>'form-control','placeholder'=>__('Enter State'),'required'=>'required'))); ?>
 
                 <?php $__errorArgs = ['state'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -185,7 +210,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="form-group">
                 <?php echo e(Form::label('pincode',__('Pincode'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::number('pincode',null,array('class'=>'form-control','placeholder'=>__('Enter Pincode'),'required'=>'required'))); ?>
+                <?php echo e(Form::number('pincode',$agent->pincode,array('class'=>'form-control','placeholder'=>__('Enter Pincode'),'required'=>'required'))); ?>
 
                 <?php $__errorArgs = ['pincode'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -205,7 +230,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="form-group">
                 <?php echo e(Form::label('address',__('Address'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::textarea('address',null,array('class'=>'form-control','placeholder'=>__('Enter agent address'),'required'=>'required','rows'=>'4'))); ?>
+                <?php echo e(Form::textarea('address',$agent->address,array('class'=>'form-control','placeholder'=>__('Enter agent address'),'required'=>'required','rows'=>'4'))); ?>
 
                 <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
