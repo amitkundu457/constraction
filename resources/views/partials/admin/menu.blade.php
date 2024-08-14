@@ -864,6 +864,20 @@
                             </a>
                         @endif
                     </li>
+                    <li
+                        class="dash-item  {{ Request::segment(1) == 'employee' ? 'active dash-trigger' : '' }}   ">
+                        @if (\Auth::user()->type == 'Employee')
+                            @php
+                                $employee = App\Models\Employee::where('user_id', \Auth::user()->id)->first();
+                            @endphp
+                            <a class="dash-link"
+                                href="{{ route('employee.show', \Illuminate\Support\Facades\Crypt::encrypt($employee->id)) }}">{{ __('Employee') }}</a>
+                        @else
+                            <a href="{{ route('plot.owner.index') }}" class="dash-link">
+                                {{ __('Plot Owners') }}
+                            </a>
+                        @endif
+                    </li>
 
                     @if (Gate::check('manage project task stage') || Gate::check('manage bug status'))
                         <li
@@ -1012,6 +1026,34 @@
                                 <a class="dash-link" href="{{ route('projects.index') }}">{{ __('Projects') }}</a>
                             </li>
                         @endcan
+                        {{-- <li
+                            class="dash-item dash-hasmenu {{ Request::segment(1) == 'equipments' || Request::segment(1) == 'equipment' ? 'active dash-trigger' : '' }}">
+                            <a class="dash-link" href="#">{{ __('Labour Management') }}<span
+                                    class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                            <ul class="dash-submenu">
+                                <li class="dash-item {{ request()->is('equipments') ? 'active' : '' }}">
+                                    <a class="dash-link"
+                                        href="{{ route('equipments.index') }}">{{ __('Manage Equipments') }}</a>
+                                </li>
+                                <li class="dash-item {{ Request::segment(1) == '' ? 'active' : '' }}">
+                                    <a class="dash-link"
+                                        href="{{ route('equipment.quality.index') }}">{{ __('Verification Method') }}</a>
+                                </li>
+                                <li
+                                    class="dash-item {{ Request::segment(1) == 'equipment.maintainance.index' ? 'active' : '' }}">
+                                    <a class="dash-link"
+                                        href="{{ route('equipment.maintainance.index') }}">{{ __('Service Schedule') }}</a>
+                                </li>
+                                <li class="dash-item">
+                                    <a class="dash-link" href="#">{{ __('Bad Stock') }}</a>
+                                </li>
+                                <li
+                                    class="dash-item {{ Request::segment(1) == 'equipment.type.index' || Request::route()->getName() == 'equipment.manufacturer.index' || Request::route()->getName() == 'equipment.condition.index' ? 'active ' : '' }}">
+                                    <a class="dash-link"
+                                        href="{{ route('equipment.type.index') }}">{{ __('Equipment Setup') }}</a>
+                                </li>
+                            </ul>
+                        </li> --}}
                         @can('manage project task')
                             <li class="dash-item {{ request()->is('taskboard*') ? 'active' : '' }}">
                                 <a class="dash-link"
@@ -1118,14 +1160,12 @@
                         </li>
                     @endcan
                     @can('manage client')
-                        <li
-                            class="dash-item {{ Request::route()->getName() == 'agents' ? ' active' : '' }}">
+                        <li class="dash-item {{ Request::route()->getName() == 'agents' ? ' active' : '' }}">
                             <a class="dash-link" href="{{ route('agents.index') }}">{{ __('Agent') }}</a>
                         </li>
                     @endcan
                     @can('manage client')
-                        <li
-                            class="dash-item {{ Request::route()->getName() == 'agency' ? ' active' : '' }}">
+                        <li class="dash-item {{ Request::route()->getName() == 'agency' ? ' active' : '' }}">
                             <a class="dash-link" href="{{ route('agency.index') }}">{{ __('Agency') }}</a>
                         </li>
                     @endcan

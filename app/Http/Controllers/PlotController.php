@@ -3,20 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Plot;
+use App\Models\PlotOwner;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class PlotController extends Controller
 {
     public function index()
     {
-        $title = "Plot";
         $plots = Plot::all();
-        return view('plot.index', \compact('plots', 'title'));
+        return view('plot.index', \compact('plots'));
     }
 
     public function create()
     {
-        return view('plot.create');
+        $owners = PlotOwner::all();
+        $projects = Project::all();
+        return view('plot.create',\compact('owners','projects'));
     }
 
     public function store(Request $request)
@@ -40,16 +43,14 @@ class PlotController extends Controller
 
         $documents = [];
 
-
         foreach ($request->documents as $item) {
             $fileName = time() . '.' . $item['file']->getClientOriginalName();
             $item['file']->move(public_path('plot'), $fileName);
             $documents[] = ['name' => $item['name'], 'type' => $item['type'], 'file' => $fileName];
         }
-
         Plot::create([
-            'name' => $request->name,
-            'project_name' => $request->project_name,
+            'owner_id' => $request->owner_id,
+            'project_id' => $request->project_id,
             'block_name' => $request->block_name,
             'khasra_no' => $request->khasra_no,
             'phone_no' => $request->phone_no,
@@ -64,10 +65,14 @@ class PlotController extends Controller
         return \redirect()->route('plot.index')->with('success', $request->name . ' plot created successfully');
     }
 
+
+
     public function edit($id)
     {
         $plot = Plot::findOrFail($id);
-        return view('plot.update', \compact('plot'));
+        $owners = PlotOwner::all();
+        $projects = Project::all();
+        return view('plot.update', \compact('plot','owners','projects'));
     }
 
     public function update($id, Request $request)
@@ -118,8 +123,8 @@ class PlotController extends Controller
         }
 
         $plot->update([
-            'name' => $request->name,
-            'project_name' => $request->project_name,
+            'owner_id' => $request->owner_id,
+            'project_id' => $request->project_id,
             'block_name' => $request->block_name,
             'khasra_no' => $request->khasra_no,
             'phone_no' => $request->phone_no,

@@ -34,9 +34,9 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
+                            <th>Owner Name</th>
                             <th>Project name</th>
-                            <th>Block Name</th>
+                            <th>Area (SQFt.)</th>
                             <th>Phone No.</th>
                             <th>Total Plots</th>
                             <th> TimeStamp</th>
@@ -51,8 +51,8 @@
                             <tr>
                                 <td>{{ $count }}</td>
 
-                                <td>{{ $plot->name }}</td>
-                                <td>{{ $plot->project_name }}</td>
+                                <td>{{ $plot->owner($plot->owner_id)->name }}</td>
+                                <td>{{ $plot->project($plot->project_id)->project_name }}</td>
                                 <td>{{ $plot->block_name }}</td>
                                 <td>
                                     {{ $plot->phone_no }}

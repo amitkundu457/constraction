@@ -174,6 +174,7 @@ use App\Http\Controllers\ProductServiceCategoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\PlotOwnerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1888,6 +1889,7 @@ Route::group(['middleware' => ['verified']], function () {
         Route::get('/{id}/edit', [PlotController::class, 'edit'])->name('edit');
         Route::post('/{id}/edit', [PlotController::class, 'update']);
         Route::delete('/{id}/delete', [PlotController::class, 'destroy'])->name('delete');
+        Route::resource('owner',PlotOwnerController::class);
     });
 
     // Agent management

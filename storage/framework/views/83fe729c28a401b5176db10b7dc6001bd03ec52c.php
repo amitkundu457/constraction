@@ -35,9 +35,9 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
+                            <th>Owner Name</th>
                             <th>Project name</th>
-                            <th>Block Name</th>
+                            <th>Area (SQFt.)</th>
                             <th>Phone No.</th>
                             <th>Total Plots</th>
                             <th> TimeStamp</th>
@@ -52,8 +52,8 @@
                             <tr>
                                 <td><?php echo e($count); ?></td>
 
-                                <td><?php echo e($plot->name); ?></td>
-                                <td><?php echo e($plot->project_name); ?></td>
+                                <td><?php echo e($plot->owner($plot->owner_id)->name); ?></td>
+                                <td><?php echo e($plot->project($plot->project_id)->project_name); ?></td>
                                 <td><?php echo e($plot->block_name); ?></td>
                                 <td>
                                     <?php echo e($plot->phone_no); ?>

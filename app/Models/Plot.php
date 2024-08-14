@@ -10,8 +10,8 @@ class Plot extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'project_name',
+        'owner_id',
+        'project_id',
         'block_name',
         'khasra_no',
         'phone_no',
@@ -29,4 +29,11 @@ class Plot extends Model
         'plot_list'=>'json'
     ];
 
+    public function owner($id){
+        return PlotOwner::findOrFail($id);
+    }
+
+    public function project($id){
+        return Project::findOrFail($id);
+    }
 }
