@@ -142,8 +142,10 @@
                                                             <i class="ti ti-eye text-white"></i>
                                                         </a>
                                                     </div>
+                                                    
                                                 @endcan
                                                 @can('edit bill')
+                                                
                                                     <div class="action-btn bg-primary ms-2">
                                                         <a href="{{ route('bill.edit',\Crypt::encrypt($bill->id)) }}" class="mx-3 btn btn-sm align-items-center" data-bs-toggle="tooltip" title="Edit" data-original-title="{{__('Edit')}}">
                                                             <i class="ti ti-pencil text-white"></i>
