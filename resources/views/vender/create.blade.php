@@ -3,21 +3,28 @@
 
     <h6 class="sub-title">{{ __('Basic Info') }}</h6>
     <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="col-lg-6 col-md-4 col-sm-6">
+            <div class="form-group">
+                {{ Form::label('Site name', __('Site name'), ['class' => 'form-label']) }}
+                {{ Form::text('site_name', null, ['class' => 'form-control', 'required' => 'required']) }}
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-4 col-sm-6">
             <div class="form-group">
                 {{ Form::label('Location name', __('Location name'), ['class' => 'form-label']) }}
                 {{ Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) }}
 
             </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="form-group">
                 <label for="">Phone No</label>
                 <input type="number" class="form-control" name="contact">
 
             </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6">
+        {{-- <div class="col-lg-4 col-md-4 col-sm-6">
             <label for="">Contractor </label>
             <select name="client_id" id="" class="form-control"
                 @change="fetchClientDetails($event.target.value)">
@@ -31,15 +38,15 @@
                 @endforeach
             </select>
 
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-6">
+        </div> --}}
+        <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="form-group">
                 <label for="">Email</label>
-                <input type="text" class="form-control" name="email" :value="client && client.email" readonly>
+                <input type="text" class="form-control" name="email">
 
             </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="form-group">
                 {{ Form::label('billing_zip', __('Zip Code'), ['class' => 'form-label']) }}
                 {{ Form::text('billing_zip', null, ['class' => 'form-control']) }}
@@ -61,13 +68,13 @@
             </div>
         </div> --}}
 
-        <div class="col-lg-4 col-md-4 col-sm-6">
+        {{-- <div class="col-lg-4 col-md-4 col-sm-6">
             <div class="form-group">
                 <label for="">Budget</label>
                 <input type="text" class="form-control" name="email" :value="client && client.value" readonly>
 
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-12">
             <div class="form-group">
                 {{ Form::label('billing_address', __('Address'), ['class' => 'form-label']) }}
@@ -75,7 +82,30 @@
             </div>
         </div>
 
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="form-group">
+                {{ Form::label('billing_city', __('City'), ['class' => 'form-label']) }}
+                {{ Form::text('billing_city', null, ['class' => 'form-control']) }}
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="form-group">
+                {{ Form::label('billing_state', __('State'), ['class' => 'form-label']) }}
+                {{ Form::text('billing_state', null, ['class' => 'form-control']) }}
+            </div>
+        </div>
 
+        <div class="col-lg-6 col-md-6 col-sm-6" x-data="locationData()">
+            <div class="form-group">
+                <select x-model="selectedCountry" id="country" class="form-control">
+                    <option value="">Select Country</option>
+                    <template x-for="country in countries" :key="country.code">
+                        <option :value="country.code" x-text="country.name"></option>
+                    </template>
+                </select>
+
+            </div>
+        </div>
         {{-- <div class="col-lg-4 col-md-4 col-sm-6">
             <div class="form-group">
                 {{ Form::label('tax_number', __('Tax Number'), ['class' => 'form-label']) }}
@@ -114,12 +144,7 @@
             </div>
         </div>
 
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="form-group">
-                {{ Form::label('billing_city', __('City'), ['class' => 'form-label']) }}
-                {{ Form::text('billing_city', null, ['class' => 'form-control']) }}
-            </div>
-        </div>
+
 
         <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="form-group">

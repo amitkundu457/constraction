@@ -1026,34 +1026,21 @@
                                 <a class="dash-link" href="{{ route('projects.index') }}">{{ __('Projects') }}</a>
                             </li>
                         @endcan
-                        {{-- <li
-                            class="dash-item dash-hasmenu {{ Request::segment(1) == 'equipments' || Request::segment(1) == 'equipment' ? 'active dash-trigger' : '' }}">
+                        <li
+                            class="dash-item dash-hasmenu {{ Request::segment(1) == 'labour-group' || Request::segment(1) == 'equipment' ? 'active dash-trigger' : '' }}">
                             <a class="dash-link" href="#">{{ __('Labour Management') }}<span
                                     class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
                             <ul class="dash-submenu">
-                                <li class="dash-item {{ request()->is('equipments') ? 'active' : '' }}">
-                                    <a class="dash-link"
-                                        href="{{ route('equipments.index') }}">{{ __('Manage Equipments') }}</a>
-                                </li>
                                 <li class="dash-item {{ Request::segment(1) == '' ? 'active' : '' }}">
                                     <a class="dash-link"
-                                        href="{{ route('equipment.quality.index') }}">{{ __('Verification Method') }}</a>
+                                        href="{{ route('labour-group.index') }}">{{ __('Labour Group') }}</a>
                                 </li>
-                                <li
-                                    class="dash-item {{ Request::segment(1) == 'equipment.maintainance.index' ? 'active' : '' }}">
+                                <li class="dash-item {{ request()->is('equipments') ? 'active' : '' }}">
                                     <a class="dash-link"
-                                        href="{{ route('equipment.maintainance.index') }}">{{ __('Service Schedule') }}</a>
-                                </li>
-                                <li class="dash-item">
-                                    <a class="dash-link" href="#">{{ __('Bad Stock') }}</a>
-                                </li>
-                                <li
-                                    class="dash-item {{ Request::segment(1) == 'equipment.type.index' || Request::route()->getName() == 'equipment.manufacturer.index' || Request::route()->getName() == 'equipment.condition.index' ? 'active ' : '' }}">
-                                    <a class="dash-link"
-                                        href="{{ route('equipment.type.index') }}">{{ __('Equipment Setup') }}</a>
+                                        href="{{ route('labour.index') }}">{{ __('Labours') }}</a>
                                 </li>
                             </ul>
-                        </li> --}}
+                        </li>
                         @can('manage project task')
                             <li class="dash-item {{ request()->is('taskboard*') ? 'active' : '' }}">
                                 <a class="dash-link"
@@ -1198,24 +1185,24 @@
                         <i data-feather="chevron-right"></i></span>
                 </a>
                 <ul class="dash-submenu">
-                    {{-- @if (Gate::check('manage vender'))
-                        <li class="dash-item {{ Request::segment(1) == 'vender' ? 'active' : '' }}">
-                            <a class="dash-link" href="{{ route('vender.index') }}">{{ __('Site Name') }}</a>
-                        </li>
-                    @endif --}}
-
+                    
                     <li
-                        class="dash-item dash-hasmenu {{ Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : '' }}">
-                        <a class="dash-link" href="#">{{ __('Inventory & Material') }}<span
-                                class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                    class="dash-item dash-hasmenu {{ Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : '' }}">
+                    <a class="dash-link" href="#">{{ __('Inventory & Material') }}<span
+                        class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
                         <ul class="dash-submenu">
-                            @can('manage warehouse')
+                            @if (Gate::check('manage vender'))
+                                <li class="dash-item {{ Request::segment(1) == 'vender' ? 'active' : '' }}">
+                                    <a class="dash-link" href="{{ route('vender.index') }}">{{ __('Manage Site') }}</a>
+                                </li>
+                            @endif
+                            {{-- @can('manage warehouse')
                                 <li
                                     class="dash-item {{ Request::route()->getName() == 'warehouse.index' || Request::route()->getName() == 'warehouse.show' ? ' active' : '' }}">
                                     <a class="dash-link"
                                         href="{{ route('warehouse.index') }}">{{ __('Manage Site') }}</a>
                                 </li>
-                            @endcan
+                            @endcan --}}
                             @if (Gate::check('manage product & service'))
                                 <li class="dash-item {{ Request::segment(1) == 'productservice' ? 'active' : '' }}">
                                     <a href="{{ route('productservice.index') }}"

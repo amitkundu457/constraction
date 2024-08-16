@@ -46,7 +46,7 @@
     </div>
 @endsection
 @section('content')
-    <div class="row">
+    <div class="row" x-data="locationData()" x-init="init()">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body table-border-style">
@@ -55,8 +55,8 @@
                             <thead>
                                 <tr>
                                     {{-- <th>#</th> --}}
-                                    <th>{{ __(' Location Name') }}</th>
-                                    {{-- <th>{{ __(' Client Name') }}</th> --}}
+                                    <th>{{ __('  Site Name') }}</th>
+                                    <th>{{ __(' Location ') }}</th>
                                     <th>{{ __('Contact') }}</th>
                                     <th>{{ __('Email') }}</th>
                                     {{-- <th>{{ __('Budget') }}</th> --}}
@@ -80,6 +80,7 @@
                                                 </a>
                                             @endcan
                                         </td> --}}
+                                        <td>{{ $Vender['site_name'] }}</td>
                                         <td>{{ $Vender['name'] }}</td>
                                         {{-- <td>{{ $Vender['cname'] }}</td> --}}
                                         <td>{{ $Vender['contact'] }}</td>
@@ -98,7 +99,7 @@
                                                             <a href="{{ route('vender.show', \Crypt::encrypt($Vender['id'])) }}"
                                                                 class="mx-3 btn btn-sm align-items-center"
                                                                 data-bs-toggle="tooltip" title="{{ __('View') }}">
-                                                                <i class="ti ti-eye text-white text-white"></i>
+                                                                <i class="text-white ti ti-eye"></i>
                                                             </a>
                                                         </div>
                                                     @endcan
@@ -110,7 +111,7 @@
                                                                 data-ajax-popup="true" title="{{ __('Edit') }}"
                                                                 data-bs-toggle="tooltip"
                                                                 data-original-title="{{ __('Edit') }}">
-                                                                <i class="ti ti-pencil text-white"></i>
+                                                                <i class="text-white ti ti-pencil"></i>
                                                             </a>
                                                         </div>
                                                     @endcan
@@ -128,7 +129,7 @@
                                                                 title="{{ __('Delete') }}"
                                                                 data-confirm="{{ __('Are You Sure?') . '|' . __('This action can not be undone. Do you want to continue?') }}"
                                                                 data-confirm-yes="document.getElementById('delete-form-{{ $Vender['id'] }}').submit();">
-                                                                <i class="ti ti-trash text-white text-white"></i>
+                                                                <i class="text-white ti ti-trash"></i>
                                                             </a>
                                                             {!! Form::close() !!}
                                                         </div>
@@ -168,6 +169,57 @@
                         .catch(error => {
                             console.error('Error fetching client details:', error);
                         });
+                }
+            }
+        }
+    </script>
+
+    <script>
+        function locationData() {
+            return {
+                countries: [],
+                states: [],
+                cities: [],
+                selectedCountry: '',
+                selectedState: '',
+                selectedCity: '',
+                loadCountries() {
+                    fetch('https://countryapi.io/api/all?apikey=wUuauebYtpQHoY91c6Ncw6T1Jv9BW6ZyqU3iwUQo')
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('API Response:', data); // Check the API response
+                            if (Array.isArray(data)) {
+                                this.countries = data.map(country => ({
+                                    code: country.alpha2Code || country.iso2 || country.code,
+                                    name: country.name
+                                }));
+                            } else {
+                                console.error('Unexpected data format:', data);
+                            }
+                        })
+                        .catch(error => console.error('Error fetching countries:', error));
+                },
+
+                loadStates() {
+                    fetch(`https://api.example.com/states?country=${this.selectedCountry}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            this.states = data.states;
+                            this.cities = [];
+                            this.selectedState = '';
+                            this.selectedCity = '';
+                        });
+                },
+                loadCities() {
+                    fetch(`https://api.example.com/cities?state=${this.selectedState}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            this.cities = data.cities;
+                            this.selectedCity = '';
+                        });
+                },
+                init() {
+                    this.loadCountries();
                 }
             }
         }

@@ -20,8 +20,8 @@
             </a>
         @endif --}}
         @can('create user')
-            <a href="#" data-size="lg" data-url="{{ route('plot.owner.create') }}" data-ajax-popup="true" data-bs-toggle="tooltip"
-                title="{{ __('Create Owner') }}" class="btn btn-sm btn-primary">
+            <a href="#" data-size="lg" data-url="{{ route('plot.owner.create') }}" data-ajax-popup="true"
+                data-bs-toggle="tooltip" title="{{ __('Create Owner') }}" class="btn btn-sm btn-primary">
                 <i class="ti ti-plus"></i>
             </a>
         @endcan
@@ -63,7 +63,7 @@
                                     </a>
                                     {!! Form::open([
                                         'method' => 'DELETE',
-                                        'route' => ['agents.destroy', $owner->id],
+                                        'route' => ['plot.owner.destroy', $owner->id],
                                         'id' => 'delete-form-' . $owner->id,
                                     ]) !!}
                                     <a href="#" class="mx-1 btn btn-sm bg-danger align-items-center bs-pass-para"

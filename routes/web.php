@@ -3,6 +3,7 @@
 use App\Models\Utility;
 use App\Models\VehicleType;
 use Google\Service\Storage;
+use App\Models\MaterialRequirment;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PosController;
@@ -33,6 +34,7 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\LabourController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\PaytabController;
 use App\Http\Controllers\ReportController;
@@ -88,6 +90,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\IndicatorController;
 use App\Http\Controllers\LeadStageController;
 use App\Http\Controllers\LeaveTypeController;
+use App\Http\Controllers\PlotOwnerController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\SetSalaryController;
 use App\Http\Controllers\TaskStageController;
@@ -107,6 +110,7 @@ use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\DistributorController;
 use App\Http\Controllers\FormBuilderController;
 use App\Http\Controllers\JobCategoryController;
+use App\Http\Controllers\LabourGroupController;
 use App\Http\Controllers\PayslipTypeController;
 use App\Http\Controllers\PlanRequestController;
 use App\Http\Controllers\ProjectTaskController;
@@ -174,7 +178,6 @@ use App\Http\Controllers\ProductServiceCategoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\PlotOwnerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1892,6 +1895,9 @@ Route::group(['middleware' => ['verified']], function () {
         Route::resource('owner',PlotOwnerController::class);
     });
 
+    Route::resource('labour-group',LabourGroupController::class);
+    Route::resource('labour',LabourController::class);
+
     // Agent management
     Route::resource('/agents', AgentController::class);
     Route::resource('/agency', AgencyController::class);
@@ -1979,6 +1985,14 @@ Route::group(['middleware' => ['verified']], function () {
 
     // filemanager
     Route::get('/filemanager',function(){ return view('filemanager.index'); });
+
+    Route::get('material-requirment', [MaterialRequirment::class, 'index']);
+    Route::get('material-requirment-admin', [MaterialRequirment::class, 'MqSuperadmin']);
+    Route::get('material-requirment-search', [MaterialRequirment::class, 'searchBar']);
+    Route::get('material-requirment-status/{id}', [MaterialRequirment::class, 'approveStatus']);
+    Route::get('material-requirment-pending/{id}', [MaterialRequirment::class, 'pendingStatus']);
+    Route::post('materials-requirments', [MaterialRequirment::class, 'store']);
+    Route::get('/project/{id}/bill', [BillController::class, 'projectBill'])->name('project.bill');
 });
 
 Route::any('/cookie-consent', [SystemController::class, 'CookieConsent'])->name('cookie-consent');
