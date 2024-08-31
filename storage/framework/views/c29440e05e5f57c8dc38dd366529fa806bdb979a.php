@@ -48,48 +48,54 @@
                         </span>
                     </a>
                 </li>
+                <li
+                    class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'holiday-calender' ? 'active dash-trigger' : ''); ?>">
+                    <a href="#!" class="dash-link ">
+                        <span class="dash-micon">
+                            <i class="ti ti-tool"></i>
+                        </span>
+                        <span class="dash-mtext">
+                            <?php echo e(__('Utilities')); ?>
+
+                        </span>
+                        <span class="dash-arrow">
+                            <i data-feather="chevron-right"></i>
+                        </span>
+                    </a>
+                    <ul class="dash-submenu">
+                        <li
+                            class="dash-item dash-hasmenu <?php echo e(Request::route()->getName() == 'sheet.index' ? 'active dash-trigger' : ''); ?>">
+                            <a href="<?php echo e(route('sheet.index')); ?>" class="dash-link ">
+                                <?php echo e(__('Spreadsheet Online')); ?>
+
+                            </a>
+                        </li>
+                        <li
+                            class="dash-item dash-hasmenu <?php echo e(Request::route()->getName() == 'word.index' ? 'active dash-trigger' : ''); ?>">
+                            <a href="<?php echo e(route('word.index')); ?>" class="dash-link ">
+                                <?php echo e(__('Word Online')); ?>
+
+                            </a>
+                        </li>
+                        <li
+                            class="dash-item dash-hasmenu <?php echo e(Request::route()->getName() == 'filemanager.index' ? 'active dash-trigger' : ''); ?>">
+                            <a href="<?php echo e(url('filemanager')); ?>" class="dash-link ">
+                                <?php echo e(__('File Manager')); ?>
+
+
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <!--------------------- End Dashboard ----------------------------------->
                 <!--------------------- Start Spreadsheet ----------------------------------->
-                <li
-                    class="dash-item dash-hasmenu <?php echo e(Request::route()->getName() == 'sheets.index' ? 'active dash-trigger' : ''); ?>">
-                    <a href="<?php echo e(url('spreadsheet')); ?>" class="dash-link ">
-                        <span class="dash-micon">
-                            <i class="ti ti-table"></i>
-                        </span>
-                        <span class="dash-mtext">
-                            <?php echo e(__('Spreadsheet Online')); ?>
 
-                        </span>
-                    </a>
-                </li>
                 <!--------------------- End Spreadsheet ----------------------------------->
                 <!--------------------- Start Word ----------------------------------->
-                <li
-                    class="dash-item dash-hasmenu <?php echo e(Request::route()->getName() == 'word.index' ? 'active dash-trigger' : ''); ?>">
-                    <a href="<?php echo e(route('word.index')); ?>" class="dash-link ">
-                        <span class="dash-micon">
-                            <i class="ti ti-file"></i>
-                        </span>
-                        <span class="dash-mtext">
-                            <?php echo e(__('Word Online')); ?>
 
-                        </span>
-                    </a>
-                </li>
                 <!--------------------- End Word ----------------------------------->
                 <!--------------------- Start FileManager ----------------------------------->
-                <li
-                    class="dash-item dash-hasmenu <?php echo e(Request::route()->getName() == 'filemanager.index' ? 'active dash-trigger' : ''); ?>">
-                    <a href="<?php echo e(url('filemanager')); ?>" class="dash-link ">
-                        <span class="dash-micon">
-                            <i class="ti ti-server"></i>
-                        </span>
-                        <span class="dash-mtext">
-                            <?php echo e(__('File Manager')); ?>
 
-                        </span>
-                    </a>
-                </li>
                 <!--------------------- End Filemanager ----------------------------------->
 
 
@@ -849,7 +855,7 @@
                                     <li
                                         class="dash-item  <?php echo e(Request::route()->getName() == 'project-task-stages.index' ? 'active' : ''); ?>">
                                         <a class="dash-link"
-                                            href="<?php echo e(url('property-contruct')); ?>"><?php echo e(__('Property Contract')); ?></a>
+                                            href="<?php echo e(url('property-contruct')); ?>"><?php echo e(__('Property Other Details')); ?></a>
                                     </li>
                                 <?php endif; ?>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage project task stage')): ?>
@@ -991,6 +997,10 @@
                                 <li class="dash-item <?php echo e(request()->is('equipments') ? 'active' : ''); ?>">
                                     <a class="dash-link"
                                         href="<?php echo e(route('labour.index')); ?>"><?php echo e(__('Labours')); ?></a>
+                                </li>
+                                <li class="dash-item <?php echo e(request()->is('equipments') ? 'active' : ''); ?>">
+                                    <a class="dash-link"
+                                        href="<?php echo e(url('laboursite')); ?>"><?php echo e(__('Labours Site Wise')); ?></a>
                                 </li>
                             </ul>
                         </li>
@@ -1134,15 +1144,16 @@
                         <i data-feather="chevron-right"></i></span>
                 </a>
                 <ul class="dash-submenu">
-                    
+
                     <li
-                    class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : ''); ?>">
-                    <a class="dash-link" href="#"><?php echo e(__('Inventory & Material')); ?><span
-                        class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                        class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : ''); ?>">
+                        <a class="dash-link" href="#"><?php echo e(__('Inventory & Material')); ?><span
+                                class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
                         <ul class="dash-submenu">
                             <?php if(Gate::check('manage vender')): ?>
                                 <li class="dash-item <?php echo e(Request::segment(1) == 'vender' ? 'active' : ''); ?>">
-                                    <a class="dash-link" href="<?php echo e(route('vender.index')); ?>"><?php echo e(__('Manage Site')); ?></a>
+                                    <a class="dash-link"
+                                        href="<?php echo e(route('vender.index')); ?>"><?php echo e(__('Manage Site')); ?></a>
                                 </li>
                             <?php endif; ?>
                             
@@ -1180,6 +1191,13 @@
                                     class="dash-item <?php echo e(Request::route()->getName() == 'warehouse-transfer.index' || Request::route()->getName() == 'warehouse-transfer.show' ? ' active' : ''); ?>">
                                     <a class="dash-link"
                                         href="<?php echo e(route('warehouse-transfer.index')); ?>"><?php echo e(__('Material Transfer')); ?></a>
+                                </li>
+                            <?php endif; ?>
+                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage warehouse')): ?>
+                                <li
+                                    class="dash-item <?php echo e(Request::route()->getName() == 'receipt.index' || Request::route()->getName() == 'warehouse-transfer.show' ? ' active' : ''); ?>">
+                                    <a class="dash-link"
+                                        href="<?php echo e(route('receipt.index')); ?>"><?php echo e(__('Receipt')); ?></a>
                                 </li>
                             <?php endif; ?>
                             <li
@@ -1267,6 +1285,11 @@
                                         class="dash-item <?php echo e(Request::route()->getName() == 'report' ? 'active' : ''); ?>">
                                         <a class="dash-link"
                                             href="<?php echo e(url('report/product-stock-report')); ?>"><?php echo e(__('Stock Report')); ?></a>
+                                    </li>
+                                    <li
+                                        class="dash-item <?php echo e(Request::route()->getName() == 'reports.suppliers' ? 'active' : ''); ?>">
+                                        <a class="dash-link"
+                                            href="<?php echo e(url('reports-supplier')); ?>"><?php echo e(__('Supplier Report')); ?></a>
                                     </li>
                                 </ul>
                             </li>

@@ -25,14 +25,15 @@ class PropertyController extends Controller
         // Retrieve all properties from the database and return them in a view
         $properties = Property::leftJoin('units', 'units.id', '=', 'properties.unit_id')->join('property_types', 'property_types.id', '=', 'properties.property_type')
             ->join('contructs', 'contructs.id', '=', 'properties.contract_type')
-            ->select('properties.*','property_types.type_name as property_type','property_types.id as property_type_id', 'units.name', 'contructs.contruct_name as contract_type')->latest()->paginate(10);
-        $unit = Unit::all();
+            ->select('properties.*','property_types.type_name as property_type', 'units.name', 'contructs.contruct_name as contract_type')->latest()->paginate(10);
+            $unit = Unit::all();
         $type = PropertyType::all();
         $contruct = Contruct::all();
         $agents = Agent::all();
         $amenities = PropertyAmenity::all();
         $bhks = PropertyBhk::all();
         $agency = Agency::all();
+        // dd($properties);
         return view('property/property', compact('agency','bhks','amenities','agents','properties', 'title', 'contruct', 'type', 'unit',));
     }
 
@@ -71,6 +72,7 @@ class PropertyController extends Controller
         $property->agency_id = $request->agency_id;
         $property->agent_id = $request->agent_id;
         $property->ctype = $request->ctype;
+        $property->stype = $request->stype;
         $property->property_type = $request->property_type;
         $property->contract_type = $request->contract_type;
         $property->unit_id = $request->unit_id;
@@ -86,7 +88,7 @@ class PropertyController extends Controller
         $property->bedroom = $request->bedroom ?? 0;
         $property->bathroom = $request->bathroom ?? 0;
         $property->document =  "test";
-        $property->photo =  "test";
+        $property->photo =  $fileName;
         $property->plan =  "test";
         $property->status = $request->status;
         $property->amenities = $request->amenities;
@@ -129,7 +131,7 @@ class PropertyController extends Controller
         $property->bedroom = $request->bedroom ?? 0;
         $property->bathroom = $request->bathroom ?? 0;
         $property->document =  "test";
-        $property->photo =  "test";
+        // $property->photo =  "test";
         $property->plan =  "test";
         $property->status = $request->status;
         $property->amenities = $request->amenities;
@@ -196,7 +198,7 @@ class PropertyController extends Controller
     {
         $contract = new Contruct();
         $contract->contruct_name = $request->contruct_name;
-
+        $contract->type = $request->type;
         $contract->save();
         return back()->with('success', $contract->contruct_name . 'contract type created successfully');
     }

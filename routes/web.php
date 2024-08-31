@@ -178,6 +178,11 @@ use App\Http\Controllers\ProductServiceCategoryController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LabourSiteController;
+use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\SupplierReportController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -190,18 +195,35 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('frontend.index');
-// });
+// do not uncomment this route
+// Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('home')->middleware(['XSS', 'revalidate',]);
+// do not uncomment this route end
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
+
+Route::get('/', function (){
+    $pros = \App\Models\Property::latest()->limit(8)->get();
+    $ptypes = \App\Models\Contruct::all();
+    return view('frontend.index',compact('pros','ptypes'));
+});
+
+Route::get('/property/{id}', function ($id) {
+    $pro = \App\Models\Property::findOrFail($id);
+    return view('frontend.details',compact('pro'));
+})->name('property.details');
+Route::get('sell', [HomeController::class,'sell']);
+Route::get('rent', [HomeController::class,'rent']);
+Route::get('wanted', [HomeController::class,'wanted']);
+Route::get('commercial', [HomeController::class,'commercial']);
+Route::get('property-agent', [HomeController::class,'agent']);
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
 
 
-//Route::get('/', ['as' => 'home','uses' =>'HomeController@index'])->middleware(['XSS']);
+// Route::get('/', ['as' => 'home','uses' =>'HomeController@index'])->middleware(['XSS']);
 //Route::get('/home', ['as' => 'home','uses' =>'HomeController@index'])->middleware(['auth','XSS']);
 
 
@@ -220,10 +242,10 @@ Route::get('/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])->n
 Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
     ->name('verification.send');
 
-// Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('home')->middleware(['XSS', 'revalidate',]);
+
 
 // Route::get('/home', [DashboardController::class, 'account_dashboard_index'])->name('home')->middleware(['XSS', 'revalidate',]);
-Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['XSS', 'revalidate', 'auth']);
+Route::get('/admin-dashboard', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['XSS', 'revalidate', 'auth']);
 
 //Route::get('/register/{lang?}', function () {
 //    $settings = Utility::settings();
@@ -1897,6 +1919,11 @@ Route::group(['middleware' => ['verified']], function () {
 
     Route::resource('labour-group',LabourGroupController::class);
     Route::resource('labour',LabourController::class);
+    Route::get('laboursite', [LabourSiteController::class, 'labourWithSite']);
+    Route::get('laboursitecreate', [LabourSiteController::class, 'LabourWithsitecreate'])->name('laboursitecreate');
+    Route::post('laboursitecreate', [LabourSiteController::class, 'labourStorewithsite']);
+    Route::get('/labourgrp/projects',[LabourSiteController::class, 'projects']);
+    Route::get('/labourgrp/{id}/labours',[LabourSiteController::class, 'labours']);
 
     // Agent management
     Route::resource('/agents', AgentController::class);
@@ -1993,6 +2020,16 @@ Route::group(['middleware' => ['verified']], function () {
     Route::get('material-requirment-pending/{id}', [MaterialRequirment::class, 'pendingStatus']);
     Route::post('materials-requirments', [MaterialRequirment::class, 'store']);
     Route::get('/project/{id}/bill', [BillController::class, 'projectBill'])->name('project.bill');
+
+    Route::get('/reports-supplier',[SupplierReportController::class,'index'])->name('reports.suppliers');
+    Route::get('/reports-supplier/create',[SupplierReportController::class,'create'])->name('reports.suppliers.create');
+    Route::post('/reports-supplier/create',[SupplierReportController::class,'store']);
+    Route::get('/reports-supplier/{id}/edit',[SupplierReportController::class,'edit'])->name('reports.suppliers.edit');
+    Route::put('/reports-supplier/{id}/edit',[SupplierReportController::class,'update']);
+    // Route::get('/reports-supplier',[SupplierReportController::class,'index'])->name('reports.suppliers');
+
+    Route::resource('receipt',ReceiptController::class);
+    Route::get('/purchase/{id}/products',[ReceiptController::class,'purchaseProducts']);
 });
 
 Route::any('/cookie-consent', [SystemController::class, 'CookieConsent'])->name('cookie-consent');

@@ -1448,9 +1448,9 @@ class ReportController extends Controller
                 $filterYear['department'] = !empty(Department::find($request->department)) ? Department::find($request->department)->name : '';
             }
 
-            $employees = $employees->get()->pluck('name', 'id')->toArray();
+            $employee = $employees->get()->pluck('name', 'id')->toArray();
 
-            $payslips = $payslips->whereIn('name', $employees)->get();
+            $payslips = $payslips->whereIn('employees.name', $employee)->get();
 
             $totalBasicSalary = $totalNetSalary = $totalAllowance = $totalCommision = $totalLoan = $totalSaturationDeduction = $totalOtherPayment = $totalOverTime = 0;
 

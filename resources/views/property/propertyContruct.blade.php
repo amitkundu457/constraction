@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{ __('Manage Property Construct') }}
+    {{ __('Manage Property Other Details') }}
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Property Construct') }}</li>
+    <li class="breadcrumb-item">{{ __('Property Other Details') }}</li>
 @endsection
 
 
@@ -28,11 +28,8 @@
                     <thead>
                         <tr>
                             <th>#</th>
-
                             <th>Name</th>
-
-
-
+                            <th>Type</th>
                             <th class="text-end">Action</th>
                         </tr>
                     </thead>
@@ -45,6 +42,7 @@
                                 <td>{{ $count }}</td>
 
                                 <td>{{ $propertie->contruct_name }}</td>
+                                <td>{{ ucfirst($propertie->type) }}</td>
 
 
 
@@ -52,7 +50,7 @@
 
                                 <td class="text-end">
                                     <div class="" style="display: flex">
-                                        <a data-toggle="modal" data-target="#edit_modal-{{ $propertie->id }}"
+                                        <a data-bs-toggle="modal" data-bs-target="#edit_modal-{{ $propertie->id }}"
                                             data-id="{{ $propertie->id }}" class="btn btn-sm btn-primary"><i
                                                 class="ti ti-pencil text-white"></i> </a>
                                         {{-- <a class="dropdown-item" href="{{ route('invoices.show', $propertie) }}"><i
@@ -62,6 +60,7 @@
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </div>
+                                    
                                     <div class="modal custom-modal fade" id="edit_modal-{{ $propertie->id }}"
                                         role="dialog">
                                         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -73,58 +72,30 @@
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <div class="modal-body">
+                                                <div class="modal-body text-start">
                                                     <form action="{{ url('property-contruct-update', $propertie->id) }}"
                                                         method="post" enctype="multipart/form-data">
                                                         @csrf
                                                         <div class="form-group">
                                                             <label> Title <span class="text-danger">*</span></label>
                                                             <input value="{{ $propertie->contruct_name }}" type="text"
-                                                                name="contruct_name" id="edit_checkin" class="form-control">
+                                                                name="type_name" id="edit_checkin" class="form-control">
                                                         </div>
 
-
+                                                        <div class="form-group">
+                                                            <label for="">Type <span class="text-danger">*</span></label>
+                                                            <select name="type" id=""  class="form-control">
+                                                                <option value="">-- Select Type --</option>
+                                                                <option value="homes" @selected($propertie->type == 'homes')>Homes</option>
+                                                                <option value="plots" @selected($propertie->type == 'plots')>Plots</option>
+                                                                <option value="commercials" @selected($propertie->type == 'commercials')>Commercials</option>
+                                                            </select>
+                                                        </div>
 
                                                         {{-- <div class="form-group">
                                                             <label> Notes<span class="text-danger">*</span></label>
                                                             <textarea name="note" id="" cols="3" rows="2" style="width: 100%">{{ $propertie->note }}</textarea>
                                                         </div> --}}
-                                                        <div class="submit-section">
-                                                            <button type="submit"
-                                                                class="btn btn-primary submit-btn">Submit</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal custom-modal fade" id="edit_modal-{{ $propertie->id }}"
-                                        role="dialog">
-                                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Property Type {{ $propertie->id }}</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="{{ url('property-contruct-update', $propertie->id) }}"
-                                                        method="post" enctype="multipart/form-data">
-                                                        @csrf
-                                                        <div class="form-group">
-                                                            <label> Title <span class="text-danger">*</span></label>
-                                                            <input value="{{ $propertie->type_name }}" type="text"
-                                                                name="type_name" id="edit_checkin" class="form-control">
-                                                        </div>
-
-
-
-                                                        <div class="form-group">
-                                                            <label> Notes<span class="text-danger">*</span></label>
-                                                            <textarea name="note" id="" cols="3" rows="2" style="width: 100%">{{ $propertie->note }}</textarea>
-                                                        </div>
                                                         <div class="submit-section">
                                                             <button type="submit"
                                                                 class="btn btn-primary submit-btn">Submit</button>
@@ -195,7 +166,15 @@
                                 <input type="text" name="contruct_name" id="edit_checkin" class="form-control">
                             </div>
 
-
+                            <div class="form-group">
+                                <label for="">Type <span class="text-danger">*</span></label>
+                                <select name="type" id=""  class="form-control">
+                                    <option value="">-- Select Type --</option>
+                                    <option value="homes">Homes</option>
+                                    <option value="plots">Plots</option>
+                                    <option value="commercials">Commercials</option>
+                                </select>
+                            </div>
 
                             {{-- <div class="form-group">
                                 <label> Notes<span class="text-danger">*</span></label>

@@ -12,6 +12,7 @@
     <div class="float-end">
         <a href="{{ route('equipment.register.index') }}" class="btn btn-sm btn-warning"  data-bs-toggle="tooltip" title="{{__('Assign')}}" >
             <i class="ti ti-paperclip"></i>
+            <span>Assign</span>
         </a>
         <a href="#" data-bs-toggle="modal" data-bs-target="#callstore" class="btn btn-sm btn-primary">
             <i class="ti ti-plus"></i>

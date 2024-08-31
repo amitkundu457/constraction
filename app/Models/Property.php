@@ -12,4 +12,8 @@ class Property extends Model
     protected $casts = [
         'amenities'=>'json'
     ];
+
+    public function contruct(){
+        return $this->belongsTo(Contruct::class,'contract_type','id');
+    }
 }

@@ -10,6 +10,14 @@
             {{ Form::email('email', null, array('class' => 'form-control','placeholder'=>__('Enter Client Email'),'required'=>'required')) }}
         </div>
         <div class="form-group">
+            {{ Form::label('adhaar_no', __('Adhaar No'),['class'=>'form-label']) }}
+            {{ Form::text('adhaar', null, array('class' => 'form-control','placeholder'=>__('Enter Client Adhaar No'),'required'=>'required')) }}
+        </div>
+        <div class="form-group">
+            {{ Form::label('adhaar_no', __('Adhaar No'),['class'=>'form-label']) }}
+            
+        </div>
+        <div class="form-group">
             {{ Form::label('password', __('Password'),['class'=>'form-label']) }}
             {{Form::password('password',array('class'=>'form-control','placeholder'=>__('Enter User Password'),'required'=>'required','minlength'=>"6"))}}
             @error('password')

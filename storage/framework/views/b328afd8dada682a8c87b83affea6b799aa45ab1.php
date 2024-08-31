@@ -70,6 +70,15 @@
         <ul class="list-unstyled">
             <?php if(\Auth::user()->type != 'client' && \Auth::user()->type != 'super admin'): ?>
                 <li class="dropdown dash-h-item drp-notification">
+                    <a class="dash-head-link arrow-none me-0" href="<?php echo e(url('/')); ?>" aria-haspopup="false"
+                        aria-expanded="false">
+                        <i class="ti ti-home"></i>
+                        
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if(\Auth::user()->type != 'client' && \Auth::user()->type != 'super admin'): ?>
+                <li class="dropdown dash-h-item drp-notification">
                     <a class="dash-head-link arrow-none me-0" href="<?php echo e(url('chats')); ?>" aria-haspopup="false"
                         aria-expanded="false">
                         <i class="ti ti-brand-hipchat"></i>

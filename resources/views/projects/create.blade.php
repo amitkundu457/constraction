@@ -6,19 +6,66 @@
     @endphp
     @if ($plan->chatgpt == 1)
         {{-- <div class="text-end">
-        <a href="#" data-size="md" class="btn  btn-primary btn-icon btn-sm" data-ajax-popup-over="true" data-url="{{ route('generate',['project']) }}"
+        <a href="#" data-size="md" class="btn btn-primary btn-icon btn-sm" data-ajax-popup-over="true" data-url="{{ route('generate',['project']) }}"
            data-bs-placement="top" data-title="{{ __('Generate content with AI') }}">
             <i class="fas fa-robot"></i> <span>{{__('Generate with AI')}}</span>
         </a>
     </div> --}}
     @endif
     {{-- end for ai module --}}
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
+    <div class="row" x-data="siteDetails()">
+        <div class="col-sm-6 ">
             <div class="form-group">
                 {{ Form::label('project_name', __('Project Name'), ['class' => 'form-label']) }}<span
                     class="text-danger">*</span>
                 {{ Form::text('project_name', null, ['class' => 'form-control', 'required' => 'required']) }}
+            </div>
+        </div>
+        <div class="col-sm-6 ">
+            <div class="form-group">
+                <label for="">Project Site</label>
+                <select x-model="selectedSite" name="site_id" @change="fetchSiteDetails" class="form-control">
+                    <option value="">Select a site</option>
+                    @foreach ($sites as $site)
+                        <option value="{{ $site->id }}">{{ $site->site_name }}</option>
+                    @endforeach
+                </select>
+
+            </div>
+        </div>
+        <div class="col-sm-6 ">
+            <div class="form-group">
+                <label for="">Location</label>
+                <input type="text" class="form-control" readonly :value="site.name">
+
+            </div>
+        </div>
+        <div class="col-sm-6 ">
+            <div class="form-group">
+                <label for="">Country</label>
+                <input type="text" class="form-control" readonly :value="site.billing_country">
+
+            </div>
+        </div>
+        <div class="col-sm-6 ">
+            <div class="form-group">
+                <label for="">State</label>
+                <input type="text" class="form-control" readonly :value="site.billing_state">
+
+            </div>
+        </div>
+        <div class="col-sm-6 ">
+            <div class="form-group">
+                <label for="">City</label>
+                <input type="text" class="form-control" readonly :value="site.billing_city">
+
+            </div>
+        </div>
+        <div class="col-sm-6 ">
+            <div class="form-group">
+                <label for="">Address</label>
+                <input type="text" class="form-control" readonly :value="site.billing_address">
+
             </div>
         </div>
     </div>
@@ -40,20 +87,21 @@
         <div class="form-group col-sm-12 col-md-12">
             {{ Form::label('project_image', __('Project Image'), ['class' => 'form-label']) }}<span
                 class="text-danger">*</span>
-            <div class="form-file mb-3">
+            <div class="mb-3 form-file">
                 <input type="file" class="form-control" name="project_image" required="">
             </div>
 
         </div>
         <div class="col-sm-6 col-md-6">
             <div class="form-group">
-                {{ Form::label('client', __('Client'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
+                {{ Form::label('client', __('Owner Name'), ['class' => 'form-label']) }}<span
+                    class="text-danger">*</span>
                 {!! Form::select('client', $clients, null, ['class' => 'form-control', 'required' => 'required']) !!}
             </div>
         </div>
         <div class="col-sm-6 col-md-6">
             <div class="form-group">
-                {{ Form::label('user', __('User'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
+                {{ Form::label('user', __('Employee'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
                 {!! Form::select('user[]', $users, null, ['class' => 'form-control', 'required' => 'required']) !!}
             </div>
         </div>
@@ -100,7 +148,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <input type="button" value="{{ __('Cancel') }}" class="btn  btn-light" data-bs-dismiss="modal">
-    <input type="submit" value="{{ __('Create') }}" class="btn  btn-primary">
+    <input type="button" value="{{ __('Cancel') }}" class="btn btn-light" data-bs-dismiss="modal">
+    <input type="submit" value="{{ __('Create') }}" class="btn btn-primary">
 </div>
 {{ Form::close() }}

@@ -1,5 +1,5 @@
 
-{{ Form::model($client, array('route' => array('clients.update', $client->id), 'method' => 'PUT')) }}
+{{ Form::model($client, array('route' => array('clients.updates', $client->id), 'method' => 'PUT')) }}
 <div class="modal-body">
     <div class="row">
         <div class="form-group">
@@ -9,6 +9,10 @@
         <div class="form-group">
             {{ Form::label('email', __('E-Mail Address'),['class'=>'form-label']) }}
             {{ Form::email('email', null, array('class' => 'form-control','placeholder'=>__('Enter Client Email'),'required'=>'required')) }}
+        </div>
+        <div class="form-group">
+            {{ Form::label('adhaar_no', __('Adhaar No'),['class'=>'form-label']) }}
+            {{ Form::text('adhaar', null, array('class' => 'form-control','placeholder'=>__('Enter Client Adhaar No'),'required'=>'required')) }}
         </div>
 
         @if(!$customFields->isEmpty())

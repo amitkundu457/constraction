@@ -67,6 +67,13 @@
     </div>
     <div class="ms-auto">
         <ul class="list-unstyled">
+            <li class="dropdown dash-h-item drp-notification">
+                <a class="dash-head-link arrow-none me-0" href="{{ url('/') }}" aria-haspopup="false"
+                    aria-expanded="false">
+                    <i class="ti ti-home"></i>
+                    
+                </a>
+            </li>
             @if (\Auth::user()->type != 'client' && \Auth::user()->type != 'super admin')
                 <li class="dropdown dash-h-item drp-notification">
                     <a class="dash-head-link arrow-none me-0" href="{{ url('chats') }}" aria-haspopup="false"

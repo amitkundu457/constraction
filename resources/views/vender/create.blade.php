@@ -1,6 +1,5 @@
 {{ Form::open(['url' => 'vender', 'method' => 'post']) }}
 <div class="modal-body" x-data="clientDetails()">
-
     <h6 class="sub-title">{{ __('Basic Info') }}</h6>
     <div class="row">
         <div class="col-lg-6 col-md-4 col-sm-6">
@@ -46,13 +45,7 @@
 
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="form-group">
-                {{ Form::label('billing_zip', __('Zip Code'), ['class' => 'form-label']) }}
-                {{ Form::text('billing_zip', null, ['class' => 'form-control']) }}
-
-            </div>
-        </div>
+        
         {{-- <div class="col-lg-4 col-md-4 col-sm-6">
             <div class="form-group">
                 <label for="">Start date</label>
@@ -75,17 +68,16 @@
 
             </div>
         </div> --}}
-        <div class="col-md-12">
-            <div class="form-group">
-                {{ Form::label('billing_address', __('Address'), ['class' => 'form-label']) }}
-                {{ Form::textarea('billing_address', null, ['class' => 'form-control', 'rows' => 3]) }}
-            </div>
-        </div>
 
-        <div class="col-lg-6 col-md-6 col-sm-6">
-            <div class="form-group">
-                {{ Form::label('billing_city', __('City'), ['class' => 'form-label']) }}
-                {{ Form::text('billing_city', null, ['class' => 'form-control']) }}
+        <div class="col-lg-6 col-md-6 col-sm-6" x-data="locationData()" >
+            <div class="form-group" x-init="loadCountries()">
+                <label for="" class="form-label">Country</label>
+                <select id="country" class="form-control">
+                    <option value="">Select Country</option>
+                    <template x-for="country in countries">
+                        <option :value="country.alpha2code" x-text="country.name"></option>
+                    </template>
+                </select>
             </div>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -94,16 +86,23 @@
                 {{ Form::text('billing_state', null, ['class' => 'form-control']) }}
             </div>
         </div>
-
-        <div class="col-lg-6 col-md-6 col-sm-6" x-data="locationData()">
+        <div class="col-lg-6 col-md-6 col-sm-6">
             <div class="form-group">
-                <select x-model="selectedCountry" id="country" class="form-control">
-                    <option value="">Select Country</option>
-                    <template x-for="country in countries" :key="country.code">
-                        <option :value="country.code" x-text="country.name"></option>
-                    </template>
-                </select>
+                {{ Form::label('billing_city', __('City'), ['class' => 'form-label']) }}
+                {{ Form::text('billing_city', null, ['class' => 'form-control']) }}
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="form-group">
+                {{ Form::label('billing_zip', __('Zip Code'), ['class' => 'form-label']) }}
+                {{ Form::text('billing_zip', null, ['class' => 'form-control']) }}
 
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                {{ Form::label('billing_address', __('Address'), ['class' => 'form-label']) }}
+                {{ Form::textarea('billing_address', null, ['class' => 'form-control', 'rows' => 3]) }}
             </div>
         </div>
         {{-- <div class="col-lg-4 col-md-4 col-sm-6">
@@ -238,4 +237,5 @@
         <input type="button" value="{{ __('Cancel') }}" class="btn btn-light" data-bs-dismiss="modal">
         <input type="submit" value="{{ __('Create') }}" class="btn btn-primary">
     </div>
+   
     {{ Form::close() }}

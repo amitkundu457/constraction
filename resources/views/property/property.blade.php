@@ -38,13 +38,14 @@
                         @php
                             $count = 1;
                         @endphp
+
                         @foreach ($properties as $propertie)
                             <tr>
-                                <td>{{ $count }}</td>
+                                <td>{{ $count++ }}</td>
 
                                 <td>{{ $propertie->title }}</td>
                                 <td>{{ $propertie->property_type }}</td>
-                                <td>{{ $propertie->contract_type }}</td>
+                                <td>{{ $propertie->stype }}</td>
                                 <td>
                                     @if ($propertie->status == 0)
                                         <span class="badge badge-danger text-danger">Sold</span>
@@ -125,98 +126,111 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="{{ url('property-update', $propertie->id) }}"
-                                                        method="post" x-data="{ ptype: null }">
+                                                    <form action="{{ url('property-update',$propertie->id) }}" method="post"
+                                                        enctype="multipart/form-data" x-data="{ptype:null}">
                                                         @csrf
                                                         <div class="form-group">
                                                             <label>Property Title <span class="text-danger">*</span></label>
-                                                            <input type="text" value="{{ $propertie->title }}"
-                                                                name="title" id="edit_checkin" class="form-control">
+                                                            <input type="text" name="title" id="edit_checkin"
+                                                                class="form-control" value="{{ $propertie->title }}">
                                                         </div>
-
-                                                        <div class=" row">
+                                                        <div class="row">
                                                             <div class="form-group col-md-6">
                                                                 <label> Property Type <span
                                                                         class="text-danger">*</span></label>
                                                                 <select class="form-control" name="property_type"
-                                                                    id=""
-                                                                    x-on:change="ptype = $event.target.options[$event.target.selectedIndex].dataset.type.toLowerCase()">
+                                                                    id="">
                                                                     <option value="">Select Property Type</option>
                                                                     @foreach ($type as $types)
                                                                         <option value="{{ $types->id }}"
-                                                                            data-type="{{ $types->type_name }}"
-                                                                            @selected($propertie->property_type_id == $types->id)>
-                                                                            {{ $types->type_name }} -
-                                                                            {{ $types->plot($types->plot_id)->name }}
+                                                                            @selected($types->type_name == $propertie->property_type)>
+                                                                            {{ $types->type_name }}
                                                                         </option>
                                                                     @endforeach
 
                                                                 </select>
                                                             </div>
-
                                                             <div class="form-group col-md-6">
-                                                                <label> Location <span class="text-danger">*</span></label>
-                                                                <input type="text" value="{{ $propertie->location }}"
-                                                                    name="location" id="edit_checkin" class="form-control">
+                                                                <label>Location <span class="text-danger">*</span></label>
+                                                                <input type="text" name="location" id="edit_checkin"
+                                                                    class="form-control" value="{{ $propertie->location }}">
                                                             </div>
-
+                                                        </div>
+                                                        <div class="row" x-data="loadOtherDetails()" x-init="subtypechange('{{ $propertie->stype }}')">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Sub Type <span class="text-danger">*</span></label>
+                                                                <select name="stype"
+                                                                    x-on:change="subtypechange($event.target.value),ptype = $event.target.value.toLowerCase()"
+                                                                    id="" class="form-control">
+                                                                    <option value=""> Select Sub Type</option>
+                                                                    <option value="homes" @selected($propertie->stype == 'homes')>Homes</option>
+                                                                    <option value="plots" @selected($propertie->stype == 'plots')>Plots</option>
+                                                                    <option value="commercials" @selected($propertie->stype == 'commercials')>Commercials</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Other Details <span
+                                                                        class="text-danger">*</span></label>
+                                                                <select class="form-control" name="contract_type"
+                                                                    id="">
+                                                                    <template x-if="filtered.length > 0">
+                                                                        <template x-for="(item,index) in filtered">
+                                                                            <option :value="item.id"
+                                                                                x-text="item.contruct_name" :selected="item.id === '{{ $propertie->contract_type }}'"></option>
+                                                                        </template>
+                                                                    </template>
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                         {{-- <input type="hidden" name="id" id="edit_id"> --}}
 
 
                                                         <div class="form-group">
-                                                            <label> Address <span class="text-danger">*</span></label>
-                                                            <textarea name="address" id="" cols="" rows="5" class="form-control">{{ $propertie->address }}</textarea>
+                                                            <label>Address <span class="text-danger">*</span></label>
+                                                            <textarea name="address" id="" cols="" rows="5" class="form-control"></textarea>
                                                         </div>
                                                         <div class=" row">
                                                             <div class="form-group"
-                                                                :class="ptype !== ('apartment' || 'flat') ? 'col-md-6' :
-                                                                    'col-md-4'">
-                                                                <label> Price <span class="text-danger">*</span></label>
-                                                                <input type="text" value="{{ $propertie->price }}"
-                                                                    name="price" id="edit_checkin"
+                                                                :class="ptype !== 'homes' ? 'col-md-6' : 'col-md-4'">
+                                                                <label>Price <span class="text-danger">*</span></label>
+                                                                <input type="text" name="price" id="edit_checkin"
                                                                     class="form-control">
                                                             </div>
-                                                            <template x-if="ptype !== ('apartment'||'flat')">
+                                                            <template x-if="ptype !== 'homes'">
                                                                 <div class="form-group col-md-6">
-                                                                    <label> Area <span class="text-danger">*</span></label>
-                                                                    <input type="text" value="{{ $propertie->area }}"
-                                                                        name="area" id="edit_checkin"
-                                                                        class="form-control">
+                                                                    <label>Area <span class="text-danger">*</span></label>
+                                                                    <input type="text" name="area"
+                                                                        id="edit_checkin" class="form-control">
                                                                 </div>
                                                             </template>
-                                                            <template x-if="ptype === ('apartment'||'flat')">
+                                                            <template x-if="ptype === 'homes'">
                                                                 <div class="form-group col-md-4">
-                                                                    <label> BHK <span class="text-danger">*</span></label>
+                                                                    <label>BHK <span class="text-danger">*</span></label>
                                                                     <select class="form-control" name="bhk_id"
                                                                         id="">
                                                                         <option value="">--Select BHK--</option>
                                                                         @foreach ($bhks as $bhk)
-                                                                            <option value="{{ $bhk->id }}"
-                                                                                @selected($propertie->bhk_id == $bhk->id)>
+                                                                            <option value="{{ $bhk->id }}">
                                                                                 {{ $bhk->name }}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </template>
-                                                            <template x-if="ptype === ('apartment' || 'flat')">
+                                                            <template x-if="ptype === 'homes'">
                                                                 <div class="form-group col-md-4">
-                                                                    <label> Unit <span class="text-danger">*</span></label>
+                                                                    <label>Unit <span class="text-danger">*</span></label>
                                                                     <select class="form-control" name="unit_id"
                                                                         id="">
                                                                         <option value="">Select Unit</option>
                                                                         @foreach ($unit as $area)
-                                                                            <option value="{{ $area->id }}"
-                                                                                @selected($propertie->unit_id == $area->id)>
+                                                                            <option value="{{ $area->id }}">
                                                                                 {{ $area->name }}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
                                                             </template>
-
                                                         </div>
-
-                                                        <div class="row" x-data="{ ctype: {{ $propertie->ctype }} || 1, agents: [], getAgents(id) { fetch(`/agency/${id}`).then((res) => res.json()).then((data) => this.agents = data.agents) } }">
+                                                        <div class="row" x-data="{ ctype: 1, agents: [], getAgents(id) { fetch(`/agency/${id}`).then((res) => res.json()).then((data) => this.agents = data.agents) } }">
                                                             <div class="form-group"
                                                                 :class="ctype == 1 ? 'col-md-6' : 'col-md-4'">
                                                                 <label>Contact Type <span
@@ -224,12 +238,12 @@
                                                                 <select class="form-control"
                                                                     x-on:change="ctype = $event.target.value"
                                                                     name="ctype" id="">
-                                                                    <option value="1" @selected($propertie->ctype == 1)>Direct</option>
-                                                                    <option value="2" @selected($propertie->ctype == 2)>Agency</option>
+                                                                    <option value="1">Direct</option>
+                                                                    <option value="2">Agency</option>
                                                                 </select>
                                                             </div>
                                                             <template x-if="ctype == 2">
-                                                                <div class="form-group col-md-4" x-init="getAgents({{ $propertie->agency_id }})">
+                                                                <div class="form-group col-md-4">
                                                                     <label>Agency <span
                                                                             class="text-danger">*</span></label>
                                                                     <select class="form-control"
@@ -237,7 +251,7 @@
                                                                         name="agency_id" id="">
                                                                         <option value="">Select Agency</option>
                                                                         @foreach ($agency as $p)
-                                                                            <option value="{{ $p->id }}" @selected($propertie->agency_id == $p->id)>
+                                                                            <option value="{{ $p->id }}">
                                                                                 {{ $p->name }}</option>
                                                                         @endforeach
                                                                     </select>
@@ -269,71 +283,52 @@
                                                         </div>
                                                         <div class=" row">
                                                             <div class="form-group col-md-6">
-                                                                <label>Contract <span class="text-danger">*</span></label>
-                                                                <select class="form-control" name="contract_type"
-                                                                    id="">
-                                                                    <option value="">Select Contract</option>
-                                                                    @foreach ($contruct as $contract)
-                                                                        <option value="{{ $contract->id }}"
-                                                                            @selected($propertie->contract_type == $contract->contruct_name)>
-                                                                            {{ $contract->contruct_name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group col-md-6">
                                                                 <label> Status <span class="text-danger">*</span></label>
                                                                 <select name="status" id=""
                                                                     class="form-control">
                                                                     <option value=""> Select Listing Status</option>
-                                                                    <option value="0" @selected($propertie->status == '0')>
-                                                                        Sold</option>
-                                                                    <option value="1" @selected($propertie->status == '1')>
-                                                                        Active</option>
-                                                                    <option value="2" @selected($propertie->status == '2')>
-                                                                        Pending</option>
+                                                                    <option value="0">Sold</option>
+                                                                    <option value="1">Active</option>
+                                                                    <option value="2">Pending</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Is Featured <span
+                                                                        class="text-danger">*</span></label>
+                                                                <select class="form-control" name="is_featured"
+                                                                    id="">
+                                                                    <option value="0">No</option>
+                                                                    <option value="1">Yes</option>
                                                                 </select>
                                                             </div>
                                                         </div>
+
                                                         {{-- <div class=" row">
                                                             <div class="form-group col-md-4">
                                                                 <label> Number of Floors <span class="text-danger">*</span></label>
-                                                                <input type="text" name="floor" id="edit_checkin" value="{{ $propertie->floor }}" class="form-control">
+                                                                <input type="text" name="floor" id="edit_checkin" class="form-control">
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label> No of Bedrooms <span class="text-danger">*</span></label>
-                                                                <input type="number" name="bedroom" value="{{ $propertie->bedroom }}" class="form-control" id="">
+                                                                <input type="number" name="bedroom" class="form-control" id="">
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label> Number of Bathrooms <span class="text-danger">*</span></label>
-                                                                <input type="text" name="bathroom" value="{{ $propertie->bathroom }}" id="edit_checkin" class="form-control">
+                                                                <input type="text" name="bathroom" id="edit_checkin" class="form-control">
                                                             </div>
+                            
                                                         </div> --}}
-                                                        {{-- <div class=" row">
-                                                            <div class="form-group col-md-4">
-                                                                <label> Add Documents <span class="text-danger">*</span></label>
-                                                                <input type="file" name="document" id="edit_checkin" class="form-control">
-                                                            </div>
-                                                            <div class="form-group col-md-4">
-                                                                <label> Add Photo <span class="text-danger">*</span></label>
-                                                                <input type="file" name="photo" id="edit_checkin" class="form-control">
-                                                            </div>
-                                                            <div class="form-group col-md-4">
-                                                                <label> Add Floor Plan <span class="text-danger">*</span></label>
-                                                                <input type="file" name="plan" id="edit_checkin" class="form-control">
-                                                            </div>
-                                                        </div> --}}
+                                                        
                                                         <div class=" row">
                                                             <div class="form-group col-md-8">
                                                                 <p style="font-weight: 600">Amenity</p>
                                                                 <div class="d-flex gap-2 align-items-center flex-wrap">
-
                                                                     @foreach ($amenities as $amenity)
                                                                         <div class="form-check">
                                                                             <input class="form-check-input"
                                                                                 type="checkbox"
                                                                                 value="{{ $amenity->id }}"
-                                                                                @checked(isset($propertie->amenities) && in_array($amenity->id, $propertie->amenities))
-                                                                                name="amenities[]" id="flexCheckChecked">
+                                                                                name="amenities[]" id="flexCheckChecked" checked>
                                                                             <label class="form-check-label"
                                                                                 style="font-weight: 500"
                                                                                 for="flexCheckChecked">
@@ -346,12 +341,6 @@
                                                             </div>
 
                                                         </div>
-
-
-                                                        {{-- <div class="form-group d-flex flex-column">
-                                                            <label> Notes<span class="text-danger">*</span></label>
-                                                            <textarea name="note" id="" cols="3" rows="2" style="width: 100%"></textarea>
-                                                        </div> --}}
                                                         <div class="submit-section">
                                                             <button type="submit"
                                                                 class="btn btn-primary submit-btn">Submit</button>
@@ -363,9 +352,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            @php
-                                $count++;
-                            @endphp
                         @endforeach
                     </tbody>
                 </table>
@@ -388,48 +374,69 @@
                                 <label>Property Title <span class="text-danger">*</span></label>
                                 <input type="text" name="title" id="edit_checkin" class="form-control">
                             </div>
-                            <div class=" row">
+                            <div class="row">
                                 <div class="form-group col-md-6">
                                     <label> Property Type <span class="text-danger">*</span></label>
                                     <select class="form-control" name="property_type"
-                                        x-on:change="ptype = $event.target.options[$event.target.selectedIndex].dataset.type.toLowerCase()"
                                         id="">
                                         <option value="">Select Property Type</option>
                                         @foreach ($type as $types)
                                             <option value="{{ $types->id }}" data-type="{{ $types->type_name }}">
-                                                {{ $types->type_name }} - {{ $types->plot($types->plot_id)->name }}
+                                                {{ $types->type_name }}
                                             </option>
                                         @endforeach
 
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label> Location <span class="text-danger">*</span></label>
+                                    <label>Location <span class="text-danger">*</span></label>
                                     <input type="text" name="location" id="edit_checkin" class="form-control">
                                 </div>
-
+                            </div>
+                            <div class="row" x-data="loadOtherDetails()">
+                                <div class="form-group col-md-6">
+                                    <label>Sub Type <span class="text-danger">*</span></label>
+                                    <select name="stype"  x-on:change="subtypechange($event.target.value),ptype = $event.target.value.toLowerCase()"
+                                        id="" class="form-control">
+                                        <option value=""> Select Sub Type</option>
+                                        <option value="homes">Homes</option>
+                                        <option value="plots">Plots</option>
+                                        <option value="commercials">Commercials</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Other Details <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="contract_type" id="">
+                                        <template x-if="filtered.length > 0">
+                                            <template x-for="(item,index) in filtered">
+                                                <option :value="item.id" x-text="item.contruct_name"></option>
+                                            </template>
+                                        </template>
+                                    </select>
+                                </div>
                             </div>
                             {{-- <input type="hidden" name="id" id="edit_id"> --}}
 
 
                             <div class="form-group">
-                                <label> Address <span class="text-danger">*</span></label>
+                                <label>Address <span class="text-danger">*</span></label>
                                 <textarea name="address" id="" cols="" rows="5" class="form-control"></textarea>
                             </div>
                             <div class=" row">
-                                <div class="form-group" :class="ptype !== ('apartment' || 'flat') ? 'col-md-6' : 'col-md-4'">
-                                    <label> Price <span class="text-danger">*</span></label>
+                                <div class="form-group"
+                                    :class="ptype !== 'homes' ? 'col-md-6' : 'col-md-4'">
+                                    <label>Price <span class="text-danger">*</span></label>
                                     <input type="text" name="price" id="edit_checkin" class="form-control">
                                 </div>
-                                <template x-if="ptype !== ('apartment'||'flat')">
+                                <template x-if="ptype !== 'homes'">
                                     <div class="form-group col-md-6">
-                                        <label> Area <span class="text-danger">*</span></label>
+                                        <label>Area <span class="text-danger">*</span></label>
                                         <input type="text" name="area" id="edit_checkin" class="form-control">
                                     </div>
                                 </template>
-                                <template x-if="ptype === ('apartment'||'flat')">
+                                <template x-if="ptype === 'homes'">
                                     <div class="form-group col-md-4">
-                                        <label> BHK <span class="text-danger">*</span></label>
+                                        <label>BHK <span class="text-danger">*</span></label>
                                         <select class="form-control" name="bhk_id" id="">
                                             <option value="">--Select BHK--</option>
                                             @foreach ($bhks as $bhk)
@@ -438,9 +445,9 @@
                                         </select>
                                     </div>
                                 </template>
-                                <template x-if="ptype === ('apartment' || 'flat')">
+                                <template x-if="ptype === 'homes'">
                                     <div class="form-group col-md-4">
-                                        <label> Unit <span class="text-danger">*</span></label>
+                                        <label>Unit <span class="text-danger">*</span></label>
                                         <select class="form-control" name="unit_id" id="">
                                             <option value="">Select Unit</option>
                                             @foreach ($unit as $area)
@@ -491,15 +498,7 @@
                                 </div>
                             </div>
                             <div class=" row">
-                                <div class="form-group col-md-6">
-                                    <label>Contract <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="contract_type" id="">
-                                        <option value="">Select Contract</option>
-                                        @foreach ($contruct as $contract)
-                                            <option value="{{ $contract->id }}">{{ $contract->contruct_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+
                                 <div class="form-group col-md-6">
                                     <label> Status <span class="text-danger">*</span></label>
                                     <select name="status" id="" class="form-control">
@@ -509,7 +508,15 @@
                                         <option value="2">Pending</option>
                                     </select>
                                 </div>
+                                <div class="form-group col-md-6">
+                                    <label>Is Featured <span class="text-danger">*</span></label>
+                                    <select class="form-control" name="is_featured" id="">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                </div>
                             </div>
+
                             {{-- <div class=" row">
                                 <div class="form-group col-md-4">
                                     <label> Number of Floors <span class="text-danger">*</span></label>
@@ -583,8 +590,8 @@
             </div>
         </div>
     </div>
-
-
+@endsection
+@push('script')
     <script>
         // $(document).ready(function() {
         //     $('.deletebtn').on('click', function() {
@@ -592,13 +599,16 @@
         //         $('#delete_id').val(id);
         //     });
         // });
-
-        // getAgents(id){
-
-        // }
-
-        // document.addEventListener("alpine:init",function(){
-        //     Alpine.data('getAgents',getAgents)
-        // })
+        
+            function loadOtherDetails() {
+                return {
+                    others: @json($contruct),
+                    filtered: [],
+                    subtypechange(type) {
+                        this.filtered = this.others.filter((item) => item.type === type);
+                    }
+                }
+            };
+       
     </script>
-@endsection
+@endpush

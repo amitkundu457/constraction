@@ -30,7 +30,7 @@
                             <th>#</th>
 
                             <th>Name</th>
-                            <th>Plot Name</th>
+                            {{-- <th>Plot Name</th> --}}
                             <th>Description</th>
                             <th class="text-end">Action</th>
                         </tr>
@@ -44,7 +44,7 @@
                                 <td>{{ $count }}</td>
 
                                 <td>{{ $propertie->type_name }}</td>
-                                <td>{{ $propertie->plot($propertie->plot_id)->name }}</td>
+                                {{-- <td>{{ $propertie->plot($propertie->plot_id)->name }}</td> --}}
                                 <td>{{ $propertie->note }}</td>
 
 
@@ -83,7 +83,7 @@
                                                                 name="type_name" id="edit_checkin" class="form-control">
                                                         </div>
 
-                                                        <div class="form-group">
+                                                        {{-- <div class="form-group">
                                                             <label> Plot Details<span class="text-danger">*</span></label>
                                                             <select type="text" name="plot_id" id="edit_checkin" class="form-control">
                                                                 <option value="">Select Plot</option>
@@ -91,7 +91,7 @@
                                                                     <option value="{{ $plot->id }}">{{ $plot->name }}</option>
                                                                 @endforeach
                                                             </select>
-                                                        </div>
+                                                        </div> --}}
 
                                                         <div class="form-group">
                                                             <label> Notes<span class="text-danger">*</span></label>
@@ -202,7 +202,7 @@
                                 <input type="text" name="type_name" id="edit_checkin" class="form-control">
                             </div>
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label> Plot Details<span class="text-danger">*</span></label>
                                 <select type="text" name="plot_id" id="edit_checkin" class="form-control">
                                     <option value="">Select Plot</option>
@@ -210,11 +210,11 @@
                                         <option value="{{ $plot->id }}">{{ $plot->name }}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label> Notes<span class="text-danger">*</span></label>
-                                <textarea name="note" id="" cols="3" rows="2" style="width: 100%"></textarea>
+                                <textarea name="note" id="" cols="3" rows="2" class="form-control" style="width: 100%"></textarea>
                             </div>
                             <div class="submit-section">
                                 <button type="submit" class="btn btn-primary submit-btn">Submit</button>

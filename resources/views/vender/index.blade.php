@@ -188,11 +188,12 @@
                         .then(response => response.json())
                         .then(data => {
                             console.log('API Response:', data); // Check the API response
+                            this.countries = data
                             if (Array.isArray(data)) {
-                                this.countries = data.map(country => ({
-                                    code: country.alpha2Code || country.iso2 || country.code,
-                                    name: country.name
-                                }));
+                                // this.countries = data.map(country => ({
+                                //     code: country.alpha2Code || country.iso2 || country.code,
+                                //     name: country.name
+                                // }));
                             } else {
                                 console.error('Unexpected data format:', data);
                             }

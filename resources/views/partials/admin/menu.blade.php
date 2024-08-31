@@ -47,45 +47,50 @@
                         </span>
                     </a>
                 </li>
+                <li
+                    class="dash-item dash-hasmenu {{ Request::segment(1) == 'holiday-calender' ? 'active dash-trigger' : '' }}">
+                    <a href="#!" class="dash-link ">
+                        <span class="dash-micon">
+                            <i class="ti ti-tool"></i>
+                        </span>
+                        <span class="dash-mtext">
+                            {{ __('Utilities') }}
+                        </span>
+                        <span class="dash-arrow">
+                            <i data-feather="chevron-right"></i>
+                        </span>
+                    </a>
+                    <ul class="dash-submenu">
+                        <li
+                            class="dash-item dash-hasmenu {{ Request::route()->getName() == 'sheet.index' ? 'active dash-trigger' : '' }}">
+                            <a href="{{ route('sheet.index') }}" class="dash-link ">
+                                {{ __('Spreadsheet Online') }}
+                            </a>
+                        </li>
+                        <li
+                            class="dash-item dash-hasmenu {{ Request::route()->getName() == 'word.index' ? 'active dash-trigger' : '' }}">
+                            <a href="{{ route('word.index') }}" class="dash-link ">
+                                {{ __('Word Online') }}
+                            </a>
+                        </li>
+                        <li
+                            class="dash-item dash-hasmenu {{ Request::route()->getName() == 'filemanager.index' ? 'active dash-trigger' : '' }}">
+                            <a href="{{ url('filemanager') }}" class="dash-link ">
+                                {{ __('File Manager') }}
+
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <!--------------------- End Dashboard ----------------------------------->
                 <!--------------------- Start Spreadsheet ----------------------------------->
-                <li
-                    class="dash-item dash-hasmenu {{ Request::route()->getName() == 'sheets.index' ? 'active dash-trigger' : '' }}">
-                    <a href="{{ url('spreadsheet') }}" class="dash-link ">
-                        <span class="dash-micon">
-                            <i class="ti ti-table"></i>
-                        </span>
-                        <span class="dash-mtext">
-                            {{ __('Spreadsheet Online') }}
-                        </span>
-                    </a>
-                </li>
+
                 <!--------------------- End Spreadsheet ----------------------------------->
                 <!--------------------- Start Word ----------------------------------->
-                <li
-                    class="dash-item dash-hasmenu {{ Request::route()->getName() == 'word.index' ? 'active dash-trigger' : '' }}">
-                    <a href="{{ route('word.index') }}" class="dash-link ">
-                        <span class="dash-micon">
-                            <i class="ti ti-file"></i>
-                        </span>
-                        <span class="dash-mtext">
-                            {{ __('Word Online') }}
-                        </span>
-                    </a>
-                </li>
+
                 <!--------------------- End Word ----------------------------------->
                 <!--------------------- Start FileManager ----------------------------------->
-                <li
-                    class="dash-item dash-hasmenu {{ Request::route()->getName() == 'filemanager.index' ? 'active dash-trigger' : '' }}">
-                    <a href="{{ url('filemanager') }}" class="dash-link ">
-                        <span class="dash-micon">
-                            <i class="ti ti-server"></i>
-                        </span>
-                        <span class="dash-mtext">
-                            {{ __('File Manager') }}
-                        </span>
-                    </a>
-                </li>
+
                 <!--------------------- End Filemanager ----------------------------------->
 
 
@@ -896,7 +901,7 @@
                                     <li
                                         class="dash-item  {{ Request::route()->getName() == 'project-task-stages.index' ? 'active' : '' }}">
                                         <a class="dash-link"
-                                            href="{{ url('property-contruct') }}">{{ __('Property Contract') }}</a>
+                                            href="{{ url('property-contruct') }}">{{ __('Property Other Details') }}</a>
                                     </li>
                                 @endcan
                                 @can('manage project task stage')
@@ -1038,6 +1043,10 @@
                                 <li class="dash-item {{ request()->is('equipments') ? 'active' : '' }}">
                                     <a class="dash-link"
                                         href="{{ route('labour.index') }}">{{ __('Labours') }}</a>
+                                </li>
+                                <li class="dash-item {{ request()->is('equipments') ? 'active' : '' }}">
+                                    <a class="dash-link"
+                                        href="{{ url('laboursite') }}">{{ __('Labours Site Wise') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -1185,15 +1194,16 @@
                         <i data-feather="chevron-right"></i></span>
                 </a>
                 <ul class="dash-submenu">
-                    
+
                     <li
-                    class="dash-item dash-hasmenu {{ Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : '' }}">
-                    <a class="dash-link" href="#">{{ __('Inventory & Material') }}<span
-                        class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                        class="dash-item dash-hasmenu {{ Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : '' }}">
+                        <a class="dash-link" href="#">{{ __('Inventory & Material') }}<span
+                                class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
                         <ul class="dash-submenu">
                             @if (Gate::check('manage vender'))
                                 <li class="dash-item {{ Request::segment(1) == 'vender' ? 'active' : '' }}">
-                                    <a class="dash-link" href="{{ route('vender.index') }}">{{ __('Manage Site') }}</a>
+                                    <a class="dash-link"
+                                        href="{{ route('vender.index') }}">{{ __('Manage Site') }}</a>
                                 </li>
                             @endif
                             {{-- @can('manage warehouse')
@@ -1238,6 +1248,13 @@
                                     class="dash-item {{ Request::route()->getName() == 'warehouse-transfer.index' || Request::route()->getName() == 'warehouse-transfer.show' ? ' active' : '' }}">
                                     <a class="dash-link"
                                         href="{{ route('warehouse-transfer.index') }}">{{ __('Material Transfer') }}</a>
+                                </li>
+                            @endcan
+                            @can('manage warehouse')
+                                <li
+                                    class="dash-item {{ Request::route()->getName() == 'receipt.index' || Request::route()->getName() == 'warehouse-transfer.show' ? ' active' : '' }}">
+                                    <a class="dash-link"
+                                        href="{{ route('receipt.index') }}">{{ __('Receipt') }}</a>
                                 </li>
                             @endcan
                             <li
@@ -1332,6 +1349,11 @@
                                         class="dash-item {{ Request::route()->getName() == 'report' ? 'active' : '' }}">
                                         <a class="dash-link"
                                             href="{{ url('report/product-stock-report') }}">{{ __('Stock Report') }}</a>
+                                    </li>
+                                    <li
+                                        class="dash-item {{ Request::route()->getName() == 'reports.suppliers' ? 'active' : '' }}">
+                                        <a class="dash-link"
+                                            href="{{ url('reports-supplier') }}">{{ __('Supplier Report') }}</a>
                                     </li>
                                 </ul>
                             </li>

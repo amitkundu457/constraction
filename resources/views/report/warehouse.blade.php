@@ -79,12 +79,12 @@
                     show: false,
                 },
 
-                {{--yaxis: {--}}
-                {{--    title: {--}}
-                {{--        text: '{{ __("Product") }}'--}}
-                {{--    },--}}
+                // {{--yaxis: {--}}
+                // {{--    title: {--}}
+                // {{--        text: '{{ __("Product") }}'--}}
+                // {{--    },--}}
 
-                {{--}--}}
+                // {{--}--}}
 
             };
             var arChart = new ApexCharts(document.querySelector("#warehouse_report"), chartBarOptions);

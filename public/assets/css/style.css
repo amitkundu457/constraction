@@ -16,7 +16,7 @@ File: style.css
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap");
 
 [x-cloak] {
-    display: none;
+    display: none!important;
 }
 
 #luckysheet .luckysheet-share-logo {
@@ -832,6 +832,11 @@ progress {
 .col-2 {
     flex: 0 0 auto;
     width: 16.66667%;
+}
+
+.col-2\.5{
+    flex: 0 0 auto;
+    width: 20%;
 }
 
 .col-3 {
